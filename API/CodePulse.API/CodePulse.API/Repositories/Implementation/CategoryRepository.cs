@@ -1,7 +1,9 @@
 ﻿using CodePulse.API.Data;
 using CodePulse.API.Models.Domain;
 using CodePulse.API.Repositories.Interface;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CodePulse.API.Repositories.Implementation {
     public class CategoryRepository : ICategoryRepository {
@@ -16,6 +18,19 @@ namespace CodePulse.API.Repositories.Implementation {
             await _dbContext.SaveChangesAsync();
 
             return category;
+        }
+
+        public async Task<Category?> DeleteAsync(Guid id) {
+            var existingCategory = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingCategory is null) { 
+                return null;
+            }
+
+            _dbContext.Categories.Remove(existingCategory);
+            await _dbContext.SaveChangesAsync();
+
+            return existingCategory;
         }
 
         public async Task<IEnumerable<Category>> GetAllAsync() {
