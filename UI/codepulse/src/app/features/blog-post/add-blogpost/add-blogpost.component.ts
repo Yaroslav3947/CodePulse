@@ -24,11 +24,13 @@ export class AddBlogpostComponent implements OnInit {
       urlHandle: '',
       author: '',
       publishedDate: new Date(),
-      isVisible: true
+      isVisible: true,
+      categories: []
     }
   }
 
   onFormSubmit(): void {
+    console.log(this.model);
     this.blogPostService.createBlogPost(this.model)
     .subscribe({
       next: (response) => {
