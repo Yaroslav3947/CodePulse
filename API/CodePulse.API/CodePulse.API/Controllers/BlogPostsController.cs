@@ -11,9 +11,11 @@ namespace CodePulse.API.Controllers {
     [ApiController]
     public class BlogPostsController : ControllerBase {
         private readonly IBlogPostRepository _blogPostRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public BlogPostsController(IBlogPostRepository blogPostRepository) {
+        public BlogPostsController(IBlogPostRepository blogPostRepository, ICategoryRepository categoryRepository) {
             this._blogPostRepository = blogPostRepository;
+            this._categoryRepository = categoryRepository;
         }
 
         // POST: {apibaseurl}/api/blogposts
@@ -29,15 +31,22 @@ namespace CodePulse.API.Controllers {
                 IsVisible = request.IsVisible,
                 PublishedDate = request.PublishedDate,
                 ShortDescription = request.ShortDescription,
-                UrlHandle = request.UrlHandle
+                UrlHandle = request.UrlHandle,
+                Categories = new List<Category>()
             };
+
+            foreach (var categoryGuid in request.Categories) {
+                var existingCategory = await _categoryRepository.GetById(categoryGuid);
+                if(existingCategory is not null) {
+                    blogPost.Categories.Add(existingCategory);
+                }
+            }
 
             // clarify with Vitya about id, if it is - fucking genius
 
             blogPost = await _blogPostRepository.CreateAsync(blogPost); // now we have it with id
 
             // Convert Domain Model back to Dto
-
             var response = new BlogPostDto {
                 Id = blogPost.Id,
                 Author = blogPost.Author,
@@ -47,7 +56,12 @@ namespace CodePulse.API.Controllers {
                 IsVisible = blogPost.IsVisible,
                 PublishedDate = blogPost.PublishedDate,
                 ShortDescription = blogPost.ShortDescription,
-                UrlHandle = blogPost.UrlHandle
+                UrlHandle = blogPost.UrlHandle,
+                Categories = blogPost.Categories.Select(x => new CategoryDto {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UrlHandle = x.UrlHandle
+                }).ToList()
             };
 
             return Ok(response);
