@@ -5,6 +5,7 @@ import { BlogPostService } from '../services/blog-post.service';
 import { BlogPost } from '../models/blog-post.model';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
+import { UpdateBlogPost } from '../models/update-blog-post.model';
 
 @Component({
   selector: 'app-edit-blogpost',
@@ -13,10 +14,13 @@ import { Category } from '../../category/models/category.model';
 })
 export class EditBlogpostComponent implements OnInit, OnDestroy {
   id: string | null = null;
-  routeSubscription?: Subscription;
   blogPost?: BlogPost;
   categories$?: Observable<Category[]>;
   selectedCategories?: string[];
+
+  routeSubscription?: Subscription;
+  updateBlogPostSubscription?: Subscription;
+  getBlogPostSubscription?: Subscription;
 
   constructor(private route: ActivatedRoute,
     private blogpostService: BlogPostService,
@@ -35,7 +39,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
           // Get BlogPost from API by id
 
           if(this.id) {
-            this.blogpostService.getBlogPostById(this.id)
+            this.getBlogPostSubscription = this.blogpostService.getBlogPostById(this.id)
             .subscribe({
               next: (response) => {
               this.blogPost = response;
@@ -49,10 +53,33 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
       this.routeSubscription?.unsubscribe();
+      this.updateBlogPostSubscription?.unsubscribe();
+      this.getBlogPostSubscription?.unsubscribe();
   }
 
   onFormSubmit(): void {
+    // Conver model to Request Object
+    if(this.blogPost && this.id) {
+      const updateBlogPost: UpdateBlogPost = {
+        title: this.blogPost.author,
+        shortDescription: this.blogPost.shortDescription,
+        content: this.blogPost.content,
+        featuredImageUrl: this.blogPost.featuredImageUrl,
+        urlHandle: this.blogPost.urlHandle,
+        author: this.blogPost.author,
+        publishedDate: this.blogPost.publishedDate,
+        isVisible: this.blogPost.isVisible,
+        categories: this.selectedCategories ?? []
+      };
 
+      this.updateBlogPostSubscription = this.blogpostService
+      .updateBlogPost(this.id, updateBlogPost)
+      .subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('admin/blogposts');
+        }
+      })
+    }
   }
-  
+
 }
