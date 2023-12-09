@@ -82,4 +82,15 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     }
   }
 
+  onDelete(): void {
+    if(this.id) {
+      this.blogpostService.deleteBlogPost(this.id)
+      .subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/blogposts')
+        }
+      });
+    }
+  }
+
 }
