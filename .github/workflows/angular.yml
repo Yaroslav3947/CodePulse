@@ -18,11 +18,15 @@ jobs:
     - name: Setup Angular
       uses: actions/setup-node@v3
       with:
-        node-version: 16
+        node-version: 18
     - name: Install Dependencies
-      run: npm install
+      run: |
+        cd UI/codepulse
+        npm install
     - name: Build
-      run: npm run build
+      run: |
+        cd UI/codepulse
+        npm run build
     - name: Start
       run: ng serve
     - name: Test
