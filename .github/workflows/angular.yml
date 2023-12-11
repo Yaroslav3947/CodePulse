@@ -21,6 +21,7 @@ jobs:
         node-version: 18
     - name: Install Dependencies
       run: npm install
+           ng update @angular/core@17.0.0
     - name: Build
       run: npm run build
     - name: Start
