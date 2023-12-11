@@ -20,13 +20,9 @@ jobs:
       with:
         node-version: 18
     - name: Install Dependencies
-      run: |
-        cd UI/codepulse
-        npm install
+      run: npm install
     - name: Build
-      run: |
-        cd UI/codepulse
-        npm run build
+      run: npm run build
     - name: Start
       run: ng serve
     - name: Test
