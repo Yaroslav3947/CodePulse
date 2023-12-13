@@ -5,7 +5,17 @@
     
     <div class="card-body">
         <div class="d-flex flex-medium-row flex-sm-colomn flex-wrap">
-            <div class="col-8 p-4">
+            <div class="col-8 p-4" style="overflow-y: scroll;">
+                <ng-container *ngIf="images$ | async as images">
+                    <div class="d-flex flex-wrap">
+                        <div *ngFor="let image of images"
+                        style="min-width: 100px; justify-content: center; cursor: pointer;"
+                        class="me-1 bg-white d-flex align-items-center flex-colomn border p-3">
+                        <img [src]="image.url" [title]="image.title" style="height: 100px;">
+                        <span class="mt-1">{{image.title}}</span>
+                        </div>
+                    </div>
+                </ng-container>
 
             </div>
             <div class="col-4 p-4 bg-light">
