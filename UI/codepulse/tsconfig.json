@@ -22,9 +22,9 @@
     "lib": [
       "ES2022",
       "dom"
-    ],
-    "include": ["**/*.ts"]
+    ]
   },
+  "include": ["src/**/*"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
