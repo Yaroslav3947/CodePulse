@@ -4,14 +4,10 @@
 name: .NET
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - API/**
   pull_request:
     branches: [ "main" ]
     paths:
-      - API/**
+      - 'API/**'
 
 defaults:
   run:
