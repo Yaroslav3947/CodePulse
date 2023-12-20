@@ -5,21 +5,23 @@ import { BlogPost } from '../../blog-post/models/blog-post.model';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [],
+  // standalone: true,
+  // imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
+
+
 export class HomeComponent implements OnInit {
 
   blogs$?: Observable<BlogPost[]>;
-    constructor(private blogPostService: BlogPostService) {
+  constructor(private blogPostService: BlogPostService) {
 
-    }
+  }
 
-    ngOnInit():void {
-      this.blogs$ = this.blogPostService.getAllBlogPosts();
-    }
+  ngOnInit():void {
+     this.blogs$ = this.blogPostService.getAllBlogPosts();
+  }
 
 
 }
