@@ -31,6 +31,7 @@ builder.Services.AddDbContext<AuthDbContext>(options => {
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); // Injection of service
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>(); 
+builder.Services.AddScoped<ITokenRepository, TokenRepository>(); 
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 builder.Services.AddIdentityCore<IdentityUser>()

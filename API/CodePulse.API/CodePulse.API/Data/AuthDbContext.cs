@@ -41,7 +41,7 @@ namespace CodePulse.API.Data {
                 NormalizedUserName = "admin@codepulse.com".ToUpper()
             };
 
-            admin.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(admin, "Admin@123");
+            admin.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(admin, " ");
 
             builder.Entity<IdentityUser>().HasData(admin);
 
