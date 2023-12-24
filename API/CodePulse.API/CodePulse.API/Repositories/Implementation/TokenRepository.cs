@@ -28,6 +28,7 @@ namespace CodePulse.API.Repositories.Implementation {
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
+                claims: claims,
                 expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: credentials);
 

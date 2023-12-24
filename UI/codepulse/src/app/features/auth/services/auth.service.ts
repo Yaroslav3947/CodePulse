@@ -31,11 +31,12 @@ export class AuthService {
     if(email && roles) {
       const user: UserModel = {
         email: email,
-        roles: roles.split('/')
+        roles: roles.split(',')
       };
 
       return user;
     }
+    
     return undefined;
   }
 
@@ -52,7 +53,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
-    this.cookieService.delete('Authirization', '/');
+    this.cookieService.delete('Authorization', '/');
     this.$user.next(undefined); // User log out
   }
 }
