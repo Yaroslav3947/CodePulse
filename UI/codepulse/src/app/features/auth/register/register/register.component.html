@@ -1,7 +1,7 @@
 <div class="container">
     <div class="mt-5">
         <div class="col-12 col-md-6 col-lg-4 mx-auto">
-            <h1>Login</h1>
+            <h1>Register</h1>
 
             <form #form="ngForm" (ngSubmit)="onFormSubmit()">
                 <div class="mt-3">
@@ -14,14 +14,19 @@
                     <input type="password" class="form-control" id="password" name="password"
                         [(ngModel)]="model.password">
                 </div>
-                
-                <p class="small mb-5 pb-lg-2"><a class="text-black-50" href="forgotpass">Forgot password?</a></p>
 
                 <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <label for="repeatPassword" class="form-label">Repeat password</label>
+                    <input type="password" class="form-control" id="repeatPassword" name="repeatPassword"
+                        [(ngModel)]="model.repeatPassword">
+                </div>
+                
+
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Register</button>
                 </div>
                 <div class="mt-3">
-                    <p class="mb-0">Don't have an account? <a href="/register" class="text-black-50 fw-bold">Register</a>
+                    <p class="mb-0">Already have an account? <a href="/login" class="text-black-50 fw-bold">Register</a>
                     </p>
                 </div>
             </form>
