@@ -230,6 +230,7 @@ namespace CodePulse.API.Controllers {
             // Get blogpost details from the repository
 
             var blogPost = await _blogPostRepository.GetByUrlHandleAsync(urlHandle);
+            var totalLikes = await _blogPostLikeRepository.GetTotalLikesByUrlHandleAsync(urlHandle);
 
             if(blogPost is null) {
                 return NotFound();
@@ -250,7 +251,8 @@ namespace CodePulse.API.Controllers {
                     Id = x.Id,
                     Name = x.Name,
                     UrlHandle = x.UrlHandle
-                }).ToList()
+                }).ToList(),
+                TotalLikes = totalLikes
             };
 
             return Ok(response);
