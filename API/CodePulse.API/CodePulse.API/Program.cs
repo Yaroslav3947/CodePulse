@@ -33,6 +33,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); // Inject
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>(); 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>(); 
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
 
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddRoles<IdentityRole>()

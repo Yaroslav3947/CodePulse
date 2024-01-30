@@ -10,6 +10,7 @@
         public string Author { get; set; }
         public bool IsVisible { get; set; }
         public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
+        public int TotalLikes { get; set; }
 
     }
 }

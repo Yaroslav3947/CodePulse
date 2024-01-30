@@ -13,10 +13,12 @@ namespace CodePulse.API.Controllers {
     public class BlogPostsController : ControllerBase {
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IBlogPostLikeRepository _blogPostLikeRepository;
 
-        public BlogPostsController(IBlogPostRepository blogPostRepository, ICategoryRepository categoryRepository) {
+        public BlogPostsController(IBlogPostRepository blogPostRepository, ICategoryRepository categoryRepository, IBlogPostLikeRepository blogPostLikeRepository) {
             this._blogPostRepository = blogPostRepository;
             this._categoryRepository = categoryRepository;
+            this._blogPostLikeRepository = blogPostLikeRepository;
         }
 
         // POST: {apibaseurl}/api/blogposts
@@ -106,6 +108,7 @@ namespace CodePulse.API.Controllers {
 
             // Get BlogPost from the repository
             var blogPost = await _blogPostRepository.GetByIdAsync(id);
+            var totalLikes = await _blogPostLikeRepository.GetTotalLikes(id);
 
             if(blogPost is null) {
                 return NotFound();
@@ -126,7 +129,8 @@ namespace CodePulse.API.Controllers {
                     Id = x.Id,
                     Name = x.Name,
                     UrlHandle = x.UrlHandle
-                }).ToList()
+                }).ToList(),
+                TotalLikes = totalLikes
             };
 
             return Ok(response);
