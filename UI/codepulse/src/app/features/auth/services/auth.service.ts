@@ -20,18 +20,20 @@ export class AuthService {
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/login`,{
       email: request.email,
-      password: request.password
+      password: request.password,
     });
   }
 
   getUser(): UserModel | undefined {
     const email = localStorage.getItem('user-email');
     const roles = localStorage.getItem('user-roles');
+    const userId = localStorage.getItem('user-id');
 
-    if(email && roles) {
+    if(email && roles && userId) {
       const user: UserModel = {
         email: email,
-        roles: roles.split(',')
+        roles: roles.split(','),
+        userId: userId
       };
 
       return user;
@@ -41,10 +43,10 @@ export class AuthService {
   }
 
   setUser(user: UserModel): void {
-
     this.$user.next(user);
     localStorage.setItem('user-email', user.email);
     localStorage.setItem('user-roles', user.roles.join(','));
+    localStorage.setItem('user-id', user.userId);
   }
 
   user(): Observable<UserModel | undefined> {

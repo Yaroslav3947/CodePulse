@@ -11,4 +11,5 @@ export interface BlogPost {
     publishedDate: Date;
     isVisible: boolean;
     categories: Category[];
+    totalLikes: number
 }

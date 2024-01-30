@@ -19,7 +19,7 @@ export class LoginComponent {
     private router: Router) {
     this.model = {
       email: '',
-      password: ''
+      password: '',
     }
   }
 
@@ -34,7 +34,8 @@ export class LoginComponent {
         // Set User
         this.authService.setUser({
           email: response.email,
-          roles: response.roles
+          roles: response.roles,
+          userId: response.userId
         });
 
         // Redirect back to home page
