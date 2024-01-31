@@ -8,10 +8,12 @@
 
                 <div class="mt-3">
                     <ng-container *ngIf="IsUserLoggedIn()">
-                        <i class="bi bi-hand-thumbs-up" (click)="likeButtonClick()"></i>
-                    </ng-container>
+                        <i class="bi" [ngClass]="{'bi-hand-thumbs-up': !isLikedByUser, 
+                        'bi-hand-thumbs-up-fill': isLikedByUser}" 
+                        (click)="likeButtonClick()"></i>
+                      </ng-container>
 
-                    <span> {{blogPost.totalLikes}}</span> Likes
+                    <span> {{totalLikes}}</span> Likes
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
