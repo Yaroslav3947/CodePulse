@@ -32,5 +32,15 @@ namespace CodePulse.API.Repositories.Implementation {
 
             return await _dbContext.BlogPostLike.CountAsync(x => x.BlogPostId == blogPostId);
         }
+
+        public async Task<IEnumerable<Guid>> GetUsersLikingBlogPostByIdAsync(Guid blogPostId) {
+
+            var usersLikingBlogPost = await _dbContext.BlogPostLike
+                .Where(x => x.BlogPostId == blogPostId)
+                .Select(x => x.UserId)
+                .ToListAsync();
+
+            return usersLikingBlogPost;
+        }
     }
 }
