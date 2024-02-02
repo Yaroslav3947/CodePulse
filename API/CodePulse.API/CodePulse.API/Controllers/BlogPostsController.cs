@@ -114,6 +114,8 @@ namespace CodePulse.API.Controllers {
                 return NotFound();
             }
 
+            var usersLikingBlogPost = await _blogPostLikeRepository.GetUsersLikingBlogPostByIdAsync(blogPost.Id);
+
             // Convert Domain model to Dto
             var response = new BlogPostDto {
                 Id = blogPost.Id,
@@ -130,7 +132,7 @@ namespace CodePulse.API.Controllers {
                     Name = x.Name,
                     UrlHandle = x.UrlHandle
                 }).ToList(),
-                TotalLikes = totalLikes
+                Likes = usersLikingBlogPost
             };
 
             return Ok(response);
@@ -236,6 +238,8 @@ namespace CodePulse.API.Controllers {
                 return NotFound();
             }
 
+            var usersLikingBlogPost = await _blogPostLikeRepository.GetUsersLikingBlogPostByIdAsync(blogPost.Id);
+
             // Convert Domain model to Dto
             var response = new BlogPostDto {
                 Id = blogPost.Id,
@@ -252,7 +256,7 @@ namespace CodePulse.API.Controllers {
                     Name = x.Name,
                     UrlHandle = x.UrlHandle
                 }).ToList(),
-                TotalLikes = totalLikes
+                Likes = usersLikingBlogPost
             };
 
             return Ok(response);

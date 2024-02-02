@@ -19,8 +19,10 @@ export class BlogDetailsComponent implements OnInit {
 
   url: string | null = null;
   blogPost$?: Observable<BlogPost>;
-  blogPostId?: string;
+  blogPost?: BlogPost;
   user?: UserModel;
+  isLikedByUser: boolean = false;
+  totalLikes?: number;
 
   addLikeSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
@@ -39,6 +41,16 @@ export class BlogDetailsComponent implements OnInit {
       }
     });
 
+
+    // Get to know if user is registered
+    this.authService.user()
+   .subscribe({
+      next: (response) => {
+        this.user = response;
+
+      }
+   });
+
     // Fetch blog details by url
     if(this.url) {
       this.blogPost$ = this.blogPostService.getBlogPostByUrlHandle(this.url)
@@ -48,18 +60,14 @@ export class BlogDetailsComponent implements OnInit {
         .getBlogPostByUrlHandle(this.url)
         .subscribe({
           next: (response) => {
-            this.blogPostId = response.id;
+            this.blogPost = response;
+            this.totalLikes = response.likes.length;
+            if(this.user) {
+              this.isLikedByUser = response.likes.includes(this.user?.userId);
+            }
           }
         })
     }
-
-    // Get to know if user is registered
-    this.authService.user()
-   .subscribe({
-      next: (response) => {
-        this.user = response;
-      }
-   });
 
    this.user = this.authService.getUser();
   }
@@ -70,16 +78,20 @@ export class BlogDetailsComponent implements OnInit {
 
   likeButtonClick(): void {
     
-    if (this.user && this.blogPostId) {
+    if (this.user && this.blogPost) {
       const likeBlogPostRequest: AddLikeRequest = {
         userId: this.user.userId,
-        blogPostId: this.blogPostId
+        blogPostId: this.blogPost.id
       };
 
       this.addLikeSubscription = this.addLikeCommentService.addLike(likeBlogPostRequest)
       .subscribe({
         next: (response) => {
-
+          if(this.totalLikes) {
+            this.totalLikes++;
+            this.isLikedByUser = true;
+            // TODO: fix so no reload is needed to change like button and totalLikes and forbid click again
+          }
         }
       })
     }

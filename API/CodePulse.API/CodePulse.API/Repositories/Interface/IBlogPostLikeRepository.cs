@@ -6,5 +6,6 @@ namespace CodePulse.API.Repositories.Interface {
         Task<int> GetTotalLikes(Guid blogPostId);
         Task<BlogPostLike> AddLikeForBlogPost(BlogPostLike blogPostLike);
         Task<int> GetTotalLikesByUrlHandleAsync(string urlHandle);
+        Task<IEnumerable<Guid>> GetUsersLikingBlogPostByIdAsync(Guid blogPostId);
     }
 }
