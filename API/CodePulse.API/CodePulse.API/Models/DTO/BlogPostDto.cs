@@ -11,6 +11,7 @@
         public bool IsVisible { get; set; }
         public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
         public IEnumerable<Guid> Likes { get; set; } = new List<Guid>();
+        public IEnumerable<CommentDto> Comments { get; set; } = new List<CommentDto>();
 
     }
 }

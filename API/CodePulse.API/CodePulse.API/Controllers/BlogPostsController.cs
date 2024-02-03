@@ -108,13 +108,13 @@ namespace CodePulse.API.Controllers {
 
             // Get BlogPost from the repository
             var blogPost = await _blogPostRepository.GetByIdAsync(id);
-            var totalLikes = await _blogPostLikeRepository.GetTotalLikes(id);
 
             if(blogPost is null) {
                 return NotFound();
             }
 
             var usersLikingBlogPost = await _blogPostLikeRepository.GetUsersLikingBlogPostByIdAsync(blogPost.Id);
+            //var comments = await _blogPostCommentRepository.GetCommentsAsync(id);
 
             // Convert Domain model to Dto
             var response = new BlogPostDto {
