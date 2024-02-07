@@ -1,6 +1,7 @@
 ﻿using CodePulse.API.Models.Domain;
 using CodePulse.API.Models.DTO;
 using CodePulse.API.Repositories.Implementation;
+using CodePulse.API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,9 @@ namespace CodePulse.API.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class BlogPostCommentController : ControllerBase {
-        private readonly BlogPostCommentRepository _blogPostCommentRepository;
+        private readonly IBlogPostCommentRepository _blogPostCommentRepository;
 
-        public BlogPostCommentController(BlogPostCommentRepository blogPostCommentRepository) {
+        public BlogPostCommentController(IBlogPostCommentRepository blogPostCommentRepository) {
             this._blogPostCommentRepository = blogPostCommentRepository;
         }
 
