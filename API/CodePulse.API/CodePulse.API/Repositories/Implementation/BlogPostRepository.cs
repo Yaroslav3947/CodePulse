@@ -16,11 +16,11 @@ namespace CodePulse.API.Repositories.Implementation {
             await _dbContext.BlogPosts.AddAsync(blogPost);
             await _dbContext.SaveChangesAsync();
             return blogPost;
-
         }
 
         public async Task<BlogPost?> DeleteAsync(Guid id) {
             var existingBlogPost = await _dbContext.BlogPosts.Include(x => x.Categories).FirstOrDefaultAsync(x => x.Id == id);
+            // TODO: also delete likes and comments
 
             if(existingBlogPost is null) {
                 return null;
@@ -48,6 +48,7 @@ namespace CodePulse.API.Repositories.Implementation {
             var existingBlogPost =  await _dbContext.BlogPosts.Include(x => x.Categories)
                 .FirstOrDefaultAsync(x => x.Id == blogPost.Id);
 
+            // TODO: also update likes and comments
             if(existingBlogPost != null) {
                 _dbContext.Entry(existingBlogPost).CurrentValues.SetValues(blogPost);
                 existingBlogPost.Categories = blogPost.Categories;
