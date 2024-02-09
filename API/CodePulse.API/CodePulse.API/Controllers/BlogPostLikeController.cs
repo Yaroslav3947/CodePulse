@@ -10,8 +10,7 @@ namespace CodePulse.API.Controllers {
     public class BlogPostLikeController : ControllerBase {
         private readonly IBlogPostLikeRepository _blogPostLikeRepository;
 
-        public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository)
-        {
+        public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository) {
             this._blogPostLikeRepository = blogPostLikeRepository;
         }
 
