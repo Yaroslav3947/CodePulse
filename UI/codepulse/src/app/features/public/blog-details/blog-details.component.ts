@@ -19,6 +19,7 @@ export class BlogDetailsComponent implements OnInit {
 
   url: string | null = null;
   blogPost$?: Observable<BlogPost>;
+  
   blogPost?: BlogPost;
   user?: UserModel;
   isLikedByUser: boolean = false;

@@ -1,4 +1,5 @@
 import { Category } from "../../category/models/category.model";
+import { BlogPostComment as BlogPostComment } from "../../public/models/add-comment.model";
 
 export interface BlogPost {
     id: string;
@@ -11,5 +12,6 @@ export interface BlogPost {
     publishedDate: Date;
     isVisible: boolean;
     categories: Category[];
-    likes: string[]
+    likes: string[];
+    comments: BlogPostComment[];
 }
