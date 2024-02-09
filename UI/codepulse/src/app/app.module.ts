@@ -18,6 +18,8 @@ import { BlogDetailsComponent } from './features/public/blog-details/blog-detail
 import { LoginComponent } from './features/auth/login/login.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RegisterComponent } from './features/auth/register/register/register.component';
+import { TimeAgoPipe } from './features/public/pipes/time-ago.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +34,8 @@ import { RegisterComponent } from './features/auth/register/register/register.co
     HomeComponent,
     BlogDetailsComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,

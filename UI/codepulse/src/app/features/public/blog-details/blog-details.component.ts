@@ -7,19 +7,20 @@ import { AuthService } from '../../auth/services/auth.service';
 import { UserModel } from '../../auth/models/user.model';
 import { AddLikeRequest } from '../models/add-like.model';
 import { AddLikeCommentsServiceService } from '../services/add-like-comments.service.service';
+import { TimeAgoPipe } from '../pipes/time-ago.pipe';
 
 @Component({
   selector: 'app-blog-details',
   // standalone: true,
   // imports: [],
   templateUrl: './blog-details.component.html',
-  styleUrls: ['./blog-details.component.css']
+  styleUrls: ['./blog-details.component.css'],
 })
 export class BlogDetailsComponent implements OnInit {
 
   url: string | null = null;
   blogPost$?: Observable<BlogPost>;
-  
+
   blogPost?: BlogPost;
   user?: UserModel;
   isLikedByUser: boolean = false;
@@ -32,6 +33,7 @@ export class BlogDetailsComponent implements OnInit {
       private blogPostService: BlogPostService,
       private authService: AuthService,
       private addLikeCommentService: AddLikeCommentsServiceService) {
+
     }
 
   ngOnInit(): void {
@@ -95,5 +97,25 @@ export class BlogDetailsComponent implements OnInit {
         }
       })
     }
+  }
+
+  getCommentDateTimeAgo(commentDate: Date): string {
+    const currentDate = new Date();
+  const timeDifference = currentDate.getTime() - commentDate.getTime();
+
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  } else if (hours > 0) {
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else if (minutes > 0) {
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else {
+    return `${seconds} second${seconds > 1 ? 's' : ''} ago`;
+  }
   }
 }

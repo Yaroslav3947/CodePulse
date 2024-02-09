@@ -50,11 +50,15 @@
                     </div>
                 </div>
 
-                <div class="card-body">
-                    <div *ngIf="blogPost.comments" class="mt-4">
+                <div class="card w-100 mt-3">
+                    <div class="card-body">
+                      <ng-container *ngIf="blogPost.comments">
                         <span *ngFor="let comment of blogPost.comments">
-                            {{comment.description}}
+                          <h5>{{comment.userId}}</h5>
+                          <!-- <span class="small">{{ comment.dateAdded | date: timeAgo }}</span> -->
+                          <p>{{comment.description}}</p>
                         </span>
+                      </ng-container>
                     </div>
                 </div>
 
