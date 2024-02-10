@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BlogPostService } from '../../blog-post/services/blog-post.service';
 import { Observable, Subscription } from 'rxjs';
 import { BlogPost } from '../../blog-post/models/blog-post.model';
@@ -8,6 +8,7 @@ import { UserModel } from '../../auth/models/user.model';
 import { AddLikeRequest } from '../models/add-like.model';
 import { AddLikeCommentsServiceService } from '../services/add-like-comments.service.service';
 import { TimeAgoPipe } from '../pipes/time-ago.pipe';
+import { BlogPostComment } from '../models/add-comment.model';
 
 @Component({
   selector: 'app-blog-details',
@@ -16,7 +17,7 @@ import { TimeAgoPipe } from '../pipes/time-ago.pipe';
   templateUrl: './blog-details.component.html',
   styleUrls: ['./blog-details.component.css'],
 })
-export class BlogDetailsComponent implements OnInit {
+export class BlogDetailsComponent implements OnInit, OnDestroy {
 
   url: string | null = null;
   blogPost$?: Observable<BlogPost>;
@@ -25,16 +26,24 @@ export class BlogDetailsComponent implements OnInit {
   user?: UserModel;
   isLikedByUser: boolean = false;
   totalLikes?: number;
+  commentDescription?: string;
 
   addLikeSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
+  addCommentSubscription?: Subscription;
 
     constructor(private route: ActivatedRoute,
       private blogPostService: BlogPostService,
       private authService: AuthService,
+      private router: Router,
       private addLikeCommentService: AddLikeCommentsServiceService) {
 
     }
+  ngOnDestroy(): void {
+    this.addLikeSubscription?.unsubscribe();
+    this.getBlogPostSubscription?.unsubscribe();
+    this.addCommentSubscription?.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.route.paramMap
@@ -96,6 +105,28 @@ export class BlogDetailsComponent implements OnInit {
           }
         }
       })
+    }
+  }
+
+  onFormSubmit(): void {
+    // Conver model to Request Object
+    if (this.blogPost && this.commentDescription && this.user) {
+      const blogPostComment: BlogPostComment = {
+        blogpostId: this.blogPost.id,
+        userId: this.user.userId,
+        description: this.commentDescription,
+        dateAdded: new Date()
+      };
+
+      this.addCommentSubscription = this.addLikeCommentService
+        .addComment(blogPostComment)
+        .subscribe({
+          next: (response) => {
+            this.router.navigateByUrl(`blog/${this.blogPost?.urlHandle}`);
+
+            ////TODO: page is refreshed and updated comments should be shown
+          }
+        })
     }
   }
 

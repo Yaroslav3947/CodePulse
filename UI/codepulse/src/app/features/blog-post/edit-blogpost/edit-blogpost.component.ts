@@ -79,7 +79,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
     // Conver model to Request Object
     if (this.blogPost && this.id) {
       const updateBlogPost: UpdateBlogPost = {
-        title: this.blogPost.author,
+        title: this.blogPost.title,
         shortDescription: this.blogPost.shortDescription,
         content: this.blogPost.content,
         featuredImageUrl: this.blogPost.featuredImageUrl,
