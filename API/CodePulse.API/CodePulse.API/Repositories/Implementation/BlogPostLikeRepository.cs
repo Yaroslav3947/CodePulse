@@ -20,6 +20,15 @@ namespace CodePulse.API.Repositories.Implementation {
             return blogPostLike;
         }
 
+        public async Task DeleteAsync(Guid blogPostId) {
+            var blogPostLikes = await _dbContext.BlogPostLike
+            .Where(x => x.BlogPostId == blogPostId).ToListAsync();
+
+            _dbContext.BlogPostLike.RemoveRange(blogPostLikes);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Guid>> GetUsersLikingBlogPostByIdAsync(Guid blogPostId) {
 
             var usersLikingBlogPost = await _dbContext.BlogPostLike

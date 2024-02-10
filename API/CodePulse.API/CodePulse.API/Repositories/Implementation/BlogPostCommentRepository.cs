@@ -18,6 +18,15 @@ namespace CodePulse.API.Repositories.Implementation {
             return comment;
         }
 
+        public async Task DeleteAsync(Guid blogPostId) {
+            var blogPostComments = await _dbContext.BlogPostComments
+                .Where(x => x.BlogPostId == blogPostId).ToListAsync();
+
+            _dbContext.BlogPostComments.RemoveRange(blogPostComments);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<BlogPostComment>> GetBlogPostCommentsByIdAsync(Guid blogPostId) {
             return await _dbContext.BlogPostComments.
                 Where(x => x.BlogPostId == blogPostId).ToListAsync();

@@ -6,10 +6,15 @@ using Microsoft.EntityFrameworkCore;
 namespace CodePulse.API.Repositories.Implementation {
     public class BlogPostRepository : IBlogPostRepository {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IBlogPostLikeRepository _blogPostLikeRepository;
+        private readonly IBlogPostCommentRepository _blogPostCommentRepository;
 
-        public BlogPostRepository(ApplicationDbContext dbContext) {
+        public BlogPostRepository(ApplicationDbContext dbContext,
+            IBlogPostLikeRepository blogPostLikeRepository,
+            IBlogPostCommentRepository blogPostCommentRepository) {
             this._dbContext = dbContext;
-
+            this._blogPostLikeRepository = blogPostLikeRepository;
+            this._blogPostCommentRepository = blogPostCommentRepository;
         }
 
         public async Task<BlogPost> CreateAsync(BlogPost blogPost) {
@@ -20,13 +25,16 @@ namespace CodePulse.API.Repositories.Implementation {
 
         public async Task<BlogPost?> DeleteAsync(Guid id) {
             var existingBlogPost = await _dbContext.BlogPosts.Include(x => x.Categories).FirstOrDefaultAsync(x => x.Id == id);
-            // TODO: also delete likes and comments
 
             if(existingBlogPost is null) {
                 return null;
             }
 
+            await _blogPostLikeRepository.DeleteAsync(id);
+            await _blogPostCommentRepository.DeleteAsync(id);
+
             _dbContext.BlogPosts.Remove(existingBlogPost);
+
             await _dbContext.SaveChangesAsync();
 
             return existingBlogPost;
