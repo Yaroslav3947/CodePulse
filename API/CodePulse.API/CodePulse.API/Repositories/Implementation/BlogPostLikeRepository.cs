@@ -38,5 +38,15 @@ namespace CodePulse.API.Repositories.Implementation {
 
             return usersLikingBlogPost;
         }
+
+        public async Task<BlogPostLike> RemoveLikeForBlogPost(BlogPostLike blogPostLike) {
+            var existingLike = await _dbContext.BlogPostLike.FirstOrDefaultAsync(x => x.UserId == blogPostLike.UserId);
+
+            if(existingLike != null) {
+                _dbContext.BlogPostLike.Remove(existingLike);
+                await _dbContext.SaveChangesAsync();
+            }
+            return blogPostLike;
+        }
     }
 }

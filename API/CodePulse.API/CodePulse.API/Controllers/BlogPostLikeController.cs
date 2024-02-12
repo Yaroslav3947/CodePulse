@@ -16,14 +16,26 @@ namespace CodePulse.API.Controllers {
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddLike([FromBody] AddLikeRequestDto addLikeRequest) {
+        public async Task<IActionResult> AddLike([FromBody] BlogLikeDto blogLikeDto) {
 
             var response = new BlogPostLike {
-                BlogPostId = addLikeRequest.BlogPostId,
-                UserId = addLikeRequest.UserId
+                BlogPostId = blogLikeDto.BlogPostId,
+                UserId = blogLikeDto.UserId
             };
 
             await _blogPostLikeRepository.AddLikeForBlogPost(response);
+
+            return Ok(response);
+        }
+
+        public async Task<IActionResult> RemoveLike([FromBody] BlogLikeDto blogLikeDto) {
+
+            var response = new BlogPostLike {
+                BlogPostId = blogLikeDto.BlogPostId,
+                UserId = blogLikeDto.UserId
+            };
+
+            await _blogPostLikeRepository.RemoveLikeForBlogPost(response);
 
             return Ok(response);
         }
