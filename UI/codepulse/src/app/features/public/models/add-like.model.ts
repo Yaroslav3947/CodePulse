@@ -1,4 +1,4 @@
-export interface AddLikeRequest {
+export interface BlogPostLike {
     userId: string,
     blogPostId: string
 }

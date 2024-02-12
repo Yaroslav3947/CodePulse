@@ -27,7 +27,8 @@ namespace CodePulse.API.Controllers {
 
             return Ok(response);
         }
-
+        [HttpPost]
+        [Route("Remove")]
         public async Task<IActionResult> RemoveLike([FromBody] BlogLikeDto blogLikeDto) {
 
             var response = new BlogPostLike {
