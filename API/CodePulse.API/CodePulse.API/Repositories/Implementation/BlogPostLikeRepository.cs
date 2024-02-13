@@ -9,8 +9,7 @@ namespace CodePulse.API.Repositories.Implementation {
     public class BlogPostLikeRepository : IBlogPostLikeRepository {
         private readonly ApplicationDbContext _dbContext;
 
-        public BlogPostLikeRepository(ApplicationDbContext dbContext)
-        {
+        public BlogPostLikeRepository(ApplicationDbContext dbContext) {
             this._dbContext = dbContext;
         }
 
