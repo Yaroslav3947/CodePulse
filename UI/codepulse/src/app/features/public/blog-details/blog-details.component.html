@@ -57,6 +57,7 @@
                         <span *ngFor="let comment of blogPost.comments">
                           <h5>{{comment.userId}}</h5>
                           <!-- <span class="small">{{ comment.dateAdded | date: timeAgo }}</span> -->
+                          <span class="small">{{ comment.dateAdded | date:'dd-MM-yyyy' }}</span>
                           <p>{{comment.description}}</p>
                         </span>
                       </ng-container>
