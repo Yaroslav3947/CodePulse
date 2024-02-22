@@ -16,7 +16,7 @@ namespace CodePulse.API.Controllers {
 
         // GET: {apibaseurl}/api/users
         [HttpGet]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetUsers() {
             var users = await _usersRepository.GetUsersAsync();
 
@@ -24,6 +24,7 @@ namespace CodePulse.API.Controllers {
 
             foreach(var user in users) {
                 response.Add(new UserDto {
+                    Id = user.Id,
                     Email = user.Email,
                     UserName = user.UserName,
                     PhoneNumber = user.PhoneNumber,
