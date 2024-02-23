@@ -12,6 +12,7 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { authGuard } from './features/auth/guards/auth.guard';
 import { RegisterComponent } from './features/auth/register/register/register.component';
 import { UsersListComponent } from './features/users/users-list/users-list.component';
+import { EditUserComponent } from './features/users/edit-user/edit-user.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,11 @@ const routes: Routes = [
   {
     path: 'admin/users',
     component: UsersListComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'admin/users/:id',
+    component: EditUserComponent,
     canActivate: [authGuard]
   }
 ];

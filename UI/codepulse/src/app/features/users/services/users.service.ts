@@ -14,6 +14,6 @@ export class UsersService {
     private cookieService: CookieService) { }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiBaseUrl}/api/users`);
+    return this.http.get<User[]>(`${environment.apiBaseUrl}/api/users?addAuth=true`);
   }
 }

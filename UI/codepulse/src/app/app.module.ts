@@ -19,6 +19,7 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RegisterComponent } from './features/auth/register/register/register.component';
 import { UsersListComponent } from './features/users/users-list/users-list.component';
+import { EditUserComponent } from './features/users/edit-user/edit-user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,8 @@ import { UsersListComponent } from './features/users/users-list/users-list.compo
     BlogDetailsComponent,
     LoginComponent,
     RegisterComponent,
-    UsersListComponent
+    UsersListComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,
