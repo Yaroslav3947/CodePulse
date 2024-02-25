@@ -38,6 +38,22 @@ namespace CodePulse.API.Controllers {
             return Ok(response);
         }
 
+        public async Task<IActionResult> GetUserById([FromRoute] Guid id) {
+            var existringUser = await _usersRepository.GetUserByIdAsync(id);
+
+            if(existringUser is null) {
+                return NotFound(); // 404 
+            }
+
+            var response = new UserDto {
+                Id = existringUser.Id,
+                Email = existringUser.Email,
+                PhoneNumber = existringUser.PhoneNumber,
+                TwoFactorEnabled = existringUser.TwoFactorEnabled
+            };
+            return Ok(response); 
+        }
+
         // PUT: {apibaseurl}/api/users{id}
         [HttpPut]
         [Route("{id:Guid}")]
