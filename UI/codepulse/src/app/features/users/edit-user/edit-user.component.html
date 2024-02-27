@@ -1,41 +1,64 @@
 <div class="container">
-    <h1 class="mt-3">Edit Category</h1>
+    <h1 class="mt-3">Edit User</h1>
 
     <ng-container *ngIf="user;else notFound">
 
     <form #form="ngForm" (ngSubmit)="onFormSubmit()"> 
         <div class="mt-2">
             <div class="mt-3">
-                <label class="form-label" for="categoryId">Category Id</label>
+                <label class="form-label" for="userId">User Id</label>
                 <input type="text" disabled
-                id="categoryId"
+                id="userId"
                 class="form-control"
-                name="categoryId"
-                value = "{{category.id}}">
+                name="userId"
+                value = "{{user.id}}">
             </div>
         </div>
 
         <div class="mt-2">
             <div class="mt-3">
-                <label class="form-label" for="categoryId">Category Name</label>
+                <label class="form-label" for="userEmail">User email</label>
                 <input type="text"
-                id="categoryName"
+                id="UserEmail"
                 class="form-control"
-                name="categoryName"
-                [(ngModel)]="category.name">
+                name="userEmail"
+                [(ngModel)]="user.email">
             </div>
         </div>
 
         <div class="mt-2">
             <div class="mt-3">
-                <label class="form-label" for="categoryUrlHandle">Category Url Handle</label>
+                <label class="form-label" for="userEmail">Username</label>
                 <input type="text"
-                id="categoryUrlHandle"
+                id="Username"
                 class="form-control"
-                name="categoryUrlHandle"
-                [(ngModel)]="category.urlHandle">
+                name="username"
+                [(ngModel)]="user.username">
             </div>
         </div>
+
+        <div class="mt-2">
+            <div class="mt-3">
+                <label class="form-label" for="userPhonenumber">User phone number</label>
+                <input type="text"
+                id="userPhonenumber"
+                class="form-control"
+                name="userPhonenumber"
+                [(ngModel)]="user.phonenumber">
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <div class="mt-3">
+                <label class="form-label" for="userTwoFactorEnabled">User two factor enabled</label>
+                <input type="text" disabled
+                id="userTwoFactorEnabled"
+                class="form-control"
+                name="userTwoFactorEnabled"
+                [(ngModel)]="user.twoFactorEnabled">
+            </div>
+        </div>
+
         <div class="mt-3 d-flex">
             <button type="submit" class="btn btn-primary">Save</button>
             <button type="submit" class="btn btn-danger ms-3"
@@ -45,7 +68,7 @@
     </ng-container>
     <ng-template #notFound>
         <div class="alert alert-warning" role="alert">
-            Category not found!
+            User not found!
           </div>
     </ng-template>
     

@@ -17,9 +17,17 @@ export class UsersService {
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.apiBaseUrl}/api/users?addAuth=true`);
   }
+  
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${environment.apiBaseUrl}/api/users/${id}?addAuth=true`)
+  }
 
   updateUser(id: string, updateUserRequest: UpdateUserRequest): Observable<User> {
     return this.http.put<User>(`${environment.apiBaseUrl}/api/users/${id}?addAuth=true`, 
     updateUserRequest);
+  }
+
+  deleteUser(id: string): Observable<User> {
+    return this.http.delete<User>(`${environment.apiBaseUrl}/api/users/${id}?addAuth=true`);
   }
 }

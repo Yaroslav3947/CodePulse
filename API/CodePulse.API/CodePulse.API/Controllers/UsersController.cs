@@ -38,6 +38,9 @@ namespace CodePulse.API.Controllers {
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetUserById([FromRoute] Guid id) {
             var existringUser = await _usersRepository.GetUserByIdAsync(id);
 

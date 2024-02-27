@@ -1,7 +1,7 @@
 <div class="container">
     <h1 class="mt-3">Users List</h1>
 
-    <ng-container *ngIf="users$ | async as users">
+    <ng-container *ngIf="user$ | async as users">
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
@@ -10,14 +10,35 @@
                     <th>User Name</th>
                     <th>Phone Number</th>
                     <th>Two Factor Enabled</th>
+                    <th> </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let user of users">
                     <td>{{user.id}}</td>
                     <td>{{user.email}}</td>
-                    <td>{{user.username}}</td> 
-                    <td>{{user.phonenumber}}</td>
+                    <!-- <td>{{user.username}}</td>  -->
+
+                    <td>
+                        <ng-container *ngIf="user.username !== null; else nullTemplate">
+                            {{user.username}}
+                        </ng-container>
+                        <ng-template #nullTemplate>
+                            null
+                        </ng-template>
+                    </td>
+
+                    <!-- <td>{{user.phonenumber}}</td> -->
+
+                    <td>
+                        <ng-container *ngIf="user.phonenumber !== null; else nullTemplate">
+                            {{user.phonenumber}}
+                        </ng-container>
+                        <ng-template #nullTemplate>
+                            null
+                        </ng-template>
+                    </td>
+
                     <td>{{user.twoFactorEnabled}}</td>
                     <td> 
                         <a class="btn btn-light" [routerLink]="['/admin/users', user.id]">Edit</a>

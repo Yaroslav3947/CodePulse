@@ -10,14 +10,19 @@ import { User } from '../models/user.model';
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.css'
 })
-export class UsersListComponent implements OnInit{
+export class UsersListComponent implements OnInit {
 
-  users$?: Observable<User[]>;
+  user$?: Observable<User[]>;
 
   constructor(private usersService: UsersService) {
   }
 
   ngOnInit(): void {
-    this.users$ = this.usersService.getAllUsers();
+    // this.usersService.getAllUsers().subscribe(
+    //     data => console.log('Users data:', data),
+    //     error => console.error('Error fetching users:', error)
+    // );
+
+    this.user$ = this.usersService.getAllUsers();
   }
 }
