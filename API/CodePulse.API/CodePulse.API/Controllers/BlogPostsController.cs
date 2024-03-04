@@ -14,11 +14,14 @@ namespace CodePulse.API.Controllers {
         private readonly IBlogPostRepository _blogPostRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IBlogPostLikeRepository _blogPostLikeRepository;
+        private readonly IBlogPostCommentRepository _blogPostCommentRepository;
 
-        public BlogPostsController(IBlogPostRepository blogPostRepository, ICategoryRepository categoryRepository, IBlogPostLikeRepository blogPostLikeRepository) {
+        public BlogPostsController(IBlogPostRepository blogPostRepository, ICategoryRepository categoryRepository, 
+            IBlogPostLikeRepository blogPostLikeRepository, IBlogPostCommentRepository blogPostCommentRepository) {
             this._blogPostRepository = blogPostRepository;
             this._categoryRepository = categoryRepository;
             this._blogPostLikeRepository = blogPostLikeRepository;
+            this._blogPostCommentRepository = blogPostCommentRepository;
         }
 
         // POST: {apibaseurl}/api/blogposts
@@ -108,13 +111,13 @@ namespace CodePulse.API.Controllers {
 
             // Get BlogPost from the repository
             var blogPost = await _blogPostRepository.GetByIdAsync(id);
-            var totalLikes = await _blogPostLikeRepository.GetTotalLikes(id);
 
             if(blogPost is null) {
                 return NotFound();
             }
 
-            var usersLikingBlogPost = await _blogPostLikeRepository.GetUsersLikingBlogPostByIdAsync(blogPost.Id);
+            var usersLikingBlogPost = await _blogPostLikeRepository.GetUsersLikingBlogPostByIdAsync(id);
+            var blogPostComments = await _blogPostCommentRepository.GetBlogPostCommentsByIdAsync(id);
 
             // Convert Domain model to Dto
             var response = new BlogPostDto {
@@ -132,7 +135,13 @@ namespace CodePulse.API.Controllers {
                     Name = x.Name,
                     UrlHandle = x.UrlHandle
                 }).ToList(),
-                Likes = usersLikingBlogPost
+                Likes = usersLikingBlogPost,
+                Comments = blogPostComments.Select(x => new CommentDto {
+                    Description = x.Description,
+                    BlogPostId = x.BlogPostId,
+                    UserId = x.UserId,
+                    DateAdded = x.DateAdded,
+                }).ToList()
             };
 
             return Ok(response);
@@ -232,13 +241,13 @@ namespace CodePulse.API.Controllers {
             // Get blogpost details from the repository
 
             var blogPost = await _blogPostRepository.GetByUrlHandleAsync(urlHandle);
-            var totalLikes = await _blogPostLikeRepository.GetTotalLikesByUrlHandleAsync(urlHandle);
 
             if(blogPost is null) {
                 return NotFound();
             }
 
             var usersLikingBlogPost = await _blogPostLikeRepository.GetUsersLikingBlogPostByIdAsync(blogPost.Id);
+            var blogPostComments = await _blogPostCommentRepository.GetBlogPostCommentsByIdAsync(blogPost.Id);
 
             // Convert Domain model to Dto
             var response = new BlogPostDto {
@@ -256,7 +265,13 @@ namespace CodePulse.API.Controllers {
                     Name = x.Name,
                     UrlHandle = x.UrlHandle
                 }).ToList(),
-                Likes = usersLikingBlogPost
+                Likes = usersLikingBlogPost,
+                Comments = blogPostComments.Select(x => new CommentDto {
+                    Description = x.Description,
+                    BlogPostId = x.BlogPostId,
+                    UserId = x.UserId,
+                    DateAdded = x.DateAdded,
+                }).ToList()
             };
 
             return Ok(response);

@@ -19,19 +19,6 @@ namespace CodePulse.API.Repositories.Implementation {
             return blogPostLike;
         }
 
-        public async Task<int> GetTotalLikes(Guid blogPostId) {
-            return await _dbContext.BlogPostLike.CountAsync(x => x.BlogPostId == blogPostId);
-        }
-
-        public async Task<int> GetTotalLikesByUrlHandleAsync(string urlHandle) {
-
-            var blogPostId = _dbContext.BlogPosts
-                .Where(x => x.UrlHandle == urlHandle)
-                .Select(x => x.Id).FirstOrDefault();
-
-            return await _dbContext.BlogPostLike.CountAsync(x => x.BlogPostId == blogPostId);
-        }
-
         public async Task<IEnumerable<Guid>> GetUsersLikingBlogPostByIdAsync(Guid blogPostId) {
 
             var usersLikingBlogPost = await _dbContext.BlogPostLike

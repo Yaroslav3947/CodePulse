@@ -47,7 +47,6 @@ export class BlogDetailsComponent implements OnInit {
    .subscribe({
       next: (response) => {
         this.user = response;
-
       }
    });
 
