@@ -10,21 +10,33 @@ namespace CodePulse.API.Controllers {
     public class BlogPostLikeController : ControllerBase {
         private readonly IBlogPostLikeRepository _blogPostLikeRepository;
 
-        public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository)
-        {
+        public BlogPostLikeController(IBlogPostLikeRepository blogPostLikeRepository) {
             this._blogPostLikeRepository = blogPostLikeRepository;
         }
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddLike([FromBody] AddLikeRequestDto addLikeRequest) {
+        public async Task<IActionResult> AddLike([FromBody] BlogLikeDto blogLikeDto) {
 
             var response = new BlogPostLike {
-                BlogPostId = addLikeRequest.BlogPostId,
-                UserId = addLikeRequest.UserId
+                BlogPostId = blogLikeDto.BlogPostId,
+                UserId = blogLikeDto.UserId
             };
 
             await _blogPostLikeRepository.AddLikeForBlogPost(response);
+
+            return Ok(response);
+        }
+        [HttpPost]
+        [Route("Remove")]
+        public async Task<IActionResult> RemoveLike([FromBody] BlogLikeDto blogLikeDto) {
+
+            var response = new BlogPostLike {
+                BlogPostId = blogLikeDto.BlogPostId,
+                UserId = blogLikeDto.UserId
+            };
+
+            await _blogPostLikeRepository.RemoveLikeForBlogPost(response);
 
             return Ok(response);
         }

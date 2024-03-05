@@ -31,6 +31,39 @@
                     <markdown [data]="blogPost.content"></markdown>
                 </div>
 
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Comments</h5>
+
+                        <ng-container *ngIf="IsUserLoggedIn()">
+                            <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+                                <div class="mt-3">
+                                    <label class="form-label">Comment Description</label>
+                                    <input type="text" class="form-control" [(ngModel)]="commentDescription" 
+                                    name="commentDescription"/>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="submit" class="btn btn-dark">Submit</button>
+                                </div>
+                            </form>
+                        </ng-container>
+
+                    </div>
+                </div>
+
+                <div class="card w-100 mt-3">
+                    <div class="card-body">
+                      <ng-container *ngIf="blogPost.comments">
+                        <span *ngFor="let comment of blogPost.comments">
+                          <h5>{{comment.userId}}</h5>
+                          <!-- <span class="small">{{ comment.dateAdded | date: timeAgo }}</span> -->
+                          <span class="small">{{ comment.dateAdded | date:'dd-MM-yyyy' }}</span>
+                          <p>{{comment.description}}</p>
+                        </span>
+                      </ng-container>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

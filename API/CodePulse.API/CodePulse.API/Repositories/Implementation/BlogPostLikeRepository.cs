@@ -19,6 +19,15 @@ namespace CodePulse.API.Repositories.Implementation {
             return blogPostLike;
         }
 
+        public async Task DeleteAsync(Guid blogPostId) {
+            var blogPostLikes = await _dbContext.BlogPostLike
+            .Where(x => x.BlogPostId == blogPostId).ToListAsync();
+
+            _dbContext.BlogPostLike.RemoveRange(blogPostLikes);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Guid>> GetUsersLikingBlogPostByIdAsync(Guid blogPostId) {
 
             var usersLikingBlogPost = await _dbContext.BlogPostLike
@@ -27,6 +36,16 @@ namespace CodePulse.API.Repositories.Implementation {
                 .ToListAsync();
 
             return usersLikingBlogPost;
+        }
+
+        public async Task<BlogPostLike> RemoveLikeForBlogPost(BlogPostLike blogPostLike) {
+            var existingLike = await _dbContext.BlogPostLike.FirstOrDefaultAsync(x => x.UserId == blogPostLike.UserId);
+
+            if(existingLike != null) {
+                _dbContext.BlogPostLike.Remove(existingLike);
+                await _dbContext.SaveChangesAsync();
+            }
+            return blogPostLike;
         }
     }
 }

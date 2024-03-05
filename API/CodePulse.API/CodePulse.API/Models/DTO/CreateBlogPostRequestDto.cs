@@ -1,4 +1,6 @@
-﻿namespace CodePulse.API.Models.DTO {
+﻿using CodePulse.API.Models.Domain;
+
+namespace CodePulse.API.Models.DTO {
     public class CreateBlogPostRequestDto {
         public string Title { get; set; }
         public string ShortDescription { get; set; }

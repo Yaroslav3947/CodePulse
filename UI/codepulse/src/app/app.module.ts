@@ -35,6 +35,7 @@ import { EditUserComponent } from './features/users/edit-user/edit-user.componen
     BlogDetailsComponent,
     LoginComponent,
     RegisterComponent,
+    CommentFunctionality
     UsersListComponent,
     EditUserComponent
   ],
