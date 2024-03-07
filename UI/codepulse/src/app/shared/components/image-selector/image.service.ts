@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BlogImage } from '../../models/blog-image.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class ImageService {
   constructor(private http: HttpClient) { }
 
   getAllImages(): Observable<BlogImage[]> {
-    return this.http.get<BlogImage[]>(`${environment.apiBaseUrl}/api/images`);
+    return this.http.get<BlogImage[]>(`/api/images`);
   }
 
   uploadImage(file: File, fileName: string, title: string): Observable<BlogImage> {
@@ -28,7 +27,7 @@ export class ImageService {
     formData.append('fileName',fileName);
     formData.append('title',title);
 
-    return this.http.post<BlogImage>(`${environment.apiBaseUrl}/api/images`, formData);
+    return this.http.post<BlogImage>(`/api/images`, formData);
   }
 
   selectImage(image: BlogImage): void {

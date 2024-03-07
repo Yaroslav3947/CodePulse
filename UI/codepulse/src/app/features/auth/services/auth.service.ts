@@ -3,7 +3,6 @@ import { LoginRequest } from '../models/login-request.models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginResponse } from '../models/login-response.model';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment.development';
 import { UserModel } from '../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 import { RegisterRequest } from '../models/register-request.model';
@@ -20,14 +19,14 @@ export class AuthService {
     private cookieService: CookieService) { }
 
   login(request: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/login`,{
+    return this.http.post<LoginResponse>(`/api/auth/login`,{
       email: request.email,
       password: request.password,
     });
   }
 
   register(request: RegisterRequest): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${environment.apiBaseUrl}/api/auth/register`,{
+    return this.http.post<RegisterResponse>(`/api/auth/register`,{
       email: request.email,
       password: request.password
     });
