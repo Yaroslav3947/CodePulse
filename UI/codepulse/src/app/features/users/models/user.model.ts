@@ -1,7 +1,7 @@
 export interface User {
     id: string;
     email: string;
-    username: string;
-    phonenumber: string | null;
+    userName: string;
+    phoneNumber: string | null;
     twoFactorEnabled: string;
 }

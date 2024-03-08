@@ -20,8 +20,8 @@
                     <!-- <td>{{user.username}}</td>  -->
 
                     <td>
-                        <ng-container *ngIf="user.username !== null; else nullTemplate">
-                            {{user.username}}
+                        <ng-container *ngIf="user.userName !== null; else nullTemplate">
+                            {{user.userName}}
                         </ng-container>
                         <ng-template #nullTemplate>
                             null
@@ -31,8 +31,8 @@
                     <!-- <td>{{user.phonenumber}}</td> -->
 
                     <td>
-                        <ng-container *ngIf="user.phonenumber !== null; else nullTemplate">
-                            {{user.phonenumber}}
+                        <ng-container *ngIf="user.phoneNumber !== null; else nullTemplate">
+                            {{user.phoneNumber}}
                         </ng-container>
                         <ng-template #nullTemplate>
                             null
