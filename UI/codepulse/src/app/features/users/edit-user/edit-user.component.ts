@@ -45,8 +45,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
   onFormSubmit(): void {
     const updateUserRequest: UpdateUserRequest = {
       email: this.user?.email ?? ' ',
-      username: this.user?.username ?? ' ',
-      phoneNumber: this.user?.phonenumber ?? ' ',
+      username: this.user?.userName ?? ' ',
+      phoneNumber: this.user?.phoneNumber ?? ' ',
       twoFactorEnabled: this.user?.twoFactorEnabled ?? ' ',
     };
 
