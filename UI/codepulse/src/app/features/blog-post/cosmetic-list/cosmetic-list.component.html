@@ -1,0 +1,38 @@
+<div class="container">
+    <h1 class="mt-3">Cosmetic List</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a [routerLink]="['/admin/cosmetics/add']" class="btn btn-primary">Add Cosmetic</a>
+    </div>
+
+    <ng-container *ngIf="cosmetic$ | async as cosmetics">
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Categories</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cosmetic of cosmetics">
+                    <td>{{cosmetic.name}}</td>
+                    <td>{{cosmetic.brand}}</td>
+                    <td>{{cosmetic.price}}
+                        <td>
+                            <span *ngFor="let category of cosmetic.categories">
+                            <span class="badge bg-secondary me-2">{{category.name}}</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a class="btn btn-light" [routerLink]="['/admin/cosmetics', cosmetic.id]">Edit</a>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ng-container>
+
+</div>

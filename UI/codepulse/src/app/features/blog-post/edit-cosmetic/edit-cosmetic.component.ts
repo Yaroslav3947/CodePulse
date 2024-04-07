@@ -1,34 +1,34 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { BlogPostService } from '../services/blog-post.service';
-import { BlogPost } from '../models/blog-post.model';
+import { CosmeticService } from '../services/cosmetic.service';
+import { Cosmetic } from '../models/cosmetic.model';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
-import { UpdateBlogPost } from '../models/update-blog-post.model';
+import { UpdateCosmetic } from '../models/update-cosmetic.model';
 import { ImageService } from 'src/app/shared/components/image-selector/image.service';
 
 @Component({
-  selector: 'app-edit-blogpost',
-  templateUrl: './edit-blogpost.component.html',
-  styleUrls: ['./edit-blogpost.component.css']
+  selector: 'app-edit-cosmetic',
+  templateUrl: './edit-cosmetic.component.html',
+  styleUrls: ['./edit-cosmetic.component.css']
 })
-export class EditBlogpostComponent implements OnInit, OnDestroy {
+export class EditCosmeticComponent implements OnInit, OnDestroy {
   id: string | null = null;
-  blogPost?: BlogPost;
+  cosmetic?: Cosmetic;
   categories$?: Observable<Category[]>;
   selectedCategories?: string[];
 
   isImageSelectorVisible: boolean = false;
 
   routeSubscription?: Subscription;
-  updateBlogPostSubscription?: Subscription;
-  getBlogPostSubscription?: Subscription;
-  deleteBlogPostSubscription?: Subscription;
+  updateCosmeticSubscription?: Subscription;
+  getCosmeticSubscription?: Subscription;
+  deleteCosmeticSubscription?: Subscription;
   imageSelectSubscription?: Subscription;
 
   constructor(private route: ActivatedRoute,
-    private blogpostService: BlogPostService,
+    private cosmeticService: CosmeticService,
     private categoryService: CategoryService,
     private router: Router,
     private imageService: ImageService) {
@@ -42,13 +42,13 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
       next: (params) => {
         this.id = params.get('id');
 
-        // Get BlogPost from API by id
+        // Get Cosmetics from API by id
 
         if (this.id) {
-          this.getBlogPostSubscription = this.blogpostService.getBlogPostById(this.id)
+          this.getCosmeticSubscription = this.cosmeticService.getCosmeticById(this.id)
             .subscribe({
               next: (response) => {
-                this.blogPost = response;
+                this.cosmetic = response;
                 this.selectedCategories = response.categories.map(x => x.id);
               }
             });
@@ -57,8 +57,8 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
         this.imageSelectSubscription = this.imageService.onSelectImage()
           .subscribe({
             next: (response) => {
-              if (this.blogPost) {
-                this.blogPost.featuredImageUrl = response.url;
+              if (this.cosmetic) {
+                this.cosmetic.featuredImageUrl = response.url;
                 this.isImageSelectorVisible = false;
               }
             }
@@ -69,32 +69,31 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSubscription?.unsubscribe();
-    this.updateBlogPostSubscription?.unsubscribe();
-    this.getBlogPostSubscription?.unsubscribe();
-    this.deleteBlogPostSubscription?.unsubscribe();
+    this.updateCosmeticSubscription?.unsubscribe();
+    this.getCosmeticSubscription?.unsubscribe();
+    this.deleteCosmeticSubscription?.unsubscribe();
     this.imageSelectSubscription?.unsubscribe();
   }
 
   onFormSubmit(): void {
-    // Conver model to Request Object
-    if (this.blogPost && this.id) {
-      const updateBlogPost: UpdateBlogPost = {
-        title: this.blogPost.title,
-        shortDescription: this.blogPost.shortDescription,
-        content: this.blogPost.content,
-        featuredImageUrl: this.blogPost.featuredImageUrl,
-        urlHandle: this.blogPost.urlHandle,
-        author: this.blogPost.author,
-        publishedDate: this.blogPost.publishedDate,
-        isVisible: this.blogPost.isVisible,
+    // Convert model to Request Object
+    if (this.cosmetic && this.id) {
+      const updateCosmetic: UpdateCosmetic = {
+        name: this.cosmetic.name,
+        description: this.cosmetic.description,
+        price: this.cosmetic.price,
+        featuredImageUrl: this.cosmetic.featuredImageUrl,
+        urlHandle: this.cosmetic.urlHandle,
+        brand: this.cosmetic.brand,
+        publishedDate: this.cosmetic.publishedDate,
         categories: this.selectedCategories ?? []
       };
 
-      this.updateBlogPostSubscription = this.blogpostService
-        .updateBlogPost(this.id, updateBlogPost)
+      this.updateCosmeticSubscription = this.cosmeticService
+        .updateCosmetic(this.id, updateCosmetic)
         .subscribe({
           next: (response) => {
-            this.router.navigateByUrl('admin/blogposts');
+            this.router.navigateByUrl('admin/cosmetics');
           }
         })
     }
@@ -102,10 +101,10 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
 
   onDelete(): void {
     if (this.id) {
-      this.deleteBlogPostSubscription = this.blogpostService.deleteBlogPost(this.id)
+      this.deleteCosmeticSubscription = this.cosmeticService.deleteCosmetic(this.id)
         .subscribe({
           next: (response) => {
-            this.router.navigateByUrl('/admin/blogposts')
+            this.router.navigateByUrl('/admin/cosmetics')
           }
         });
     }

@@ -1,19 +1,25 @@
 <div class="container">
     <div class="mt-5">
         <div class="row align-items-strech">
-            <ng-container *ngIf="blogs$ | async as blogs">
-                <div class="col-12 col-md-4 mb-3" *ngFor="let blog of blogs">
+            <ng-container *ngIf="cosmetics$ | async as cosmetics">
+                <div class="col-12 col-md-4 mb-3" *ngFor="let cosmetic of cosmetics">
                     <div class="card h-100">
-                        <img [src]="blog.featuredImageUrl" class="card img-top" [alt]="blog.title">
+                        <img [src]="cosmetic.featuredImageUrl" class="card img-top" [alt]="cosmetic.name">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">
-                                {{blog.title}}
-                            </h5>
+                            <h4 class="card-title">
+                                {{cosmetic.name}}
+                            </h4>
+                            <h4 class="card-title">
+                                {{cosmetic.brand}}
+                            </h4>
+                            <h4 class="card-price">
+                                {{cosmetic.price}}
+                            </h4>
                             <p class="card-text">
-                                {{blog.shortDescription}}
+                                {{cosmetic.description}}
                             </p>
                             <span class="d-flex align-items-end" style="flex: 1">
-                                <a [routerLink]="['/blog', blog.urlHandle]" class="btn btn-primary">
+                                <a [routerLink]="['/cosmetic', cosmetic.urlHandle]" class="btn btn-primary">
                                     Read More
                                 </a>
                             </span>

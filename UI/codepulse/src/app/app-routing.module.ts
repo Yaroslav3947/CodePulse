@@ -3,11 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoryListComponent } from './features/category/category-list/category-list.component';
 import { AddCategoryComponent } from './features/category/add-category/add-category.component';
 import { EditCategoryComponent } from './features/category/edit-category/edit-category.component';
-import { BlogpostListComponent } from './features/blog-post/blogpost-list/blogpost-list.component';
-import { AddBlogpostComponent } from './features/blog-post/add-blogpost/add-blogpost.component';
-import { EditBlogpostComponent } from './features/blog-post/edit-blogpost/edit-blogpost.component';
+import { CosmeticListComponent } from './features/blog-post/cosmetic-list/cosmetic-list.component';
+import { AddCosmeticComponent } from './features/blog-post/add-cosmetic/add-cosmetic.component';
+import { EditCosmeticComponent } from './features/blog-post/edit-cosmetic/edit-cosmetic.component';
 import { HomeComponent } from './features/public/home/home.component';
-import { BlogDetailsComponent } from './features/public/blog-details/blog-details.component';
+import { CosmeticDetailsComponent } from './features/public/cosmetic-details/cosmetic-details.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { authGuard } from './features/auth/guards/auth.guard';
 import { RegisterComponent } from './features/auth/register/register/register.component';
@@ -28,8 +28,8 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path: 'blog/:url',
-    component: BlogDetailsComponent
+    path: 'cosmetic/:url',
+    component: CosmeticDetailsComponent
   },
   {
     path: 'admin/categories',
@@ -47,18 +47,18 @@ const routes: Routes = [
     canActivate: [authGuard] 
   },
   {
-    path: 'admin/blogposts',
-    component: BlogpostListComponent,
+    path: 'admin/cosmetics',
+    component: CosmeticListComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'admin/blogposts/add',
-    component: AddBlogpostComponent,
+    path: 'admin/cosmetics/add',
+    component: AddCosmeticComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'admin/blogposts/:id',
-    component: EditBlogpostComponent,
+    path: 'admin/cosmetics/:id',
+    component: EditCosmeticComponent,
     canActivate: [authGuard]
   },
   {

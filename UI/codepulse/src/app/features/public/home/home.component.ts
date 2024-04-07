@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogPostService } from '../../blog-post/services/blog-post.service';
+import { CosmeticService } from '../../blog-post/services/cosmetic.service';
 import { Observable } from 'rxjs';
-import { BlogPost } from '../../blog-post/models/blog-post.model';
+import { Cosmetic } from '../../blog-post/models/cosmetic.model';
 
 @Component({
   selector: 'app-home',
@@ -14,13 +14,13 @@ import { BlogPost } from '../../blog-post/models/blog-post.model';
 
 export class HomeComponent implements OnInit {
 
-  blogs$?: Observable<BlogPost[]>;
-  constructor(private blogPostService: BlogPostService) {
+  cosmetics$?: Observable<Cosmetic[]>;
+  constructor(private cosmeticService: CosmeticService) {
 
   }
 
   ngOnInit():void {
-     this.blogs$ = this.blogPostService.getAllBlogPosts();
+     this.cosmetics$ = this.cosmeticService.getAllCosmetics();
   }
 
 

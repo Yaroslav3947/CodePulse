@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AddBlogPost } from '../models/add-blog-post.model';
-import { BlogPostService } from '../services/blog-post.service';
+import { AddCosmetic } from '../models/add-cosmetic.model';
+import { CosmeticService } from '../services/cosmetic.service';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../category/services/category.service';
 import { Observable, Subscription } from 'rxjs'
@@ -8,12 +8,12 @@ import { Category } from '../../category/models/category.model';
 import { ImageService } from 'src/app/shared/components/image-selector/image.service';
 
 @Component({
-  selector: 'app-add-blogpost',
-  templateUrl: './add-blogpost.component.html',
-  styleUrls: ['./add-blogpost.component.css']
+  selector: 'app-add-cosmetic',
+  templateUrl: './add-cosmetic.component.html',
+  styleUrls: ['./add-cosmetic.component.css']
 })
-export class AddBlogpostComponent implements OnInit, OnDestroy {
-  model: AddBlogPost;
+export class AddCosmeticComponent implements OnInit, OnDestroy {
+  model: AddCosmetic;
   categories$?: Observable<Category[]>;
 
   isImageSelectorVisible: boolean = false;
@@ -21,29 +21,28 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
   imageSelectorSubscription?: Subscription;
 
 
-  constructor(private blogPostService: BlogPostService,
+  constructor(private cosmeticService: CosmeticService,
     private router: Router,
     private categoryService: CategoryService,
     private imageService: ImageService) {
     this.model = {
-      title: '',
-      shortDescription: '',
-      content: '',
+      name: '',
+      description: '',
+      brand: '',
       featuredImageUrl: '',
       urlHandle: '',
-      author: '',
+      price: 0,
       publishedDate: new Date(),
-      isVisible: true,
       categories: []
     }
   }
 
   onFormSubmit(): void {
     console.log(this.model);
-    this.blogPostService.createBlogPost(this.model)
+    this.cosmeticService.createCosmetic(this.model)
       .subscribe({
         next: (response) => {
-          this.router.navigateByUrl('/admin/blogposts');
+          this.router.navigateByUrl('/admin/cosmetics');
         }
       });
   }
