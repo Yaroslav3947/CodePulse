@@ -2,9 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CosmeticService } from '../../blog-post/services/cosmetic.service';
 import { Observable, Subscription } from 'rxjs';
-import { Cosmetic } from '../../blog-post/models/cosmetic.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserModel } from '../../auth/models/user.model';
+import { BasketLike as BasketLike } from '../models/add-like.model';
+import { BasketService } from '../services/basket.service';
+import { Cosmetic } from '../../blog-post/models/cosmetic.model';
+import { UsersService } from '../../users/services/users.service';
 
 @Component({
   selector: 'app-cosmetic-details',
@@ -20,61 +23,101 @@ export class CosmeticDetailsComponent implements OnInit, OnDestroy {
 
   cosmetic?: Cosmetic;
   user?: UserModel;
+  isLikedByUser: boolean = false;
+  commentDescription?: string;
 
+  addLikeSubscription?: Subscription;
   getCosmeticSubscription?: Subscription;
-  addCosmeticSubscription?: Subscription;
+  addCommentSubscription?: Subscription;
+  removeLikeSubscription?: Subscription;
+  getCosmeticsInBaskerSubscription?: Subscription;
 
     constructor(private route: ActivatedRoute,
       private cosmeticService: CosmeticService,
       private authService: AuthService,
-      private router: Router) {
+      private router: Router,
+      private basketService: BasketService,
+      private usersService: UsersService) {
 
     }
   ngOnDestroy(): void {
+    this.addLikeSubscription?.unsubscribe();
     this.getCosmeticSubscription?.unsubscribe();
-    this.addCosmeticSubscription?.unsubscribe();
+    this.addCommentSubscription?.unsubscribe();
+    this.removeLikeSubscription?.unsubscribe();
+    this.getCosmeticsInBaskerSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.route.paramMap
-    .subscribe({
+
+    this.route.paramMap.subscribe({
       next: (params) => {
-        this.url = params.get('url')
+        this.url = params.get('url');
+        
+
+        if (this.url) {
+          this.cosmetic$ = this.cosmeticService.getCosmeticByUrlHandle(this.url);
+  
+          // Get Cosmetic ID
+          this.getCosmeticSubscription = this.cosmeticService.getCosmeticByUrlHandle(this.url).subscribe({
+            next: (response) => {
+              this.cosmetic = response;
+              
+
+              if (this.user && this.cosmetic) {
+                this.getCosmeticsInBaskerSubscription = this.usersService.getCosmeticsIDInBasket(this.user.userId).subscribe({
+                  next: (response) => {
+                    this.isLikedByUser = response.includes(this.cosmetic!.id);
+                  }
+                });
+              }
+            }
+          });
+        }
       }
     });
+  
 
-
-    // Get to know if user is registered
-    this.authService.user()
-   .subscribe({
+    this.authService.user().subscribe({
       next: (response) => {
         this.user = response;
       }
-   });
+    });
+  
 
-    // Fetch blog details by url
-    if(this.url) {
-      this.cosmetic$ = this.cosmeticService.getCosmeticByUrlHandle(this.url)
-
-      // Get to know blogPostId
-      this.getCosmeticSubscription = this.cosmeticService
-        .getCosmeticByUrlHandle(this.url)
-        .subscribe({
-          next: (response) => {
-            this.cosmetic = response;
-          }
-        })
-    }
-
-   this.user = this.authService.getUser();
+    this.user = this.authService.getUser();
   }
 
   IsUserLoggedIn():boolean {
     return this.user !== undefined;
   }
 
+  likeButtonClick(): void {
+    if (this.user && this.cosmetic) {
+      const likeCosmeticRequest: BasketLike = {
+        userId: this.user.userId,
+        cosmeticId: this.cosmetic.id
+      };
 
-  onFormSubmit(): void {
+    if(!this.isLikedByUser) {
+      this.addLikeSubscription = this.basketService.addToBasket(likeCosmeticRequest)
+        .subscribe({
+          next: (response) => {
+              this.isLikedByUser = true;
+              // TODO: fix so no reload is needed to change like button and totalLikes and forbid click again
+            }
+          }
+        )
+    } else {
+        this.removeLikeSubscription = this.basketService.removeFromBasket(likeCosmeticRequest)
+        .subscribe({
+          next: (response) => {
+              this.isLikedByUser = false;
+            }
+          }
+        )
+      }
+    }
   }
 
 }

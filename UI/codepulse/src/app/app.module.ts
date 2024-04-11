@@ -20,6 +20,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RegisterComponent } from './features/auth/register/register/register.component';
 import { UsersListComponent } from './features/users/users-list/users-list.component';
 import { EditUserComponent } from './features/users/edit-user/edit-user.component';
+import { BasketComponent } from './features/blog-post/basket/basket/basket.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,8 @@ import { EditUserComponent } from './features/users/edit-user/edit-user.componen
     LoginComponent,
     RegisterComponent,
     UsersListComponent,
-    EditUserComponent
+    EditUserComponent,
+    BasketComponent
   ],
   imports: [
     BrowserModule,

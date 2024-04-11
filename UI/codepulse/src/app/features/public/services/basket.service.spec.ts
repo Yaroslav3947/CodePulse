@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AddLikeCommentsServiceService } from './add-like-comments.service.service';
+import { BasketService } from './basket.service';
 
 describe('AddLikeCommentsServiceService', () => {
-  let service: AddLikeCommentsServiceService;
+  let service: BasketService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AddLikeCommentsServiceService);
+    service = TestBed.inject(BasketService);
   });
 
   it('should be created', () => {

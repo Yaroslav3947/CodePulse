@@ -20,7 +20,7 @@
                 <tr *ngFor="let cosmetic of cosmetics">
                     <td>{{cosmetic.name}}</td>
                     <td>{{cosmetic.brand}}</td>
-                    <td>{{cosmetic.price}}
+                    <td>${{cosmetic.price}}
                         <td>
                             <span *ngFor="let category of cosmetic.categories">
                             <span class="badge bg-secondary me-2">{{category.name}}</span>

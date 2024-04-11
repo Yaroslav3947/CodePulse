@@ -1,0 +1,32 @@
+<div class="container">
+    <h1 class="mt-3">Basket</h1>
+
+    <ng-container *ngIf="cosmetics$ | async as cosmetics">
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cosmetic of cosmetics">
+                    <td>{{cosmetic.name}}</td>
+                    <td>{{cosmetic.brand}}</td>
+                    <td>${{cosmetic.price}}</td>
+                    <td>
+                        <a class="btn btn-light" (click)="removeCosmetic(cosmetic)">Remove</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>Total:</td>
+                    <td>${{ calculateTotalPrice() }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" (click)="buy()">Buy</button>
+    </ng-container>
+</div>

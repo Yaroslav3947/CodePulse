@@ -12,9 +12,12 @@ namespace CodePulse.API.Controllers {
     [ApiController]
     public class UsersController : ControllerBase {
         private readonly IUsersRepository _usersRepository;
+        private readonly ICosmeticRepository _cosmeticRepository;
 
-        public UsersController(IUsersRepository usersRepository) {
+        public UsersController(IUsersRepository usersRepository,
+            ICosmeticRepository cosmeticRepository) {
             this._usersRepository = usersRepository;
+            this._cosmeticRepository = cosmeticRepository;
         }
 
         // GET: {apibaseurl}/api/users
@@ -37,6 +40,47 @@ namespace CodePulse.API.Controllers {
 
             return Ok(response);
         }
+
+        // GET: {apibaseurl}/api/
+        [HttpGet("cosmetics/{id}")]
+        //[Authorize(Roles = "Writer")]
+        public async Task<IActionResult> GetCosmeticsIDInBasket([FromRoute] Guid id) {
+            var response = await _usersRepository.CosmeticsIDInBasket(id);
+
+            return Ok(response);
+        }
+
+        [HttpGet("cosmetics/full/{id}")]
+        //[Authorize(Roles = "Writer")]
+        public async Task<IActionResult> GetCosmeticsInBasket([FromRoute] Guid id) {
+            var cosmeticsID = await _usersRepository.CosmeticsIDInBasket(id);
+
+            var response = new List<CosmeticDto>();
+
+            foreach(var cosmeticID in cosmeticsID) {
+
+                var cosmetic = await _cosmeticRepository.GetByIdAsync(cosmeticID);
+
+                response.Add(new CosmeticDto {
+                    Id = cosmetic.Id,
+                    Name = cosmetic.Name,
+                    Brand = cosmetic.Brand,
+                    Price = cosmetic.Price,
+                    Description = cosmetic.Description,
+                    PublishedDate = cosmetic.PublishedDate,
+                    UrlHandle = cosmetic.UrlHandle,
+                    FeaturedImageUrl = cosmetic.FeaturedImageUrl,
+                    Categories = cosmetic.Categories.Select(x => new CategoryDto {
+                        Id = x.Id,
+                        Name = x.Name,
+                        UrlHandle = x.UrlHandle
+                    }).ToList()
+                });
+            }
+
+            return Ok(response);
+        }
+
 
         [HttpGet]
         [Route("{id:Guid}")]

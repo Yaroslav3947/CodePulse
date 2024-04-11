@@ -13,6 +13,7 @@ import { authGuard } from './features/auth/guards/auth.guard';
 import { RegisterComponent } from './features/auth/register/register/register.component';
 import { UsersListComponent } from './features/users/users-list/users-list.component';
 import { EditUserComponent } from './features/users/edit-user/edit-user.component';
+import { BasketComponent } from './features/blog-post/basket/basket/basket.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'cosmetic/:url',
     component: CosmeticDetailsComponent
+  },
+  {
+    path: 'basket',
+    component: BasketComponent
   },
   {
     path: 'admin/categories',

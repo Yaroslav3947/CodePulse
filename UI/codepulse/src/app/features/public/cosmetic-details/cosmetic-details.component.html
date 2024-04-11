@@ -6,7 +6,15 @@
 
                 <h1 class="mt-4">{{cosmetic.name}}</h1>
 
-                <h3 class="mt-4">{{cosmetic.price}}</h3>
+                <div class="mt-3">
+                    <ng-container *ngIf="IsUserLoggedIn()">
+                        <i class="bi" [ngClass]="{'bi bi-bag-check': !isLikedByUser, 
+                        'bi bi-bag-check-fill': isLikedByUser}" (click)="likeButtonClick()"></i>
+                    </ng-container>
+
+                </div>
+
+                <h3 class="mt-4">${{cosmetic.price}}</h3>
 
                 <div class="d-flex justify-content-between mt-4">
                     <span>{{cosmetic.brand}}</span>
@@ -19,9 +27,9 @@
                     </span>
                 </div>
 
-                <!-- <div class="mt-4 blog-content">
-                    <markdown [data]="cosmetic.price"></markdown>
-                </div> -->
+                <div class="mt-4 blog-content">
+                    <markdown [data]="cosmetic.description"></markdown>
+                </div>
             </div>
         </div>
     </div>

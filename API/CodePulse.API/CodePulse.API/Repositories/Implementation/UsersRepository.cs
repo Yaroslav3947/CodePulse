@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 namespace CodePulse.API.Repositories.Implementation {
     public class UsersRepository : IUsersRepository {
         private readonly AuthDbContext _authDbContext;
+        private readonly ApplicationDbContext _dbContext;
 
-        public UsersRepository(AuthDbContext authDbContext) {
+        public UsersRepository(AuthDbContext authDbContext,
+            ApplicationDbContext dbContext) {
             this._authDbContext = authDbContext;
+            this._dbContext = dbContext;
         }
 
         public async Task<IEnumerable<IdentityUser>> GetUsersAsync() {
@@ -53,6 +56,13 @@ namespace CodePulse.API.Repositories.Implementation {
 
         public async Task<IdentityUser?> GetUserByIdAsync(Guid id) {
             return await _authDbContext.Users.FirstOrDefaultAsync(x => x.Id == id.ToString());
+        }
+
+        public async Task<IEnumerable<Guid>> CosmeticsIDInBasket(Guid id) {
+            return await _dbContext.CosmeticLikes
+                .Where(x => x.UserId == id)
+                .Select(x => x.CosmeticId)
+                .ToListAsync();
         }
     }
 }

@@ -1,4 +1,4 @@
-export interface BlogPostLike {
+export interface BasketLike {
     userId: string,
-    blogPostId: string
+    cosmeticId: string
 }

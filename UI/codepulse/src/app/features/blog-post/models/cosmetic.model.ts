@@ -9,6 +9,5 @@ export interface Cosmetic {
     featuredImageUrl: string;
     urlHandle: string;
     publishedDate: Date;
-    isVisible: boolean;
     categories: Category[];
 }
