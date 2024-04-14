@@ -35,8 +35,6 @@ export class BasketComponent implements OnInit, OnDestroy {
     
     this.user = this.authService.getUser();
 
-    console.log(this.user)
-
     this.cosmetics$ = this.usersService.getCosmeticsInBasket(this.user!.userId);
 
     this.cosmeticsSubscription = this.usersService.getCosmeticsInBasket(this.user!.userId)
