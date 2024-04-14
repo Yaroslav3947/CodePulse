@@ -10,17 +10,15 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
 
-
-                <ng-container *ngIf="user !== undefined && user?.roles?.includes('Writer')">
-
+                <ng-container *ngIf="user !== undefined && user?.roles?.includes('Reader')">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" [routerLink]="['/basket']">Basket</a>
                     </li>
+                </ng-container>
 
+                <ng-container *ngIf="user !== undefined && user?.roles?.includes('Writer')">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Admin
-            </a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" [routerLink]="['/admin/categories']">Categories</a></li>
                             <li>

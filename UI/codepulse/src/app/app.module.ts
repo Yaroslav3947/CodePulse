@@ -21,6 +21,7 @@ import { RegisterComponent } from './features/auth/register/register/register.co
 import { UsersListComponent } from './features/users/users-list/users-list.component';
 import { EditUserComponent } from './features/users/edit-user/edit-user.component';
 import { BasketComponent } from './features/blog-post/basket/basket/basket.component';
+import { ReceiptComponent } from './features/blog-post/receipt/receipt/receipt.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +39,8 @@ import { BasketComponent } from './features/blog-post/basket/basket/basket.compo
     RegisterComponent,
     UsersListComponent,
     EditUserComponent,
-    BasketComponent
+    BasketComponent,
+    ReceiptComponent
   ],
   imports: [
     BrowserModule,

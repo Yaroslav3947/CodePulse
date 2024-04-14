@@ -5,14 +5,13 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  // standalone: true,
-  // imports: [],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
 
   model: RegisterRequest;
+  errorMessage: string = '';
 
   constructor(private authService: AuthService,
     private router: Router) {
@@ -24,7 +23,14 @@ export class RegisterComponent {
   }
 
   onFormSubmit(): void {
-    this.authService.register(this.model)
+    if (this.model.password !== this.model.repeatPassword) {
+      this.errorMessage = "Passwords do not match";
+      return;
+    }
+
+    this.errorMessage = '';
+
+      this.authService.register(this.model)
       .subscribe({
         next: (response) => {
   
@@ -33,4 +39,5 @@ export class RegisterComponent {
         }
       });
   }
+
 }

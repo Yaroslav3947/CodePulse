@@ -6,13 +6,12 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  // standalone: true,
-  // imports: [],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   model: LoginRequest;
+  errorMessage: string = '';
 
   constructor(private authService: AuthService,
     private cookieService: CookieService,
@@ -40,7 +39,11 @@ export class LoginComponent {
 
         // Redirect back to home page
         this.router.navigateByUrl('/');
-      }
+      },
+      error: (err) => {
+        // Set error message
+        this.errorMessage = err.error.errors[''][0];
+    }
     });
   }
 }

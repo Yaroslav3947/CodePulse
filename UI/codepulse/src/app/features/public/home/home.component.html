@@ -1,25 +1,45 @@
 <div class="container">
-    <div class="mt-5">
-        <div class="row align-items-strech">
-            <ng-container *ngIf="cosmetics$ | async as cosmetics">
-                <div class="col-12 col-md-4 mb-3" *ngFor="let cosmetic of cosmetics">
-                    <div class="card h-100">
-                        <img [src]="cosmetic.featuredImageUrl" class="card img-top" [alt]="cosmetic.name">
-                        <div class="card-body d-flex flex-column">
-                            <h4 class="card-title">
+    <div class="mt-2">
+
+        <div class="form-group mb-3">
+            <label for="brandSearch">Search by Brand:</label>
+            <input type="text" class="form-control" id="brandSearch" [(ngModel)]="searchBrand" (input)="filterByBrand()">
+        </div>
+
+        <!-- <div>
+            <h2>Categories</h2>
+            <div *ngFor="let category of categories">
+                <input type="checkbox" id="{{category.id}}" [value]="category" (change)="onCategoryChange(category)">
+                <label for="{{category.id}}">{{category.name}}</label>
+            </div>
+        </div> -->
+
+        <div class=" row align-items-strech ">
+
+            <ng-container *ngIf="filteredCosmetics.length === 0">
+                <div class="alert alert-danger">No cosmetics found.</div>
+            </ng-container>
+
+            <ng-container *ngIf="cosmetics$ | async as cosmetics ">
+                <div class="col-12 col-md-4 mb-3 " *ngFor="let cosmetic of filteredCosmetics ">
+
+                    <div class="card h-100 ">
+                        <img [src]="cosmetic.featuredImageUrl " class="card img-top " [alt]="cosmetic.name ">
+                        <div class="card-body d-flex flex-column ">
+                            <h4 class="card-title ">
                                 {{cosmetic.name}}
                             </h4>
-                            <h4 class="card-title">
+                            <h4 class="card-title ">
                                 {{cosmetic.brand}}
                             </h4>
-                            <h4 class="card-price">
+                            <h4 class="card-price ">
                                 ${{cosmetic.price}}
                             </h4>
-                            <p class="card-text">
+                            <p class="card-text ">
                                 {{cosmetic.description}}
                             </p>
-                            <span class="d-flex align-items-end" style="flex: 1">
-                                <a [routerLink]="['/cosmetic', cosmetic.urlHandle]" class="btn btn-primary">
+                            <span class="d-flex align-items-end " style="flex: 1 ">
+                                <a [routerLink]="[ '/cosmetic', cosmetic.urlHandle] " class="btn btn-primary ">
                                     Read More
                                 </a>
                             </span>

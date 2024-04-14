@@ -3,6 +3,8 @@
         <div class="col-12 col-md-6 col-lg-4 mx-auto">
             <h1>Register</h1>
 
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
             <form #form="ngForm" (ngSubmit)="onFormSubmit()">
                 <div class="mt-3">
                     <label for="email" class="form-label">Email</label>
@@ -11,16 +13,14 @@
 
                 <div class="mt-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password"
-                        [(ngModel)]="model.password">
+                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="model.password">
                 </div>
 
                 <div class="mt-3">
                     <label for="repeatPassword" class="form-label">Repeat password</label>
-                    <input type="password" class="form-control" id="repeatPassword" name="repeatPassword"
-                        [(ngModel)]="model.repeatPassword">
+                    <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" [(ngModel)]="model.repeatPassword">
                 </div>
-                
+
 
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary">Register</button>
