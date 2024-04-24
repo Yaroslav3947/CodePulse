@@ -45,8 +45,10 @@ export class ReceiptComponent implements OnInit, OnDestroy {
       });
 
     this.invoiceNumber = Math.floor(Math.random() * 100000) + 1;
+    this.createInvoiceNumberElement();
 
     this.currentDate = new Date();
+    this.createCurrentDateElement();
   }
 
   calculateTotalPrice(): number {
@@ -55,6 +57,24 @@ export class ReceiptComponent implements OnInit, OnDestroy {
     }
 
     return 0;
+  }
+
+  private createInvoiceNumberElement(): void {
+    const invoiceNumberElement = document.createElement('span');
+    invoiceNumberElement.innerText = this.invoiceNumber?.toString() || '';
+    const targetElement = document.getElementById('invoiceNumber');
+    if (targetElement) {
+      targetElement.appendChild(invoiceNumberElement);
+    }
+  }
+
+  private createCurrentDateElement(): void {
+    const currentDateElement = document.createElement('span');
+    currentDateElement.innerText = this.currentDate?.toLocaleDateString() || '';
+    const targetElement = document.getElementById('currentDate');
+    if (targetElement) {
+      targetElement.appendChild(currentDateElement);
+    }
   }
 
 }
