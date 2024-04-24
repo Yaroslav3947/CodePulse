@@ -26,6 +26,8 @@ export class CosmeticDetailsComponent implements OnInit, OnDestroy {
   isLikedByUser: boolean = false;
   commentDescription?: string;
 
+  isHovering = false;
+
   addLikeSubscription?: Subscription;
   getCosmeticSubscription?: Subscription;
   addCommentSubscription?: Subscription;
@@ -86,6 +88,15 @@ export class CosmeticDetailsComponent implements OnInit, OnDestroy {
   
 
     this.user = this.authService.getUser();
+  }
+
+  
+  makePriceBigger(): void {
+    this.isHovering = true;
+  }
+
+  resetPriceSize(): void {
+    this.isHovering = false;
   }
 
   IsUserLoggedIn():boolean {

@@ -1,0 +1,4 @@
+.bigger-on-hover {
+    font-size: 1.2em;
+    transition: font-size 0.3s;
+}

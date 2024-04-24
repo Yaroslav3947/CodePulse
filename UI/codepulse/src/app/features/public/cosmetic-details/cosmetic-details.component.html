@@ -14,7 +14,9 @@
 
                 </div>
 
-                <h3 class="mt-4">${{cosmetic.price}}</h3>
+                <td (mouseenter)="makePriceBigger()" (mouseleave)="resetPriceSize()">
+                    <span [class.bigger-on-hover]="isHovering">{{cosmetic.price}}</span>
+                </td>
 
                 <div class="d-flex justify-content-between mt-4">
                     <span>{{cosmetic.brand}}</span>
