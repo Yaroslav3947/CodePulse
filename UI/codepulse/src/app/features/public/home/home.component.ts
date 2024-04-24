@@ -35,13 +35,13 @@ export class HomeComponent implements OnInit {
       this.filteredCosmetics = cosmetics;
     });
 
-    this.categoryService.getAllCategories().subscribe(
-      categories => {
-        this.categories = categories;
-        this.selectedCategories = categories;
+    this.categoryService.getAllCategories().subscribe({
+      next: (response) => {
+        this.categories = response.map(category => ({ ...category, checked: true })); 
+        this.selectedCategories = [...this.categories];
+        this.filterCosmetics(); 
       }
-    )
-    
+    });
   }
 
   filterByBrand() {
@@ -55,23 +55,26 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onCategoryChange(category: Category) {
-    if (category) {
-      this.selectedCategories.push(category);
-    } else {
-      this.selectedCategories = this.selectedCategories.filter(c => c !== category);
-    }
-    this.filterCosmetics();
-  }
 
-  filterCosmetics() {
+  filterCosmetics(): void {
     if (this.selectedCategories.length === 0) {
       this.filteredCosmetics = this.cosmetics;
     } else {
       this.filteredCosmetics = this.cosmetics.filter(cosmetic =>
-        this.selectedCategories.some(categoryId => cosmetic.categories.includes(categoryId))
-      );
+        this.selectedCategories.some(category => cosmetic.categories.some(c => c.id === category.id))
+      ); 
     }
   }
+
+  onCheckboxChange(category: Category): void {
+    const index = this.selectedCategories.findIndex(c => c.id === category.id);
+    if (index !== -1) {
+      this.selectedCategories.splice(index, 1); 
+    } else {
+      this.selectedCategories.push(category); 
+    }
+    this.filterCosmetics(); 
+  }
+  
 
 }
