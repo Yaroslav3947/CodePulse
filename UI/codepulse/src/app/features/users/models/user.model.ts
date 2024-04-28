@@ -3,5 +3,5 @@ export interface User {
     email: string;
     userName: string;
     phoneNumber: string | null;
-    twoFactorEnabled: string;
+    twoFactorEnabled: boolean;
 }

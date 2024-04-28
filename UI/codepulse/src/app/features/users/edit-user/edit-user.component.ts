@@ -18,6 +18,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
   editUserSubscription?: Subscription;
   user?: User;
 
+  errorMessage: string = '';
+
     constructor(private route: ActivatedRoute,
       private usersService: UsersService,
       private router: Router) {
@@ -43,11 +45,19 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
+    if (!this.user || !this.user.email.trim() || !this.user.userName.trim()) {
+      this.errorMessage = "All fields are required.";
+      return; 
+    }
+  
+    this.errorMessage = '';
+  
+
     const updateUserRequest: UpdateUserRequest = {
-      email: this.user?.email ?? ' ',
-      username: this.user?.userName ?? ' ',
-      phoneNumber: this.user?.phoneNumber ?? ' ',
-      twoFactorEnabled: this.user?.twoFactorEnabled ?? ' ',
+      email: this.user.email,
+      username: this.user.userName,
+      phoneNumber: this.user.phoneNumber || '', 
+      twoFactorEnabled: this.user.twoFactorEnabled || false, 
     };
 
     // pass this object to service

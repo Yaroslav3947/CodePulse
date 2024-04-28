@@ -9,9 +9,8 @@
                 <div class="mt-3">
                     <ng-container *ngIf="IsUserLoggedIn()">
                         <i class="bi" [ngClass]="{'bi-hand-thumbs-up': !isLikedByUser, 
-                        'bi-hand-thumbs-up-fill': isLikedByUser}" 
-                        (click)="likeButtonClick()"></i>
-                      </ng-container>
+                        'bi-hand-thumbs-up-fill': isLikedByUser}" (click)="likeButtonClick()"></i>
+                    </ng-container>
 
                     <span> {{totalLikes}}</span> Likes
                 </div>
@@ -39,8 +38,7 @@
                             <form #form="ngForm" (ngSubmit)="onFormSubmit()">
                                 <div class="mt-3">
                                     <label class="form-label">Comment Description</label>
-                                    <input type="text" class="form-control" [(ngModel)]="commentDescription" 
-                                    name="commentDescription"/>
+                                    <input type="text" class="form-control" [(ngModel)]="commentDescription" name="commentDescription" />
                                 </div>
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-dark">Submit</button>
@@ -53,14 +51,13 @@
 
                 <div class="card w-100 mt-3">
                     <div class="card-body">
-                      <ng-container *ngIf="blogPost.comments">
-                        <span *ngFor="let comment of blogPost.comments">
-                          <h5>{{comment.userId}}</h5>
-                          <!-- <span class="small">{{ comment.dateAdded | date: timeAgo }}</span> -->
-                          <span class="small">{{ comment.dateAdded | date:'dd-MM-yyyy' }}</span>
-                          <p>{{comment.description}}</p>
-                        </span>
-                      </ng-container>
+                        <ng-container *ngIf="blogPost.comments">
+                            <div *ngFor="let comment of blogPost.comments" class="comment-container">
+                                <h5>{{comment.userId}}</h5>
+                                <span class="small">{{ comment.dateAdded | date:'dd-MM-yyyy' }}</span>
+                                <p>{{comment.description}}</p>
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
 
