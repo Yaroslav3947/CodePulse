@@ -3,6 +3,8 @@
         <div class="col-12 col-md-6 col-lg-4 mx-auto">
             <h1>Login</h1>
 
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
             <form #form="ngForm" (ngSubmit)="onFormSubmit()">
                 <div class="mt-3">
                     <label for="email" class="form-label">Email</label>
@@ -11,10 +13,9 @@
 
                 <div class="mt-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password"
-                        [(ngModel)]="model.password">
+                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="model.password">
                 </div>
-                
+
                 <p class="small mb-5 pb-lg-2"><a class="text-black-50" href="forgotpass">Forgot password?</a></p>
 
                 <div class="mt-3">
