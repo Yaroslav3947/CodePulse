@@ -12,14 +12,12 @@
 
                 <div class="mt-3">
                     <label for="urlHandle" class="form-label">Url Handle</label>
-                    <input type="text" id="urlHandle" name="urlHandle" class="form-control"
-                        [(ngModel)]="blogPost.urlHandle">
+                    <input type="text" id="urlHandle" name="urlHandle" class="form-control" [(ngModel)]="blogPost.urlHandle">
                 </div>
 
                 <div class="mt-3">
                     <label for="shortDescription" class="form-label">Short Description</label>
-                    <input type="text" id="shortDescription" name="shortDescription" class="form-control"
-                        [(ngModel)]="blogPost.shortDescription">
+                    <input type="text" id="shortDescription" name="shortDescription" class="form-control" [(ngModel)]="blogPost.shortDescription">
                 </div>
 
                 <div class="mt-3">
@@ -27,8 +25,7 @@
 
                     <div class="d-flex flex-row">
                         <div class="col-6 p-2">
-                            <textarea id="content" name="content" class="from-control"
-                                style="height: 350px; width: 550px;max-height: 350px; " [(ngModel)]="blogPost.content">
+                            <textarea id="content" name="content" class="from-control" style="height: 350px; width: 550px;max-height: 350px; " [(ngModel)]="blogPost.content">
                             </textarea>
                         </div>
 
@@ -48,15 +45,12 @@
                         <img [src]="blogPost.featuredImageUrl" height="100" class="my-2">
                     </div>
 
-                    <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control"
-                        [(ngModel)]="blogPost.featuredImageUrl">
+                    <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control" [(ngModel)]="blogPost.featuredImageUrl">
                 </div>
 
                 <div class="mt-3">
                     <label for="publishedDate" class="form-label">Published Date</label>
-                    <input type="date" id="publishedDate" name="publishedDate" class="form-control"
-                        value="{{blogPost.publishedDate}}" [ngModel]="blogPost.publishedDate | date: 'yyy-MM-dd'"
-                        (ngModelChange)="blogPost.publishedDate = $event">
+                    <input type="date" id="publishedDate" name="publishedDate" class="form-control" value="{{blogPost.publishedDate}}" [ngModel]="blogPost.publishedDate | date: 'yyy-MM-dd'" (ngModelChange)="blogPost.publishedDate = $event">
                 </div>
 
                 <div class="mt-3">
@@ -65,8 +59,7 @@
                 </div>
 
                 <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="blogPost.isVisible"
-                        name="isVisible">
+                    <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="blogPost.isVisible" name="isVisible">
                     <label class="form-check-label" for="isVisible">
                         Is Visible?
                     </label>
@@ -75,12 +68,13 @@
                 <div class="mt-3">
                     <label for="categories" class="form-label">Categories</label>
                     <ng-container *ngIf="categories$ | async as categories">
-                        <select class="form-control" [(ngModel)]="selectedCategories" name="categories" id="categories"
-                            multiple>
+                        <select class="form-control" [(ngModel)]="selectedCategories" name="categories" id="categories" multiple>
                             <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
                         </select>
                     </ng-container>
                 </div>
+
+                <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
 
                 <div class="mt-3 d-flex">
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -92,7 +86,6 @@
 </div>
 
 <div class="images-container-model" [ngClass]="{'d-block': isImageSelectorVisible, 'd-none': !isImageSelectorVisible}">
-    <button type="button" class="btn btn-light" style="position: fixed; top: 10px; right: 10px"
-        (click)="closeImageSelector()">X</button>
+    <button type="button" class="btn btn-light" style="position: fixed; top: 10px; right: 10px" (click)="closeImageSelector()">X</button>
     <app-image-selector></app-image-selector>
 </div>

@@ -18,6 +18,8 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
 
   isImageSelectorVisible: boolean = false;
 
+  errorMessage: string = '';
+
   imageSelectorSubscription?: Subscription;
 
 
@@ -39,6 +41,12 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
+    if (!this.model.title.trim() && !this.model.shortDescription.trim() && !this.model.content.trim() &&
+      !this.model.featuredImageUrl.trim() && !this.model.urlHandle.trim() && !this.model.author.trim() &&
+      this.model.categories.length === 0) {
+      this.errorMessage = "All fields are required.";
+      return; 
+    }
     console.log(this.model);
     this.blogPostService.createBlogPost(this.model)
       .subscribe({
@@ -46,6 +54,8 @@ export class AddBlogpostComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('/admin/blogposts');
         }
       });
+
+      
   }
 
 

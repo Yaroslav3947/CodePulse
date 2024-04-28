@@ -15,16 +15,14 @@
 
             <div class="mt-3">
                 <label for="shortDescription" class="form-label">Short Description</label>
-                <input type="text" id="shortDescription" name="shortDescription" class="form-control"
-                    [(ngModel)]="model.shortDescription">
+                <input type="text" id="shortDescription" name="shortDescription" class="form-control" [(ngModel)]="model.shortDescription">
             </div>
 
             <div class="mt-3">
                 <label for="content" class="form-label">Content</label>
                 <div class="d-flex flex row">
                     <div class="col-6 p-2">
-                        <textarea id="content" name="content" class="from-control"
-                            style="height: 350px; width: 550px;max-height: 350px;" [(ngModel)]="model.content">
+                        <textarea id="content" name="content" class="from-control" style="height: 350px; width: 550px;max-height: 350px;" [(ngModel)]="model.content">
                     </textarea>
                     </div>
 
@@ -42,15 +40,12 @@
                     <!-- <img [src]="model.featuredImageUrl" height="100" class="my-2"> -->
                 </div>
 
-                <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control"
-                    [(ngModel)]="model.featuredImageUrl">
+                <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control" [(ngModel)]="model.featuredImageUrl">
             </div>
 
             <div class="mt-3">
                 <label for="publishedDate" class="form-label">Published Date</label>
-                <input type="date" id="publishedDate" name="publishedDate" class="form-control"
-                    value="{{model.publishedDate}}" [ngModel]="model.publishedDate | date: 'yyy-MM-dd'"
-                    (ngModelChange)="model.publishedDate = $event">
+                <input type="date" id="publishedDate" name="publishedDate" class="form-control" value="{{model.publishedDate}}" [ngModel]="model.publishedDate | date: 'yyy-MM-dd'" (ngModelChange)="model.publishedDate = $event">
             </div>
 
             <div class="mt-3">
@@ -59,8 +54,7 @@
             </div>
 
             <div class="form-check mt-3">
-                <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="model.isVisible"
-                    name="isVisible">
+                <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="model.isVisible" name="isVisible">
                 <label class="form-check-label" for="isVisible">
                     Is Visible?
                 </label>
@@ -69,13 +63,14 @@
             <div class="mt-3">
                 <label for="categories" class="form-label">Categories</label>
                 <ng-container *ngIf="categories$ | async as categories">
-                    <select class="form-control" [(ngModel)]="model.categories" name="categories" id="categories"
-                        multiple>
+                    <select class="form-control" [(ngModel)]="model.categories" name="categories" id="categories" multiple>
                         <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
                     </select>
                 </ng-container>
 
             </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
 
             <div class="mt-3">
                 <button type="submit" class="btn btn-primary">Save</button>
@@ -88,7 +83,6 @@
 </div>
 
 <div class="images-container-model" [ngClass]="{'d-block': isImageSelectorVisible, 'd-none': !isImageSelectorVisible}">
-    <button type="button" class="btn btn-light" style="position: fixed; top: 10px; right: 10px"
-        (click)="closeImageSelector()">X</button>
+    <button type="button" class="btn btn-light" style="position: fixed; top: 10px; right: 10px" (click)="closeImageSelector()">X</button>
     <app-image-selector></app-image-selector>
 </div>

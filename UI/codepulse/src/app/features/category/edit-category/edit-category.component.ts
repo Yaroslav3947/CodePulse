@@ -14,6 +14,8 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
 
   id: string | null = null;
 
+  errorMessage: string = '';
+
   paramsSubscription?: Subscription;
   editCategorySubscription?: Subscription;
   category?: Category;
@@ -43,6 +45,12 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
+    if (!this.category?.name.trim() || !this.category?.urlHandle.trim()) {
+      this.errorMessage = "All fields are required.";
+      return; 
+    }
+  
+    this.errorMessage = '';
     const updateCategoryRequest: UpdateCategoryRequest = {
       name: this.category?.name ?? ' ',
       urlHandle: this.category?.urlHandle ?? ' '

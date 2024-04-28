@@ -13,6 +13,7 @@ export class AddCategoryComponent implements OnDestroy {
 
   model: AddCategoryRequest;
   private addCategorySubscription?: Subscription;
+  errorMessage: string = '';
 
   constructor(private categoryService: CategoryService,
     private router: Router) {
@@ -25,6 +26,11 @@ export class AddCategoryComponent implements OnDestroy {
     this.addCategorySubscription?.unsubscribe();
   }
   onFormSubmit() {
+    if (!this.model.name.trim() && !this.model.urlHandle.trim()) {
+      this.errorMessage = "All fields are required.";
+      return; 
+    }
+    
     this.addCategorySubscription = this.categoryService.addCategory(this.model)
     .subscribe({
       next: (respose) => {

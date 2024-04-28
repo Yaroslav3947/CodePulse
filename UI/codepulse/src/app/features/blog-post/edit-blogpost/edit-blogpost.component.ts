@@ -27,6 +27,8 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   deleteBlogPostSubscription?: Subscription;
   imageSelectSubscription?: Subscription;
 
+  errorMessage: string = '';
+
   constructor(private route: ActivatedRoute,
     private blogpostService: BlogPostService,
     private categoryService: CategoryService,
@@ -76,6 +78,16 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void {
+  if (!this.blogPost?.title.trim() || !this.blogPost?.shortDescription.trim() || 
+        !this.blogPost?.content.trim() || !this.blogPost?.featuredImageUrl.trim() ||
+        !this.blogPost?.urlHandle.trim() || !this.blogPost?.author.trim() ||
+        !this.blogPost?.publishedDate || !this.selectedCategories?.length) {
+      this.errorMessage = "All fields are required.";
+      return; 
+    }
+
+    this.errorMessage = '';
+
     // Conver model to Request Object
     if (this.blogPost && this.id) {
       const updateBlogPost: UpdateBlogPost = {
