@@ -82,7 +82,7 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
         !this.blogPost?.content.trim() || !this.blogPost?.featuredImageUrl.trim() ||
         !this.blogPost?.urlHandle.trim() || !this.blogPost?.author.trim() ||
         !this.blogPost?.publishedDate || !this.selectedCategories?.length) {
-      this.errorMessage = "All fields are required.";
+      this.errorMessage = "Всі поля повинні бути заповнені";
       return; 
     }
 

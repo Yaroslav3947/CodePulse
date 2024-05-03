@@ -1,32 +1,32 @@
 <div class="container">
     <div class="mt-5">
         <div class="col-12 col-md-6 col-lg-4 mx-auto">
-            <h1>Register</h1>
+            <h1>Реєстрація</h1>
 
             <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
             <form #form="ngForm" (ngSubmit)="onFormSubmit()">
                 <div class="mt-3">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">Логін</label>
                     <input type="text" class="form-control" id="email" name="email" [(ngModel)]="model.email">
                 </div>
 
                 <div class="mt-3">
-                    <label for="password" class="form-label">Password</label>
+                    <label for="password" class="form-label">Пароль</label>
                     <input type="password" class="form-control" id="password" name="password" [(ngModel)]="model.password">
                 </div>
 
                 <div class="mt-3">
-                    <label for="repeatPassword" class="form-label">Repeat password</label>
+                    <label for="repeatPassword" class="form-label">Повторіть Пароль</label>
                     <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" [(ngModel)]="model.repeatPassword">
                 </div>
 
 
                 <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary">Реєстрація</button>
                 </div>
                 <div class="mt-3">
-                    <p class="mb-0">Already have an account? <a href="/login" class="text-black-50 fw-bold">Login</a>
+                    <p class="mb-0">Вже зареєстровані? <a href="/login" class="text-black-50 fw-bold">Вхід</a>
                     </p>
                 </div>
             </form>

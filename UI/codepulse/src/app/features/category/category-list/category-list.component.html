@@ -1,8 +1,8 @@
 <div class="container">
-    <h1 class="mt-3">Category List</h1>
+    <h1 class="mt-3">Категорії</h1>
 
     <div class="d-flex justify-content-end mt-3">
-        <a [routerLink]="['/admin/categories/add']" class="btn bnt-primary">Add Category</a>
+        <a [routerLink]="['/admin/categories/add']" class="btn bnt-primary">Додати категорію</a>
     </div>
 
     <ng-container *ngIf="categories$ | async as categories">
@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Name</th>
+                    <th>Назва</th>
                     <th>Url Handle</th>
                     <th> </th>
                 </tr>
@@ -20,8 +20,8 @@
                     <td>{{category.id}}</td>
                     <td>{{category.name}}</td>
                     <td>{{category.urlHandle}}</td>
-                    <td> 
-                        <a class="btn btn-light" [routerLink]="['/admin/categories', category.id]">Edit</a>
+                    <td>
+                        <a class="btn btn-light" [routerLink]="['/admin/categories', category.id]">Редагувати</a>
                     </td>
                 </tr>
             </tbody>

@@ -2,14 +2,14 @@
     <div class="mt-5">
 
         <div class="form-group mb-3">
-            <label for="brandSearch">Search by Title:</label>
+            <label for="brandSearch">Пошук за назвою:</label>
             <input type="text" class="form-control" id="nameSearch" [(ngModel)]="searchName" (input)="filterByName()">
         </div>
 
         <div class="row align-items-strech">
 
             <ng-container *ngIf="filteredBlogs.length===0 ">
-                <div class="alert alert-danger ">No blogs found.</div>
+                <div class="alert alert-danger ">Не знайдено обговорень</div>
             </ng-container>
 
             <ng-container *ngIf="blogs$ | async as blogs">
@@ -25,7 +25,7 @@
                             </p>
                             <span class="d-flex align-items-end" style="flex: 1">
                                 <a [routerLink]="['/blog', blog.urlHandle]" class="btn btn-primary">
-                                    Read More
+                                    Читати більше
                                 </a>
                             </span>
                         </div>

@@ -26,12 +26,12 @@ export class RegisterComponent {
 
   onFormSubmit(): void {
     if (this.model.password !== this.model.repeatPassword) {
-      this.errorMessage = "Passwords do not match";
+      this.errorMessage = "Паролі не збігаються";
       return; 
     }
 
     if (!this.model.email.trim() || !this.model.password.trim() || !this.model.repeatPassword.trim()) {
-      this.errorMessage = "All fields are required";
+      this.errorMessage = "Всі поля вимагаються";
       return; 
     }
   
@@ -48,7 +48,7 @@ export class RegisterComponent {
           if (err.error && err.error.errors && Array.isArray(err.error.errors[''])) {
             this.errorMessage = err.error.errors[''].join('; ');
           } else {
-            this.errorMessage = "An error occurred during registration.";
+            this.errorMessage = "Помилка виникла під час реєстрація.";
           }
         }
       });

@@ -24,7 +24,7 @@ export class LoginComponent {
 
   onFormSubmit(): void {
     if (!this.model.email.trim() || !this.model.password.trim()) {
-      this.errorMessage = "Email and password are required.";
+      this.errorMessage = "Логін та пароль необхідні";
       return;
     }
 

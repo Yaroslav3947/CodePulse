@@ -12,7 +12,7 @@
                         'bi-hand-thumbs-up-fill': isLikedByUser}" (click)="likeButtonClick()"></i>
                     </ng-container>
 
-                    <span> {{totalLikes}}</span> Likes
+                    <span> {{totalLikes}}</span> Вподобань
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
@@ -32,16 +32,16 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h5>Comments</h5>
+                        <h5>Коментарі</h5>
 
                         <ng-container *ngIf="IsUserLoggedIn()">
                             <form #form="ngForm" (ngSubmit)="onFormSubmit()">
                                 <div class="mt-3">
-                                    <label class="form-label">Comment Description</label>
+                                    <label class="form-label">Опис Коментаря</label>
                                     <input type="text" class="form-control" [(ngModel)]="commentDescription" name="commentDescription" />
                                 </div>
                                 <div class="mt-2">
-                                    <button type="submit" class="btn btn-dark">Submit</button>
+                                    <button type="submit" class="btn btn-dark">Коментувати</button>
                                 </div>
                             </form>
                         </ng-container>
@@ -53,7 +53,7 @@
                     <div class="card-body">
                         <ng-container *ngIf="blogPost.comments">
                             <div *ngFor="let comment of blogPost.comments" class="comment-container">
-                                <h5>{{comment.userId}}</h5>
+                                <!-- <h5>{{comment.userId}}</h5> -->
                                 <span class="small">{{ comment.dateAdded | date:'dd-MM-yyyy' }}</span>
                                 <p>{{comment.description}}</p>
                             </div>
@@ -69,7 +69,7 @@
 <ng-template #loader>
     <div class="text-center mt-5">
         <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
+            <span class="visually-hidden">Завантаження...</span>
         </div>
     </div>
 </ng-template>

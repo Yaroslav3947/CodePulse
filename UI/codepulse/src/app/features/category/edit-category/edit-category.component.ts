@@ -46,7 +46,7 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
 
   onFormSubmit(): void {
     if (!this.category?.name.trim() || !this.category?.urlHandle.trim()) {
-      this.errorMessage = "All fields are required.";
+      this.errorMessage = "Всі поля вимагаються.";
       return; 
     }
   
