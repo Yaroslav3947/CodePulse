@@ -1,4 +1,5 @@
 ﻿using CodePulse.API.Models.Domain;
+using CodePulse.API.Models.Domain.CodePulse.API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodePulse.API.Data {
@@ -8,6 +9,7 @@ namespace CodePulse.API.Data {
 
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<BlogImage> BlogImages { get; set; }
         public DbSet<BlogPostLike> BlogPostLike { get; set; }
