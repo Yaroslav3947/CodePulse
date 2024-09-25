@@ -12,10 +12,10 @@ namespace CodePulse.API.Controllers {
     [ApiController]
     public class UsersController : ControllerBase {
         private readonly IUsersRepository _usersRepository;
-        private readonly ICosmeticRepository _cosmeticRepository;
+        private readonly IProductRepository _cosmeticRepository;
 
         public UsersController(IUsersRepository usersRepository,
-            ICosmeticRepository cosmeticRepository) {
+            IProductRepository cosmeticRepository) {
             this._usersRepository = usersRepository;
             this._cosmeticRepository = cosmeticRepository;
         }
@@ -42,32 +42,31 @@ namespace CodePulse.API.Controllers {
         }
 
         // GET: {apibaseurl}/api/
-        [HttpGet("cosmetics/{id}")]
+        [HttpGet("products/{id}")]
         //[Authorize(Roles = "Writer")]
-        public async Task<IActionResult> GetCosmeticsIDInBasket([FromRoute] Guid id) {
-            var response = await _usersRepository.CosmeticsIDInBasket(id);
+        public async Task<IActionResult> GetProductsIDInBasket([FromRoute] Guid id) {
+            var response = await _usersRepository.ProductsIDInBasket(id);
 
             return Ok(response);
         }
 
-        [HttpGet("cosmetics/full/{id}")]
+        [HttpGet("products/full/{id}")]
         //[Authorize(Roles = "Writer")]
-        public async Task<IActionResult> GetCosmeticsInBasket([FromRoute] Guid id) {
-            var cosmeticsID = await _usersRepository.CosmeticsIDInBasket(id);
+        public async Task<IActionResult> GetProductsInBasket([FromRoute] Guid id) {
+            var cosmeticsID = await _usersRepository.ProductsIDInBasket(id);
 
-            var response = new List<CosmeticDto>();
+            var response = new List<ProductDto>();
 
             foreach(var cosmeticID in cosmeticsID) {
 
                 var cosmetic = await _cosmeticRepository.GetByIdAsync(cosmeticID);
 
-                response.Add(new CosmeticDto {
+                response.Add(new ProductDto {
                     Id = cosmetic.Id,
                     Name = cosmetic.Name,
-                    Brand = cosmetic.Brand,
                     Price = cosmetic.Price,
+                    Stock = cosmetic.Stock,
                     Description = cosmetic.Description,
-                    PublishedDate = cosmetic.PublishedDate,
                     UrlHandle = cosmetic.UrlHandle,
                     FeaturedImageUrl = cosmetic.FeaturedImageUrl,
                     Categories = cosmetic.Categories.Select(x => new CategoryDto {

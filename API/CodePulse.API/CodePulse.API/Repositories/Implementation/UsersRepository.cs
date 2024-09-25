@@ -58,7 +58,7 @@ namespace CodePulse.API.Repositories.Implementation {
             return await _authDbContext.Users.FirstOrDefaultAsync(x => x.Id == id.ToString());
         }
 
-        public async Task<IEnumerable<Guid>> CosmeticsIDInBasket(Guid id) {
+        public async Task<IEnumerable<Guid>> ProductsIDInBasket(Guid id) {
             return await _dbContext.CosmeticLikes
                 .Where(x => x.UserId == id)
                 .Select(x => x.CosmeticId)

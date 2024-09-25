@@ -8,6 +8,6 @@ namespace CodePulse.API.Repositories.Interface {
         Task<IdentityUser?> UpdateAsync(IdentityUser user);
         Task<IdentityUser?> DeleteAsync(Guid id);
 
-        Task<IEnumerable<Guid>> CosmeticsIDInBasket(Guid id);
+        Task<IEnumerable<Guid>> ProductsIDInBasket(Guid id);
     }
 }
