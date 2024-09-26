@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { UpdateUserRequest } from '../models/update-user-request';
-import { Cosmetic } from '../../blog-post/models/cosmetic.model';
+import { Product } from '../../blog-post/models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,11 +31,11 @@ export class UsersService {
     return this.http.delete<User>(`/api/users/${id}?addAuth=true`);
   }
 
-  getCosmeticsIDInBasket(id: string): Observable<string[]> {
-    return this.http.get<string[]>(`/api/users/cosmetics/${id}`);
+  getProductsIDInBasket(id: string): Observable<string[]> {
+    return this.http.get<string[]>(`/api/users/products/${id}`);
   }
 
-  getCosmeticsInBasket(id: string): Observable<Cosmetic[]> {
-    return this.http.get<Cosmetic[]>(`/api/users/cosmetics/full/${id}`);
+  getProductsInBasket(id: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`/api/users/products/full/${id}`);
   }
 }

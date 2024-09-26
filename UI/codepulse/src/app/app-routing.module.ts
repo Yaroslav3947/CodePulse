@@ -3,11 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoryListComponent } from './features/category/category-list/category-list.component';
 import { AddCategoryComponent } from './features/category/add-category/add-category.component';
 import { EditCategoryComponent } from './features/category/edit-category/edit-category.component';
-import { CosmeticListComponent } from './features/blog-post/cosmetic-list/cosmetic-list.component';
-import { AddCosmeticComponent } from './features/blog-post/add-cosmetic/add-cosmetic.component';
-import { EditCosmeticComponent } from './features/blog-post/edit-cosmetic/edit-cosmetic.component';
+import { ProductListComponent } from './features/blog-post/product-list/product-list.component';
+import { AddProductComponent } from './features/blog-post/add-product/add-product.component';
+import { EditProductComponent } from './features/blog-post/edit-product/edit-product.component';
 import { HomeComponent } from './features/public/home/home.component';
-import { CosmeticDetailsComponent } from './features/public/cosmetic-details/cosmetic-details.component';
+import { ProductDetailsComponent } from './features/public/product-details/product-details.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { authGuard } from './features/auth/guards/auth.guard';
 import { RegisterComponent } from './features/auth/register/register/register.component';
@@ -30,8 +30,8 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path: 'cosmetic/:url',
-    component: CosmeticDetailsComponent
+    path: 'product/:url',
+    component: ProductDetailsComponent
   },
   {
     path: 'basket',
@@ -57,18 +57,18 @@ const routes: Routes = [
     canActivate: [authGuard] 
   },
   {
-    path: 'admin/cosmetics',
-    component: CosmeticListComponent,
+    path: 'admin/products',
+    component: ProductListComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'admin/cosmetics/add',
-    component: AddCosmeticComponent,
+    path: 'admin/products/add',
+    component: AddProductComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'admin/cosmetics/:id',
-    component: EditCosmeticComponent,
+    path: 'admin/products/:id',
+    component: EditProductComponent,
     canActivate: [authGuard]
   },
   {

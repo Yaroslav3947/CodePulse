@@ -1,23 +1,23 @@
 <div class="container">
-    <h1 class="mt-3">Add Cosmetic</h1>
+    <h1 class="mt-3">Edit Product</h1>
 
-    <ng-container *ngIf="cosmetic">
+    <ng-container *ngIf="product">
 
         <form #form="ngForm" (ngSubmit)="onFormSubmit()">
             <div class="mt-2 mb-5">
                 <div class="mt-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" [(ngModel)]="cosmetic.name">
+                    <input type="text" id="name" name="name" class="form-control" [(ngModel)]="product.name">
                 </div>
 
                 <div class="mt-3">
                     <label for="urlHandle" class="form-label">Url Handle</label>
-                    <input type="text" id="urlHandle" name="urlHandle" class="form-control" [(ngModel)]="cosmetic.urlHandle">
+                    <input type="text" id="urlHandle" name="urlHandle" class="form-control" [(ngModel)]="product.urlHandle">
                 </div>
 
                 <div class="mt-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="number" id="price" name="price" class="form-control" [(ngModel)]="cosmetic.price">
+                    <input type="number" id="price" name="price" class="form-control" [(ngModel)]="product.price">
                 </div>
 
                 <div class="mt-3">
@@ -25,12 +25,12 @@
 
                     <div class="d-flex flex-row">
                         <div class="col-6 p-2">
-                            <textarea id="description" name="description" class="from-control" style="height: 350px; width: 550px;max-height: 350px; " [(ngModel)]="cosmetic.description">
+                            <textarea id="description" name="description" class="from-control" style="height: 350px; width: 550px;max-height: 350px; " [(ngModel)]="product.description">
                             </textarea>
                         </div>
 
                         <!-- <div class="col-6 p-2" style="max-height: 350px; overflow-y: scroll;">
-                            <markdown [data]="cosmetic.description"></markdown>
+                            <markdown [data]="product.description"></markdown>
                         </div> -->
                     </div>
                 </div>
@@ -40,22 +40,22 @@
                         <button type="button" class="btn btn-light" (click)="openImageSelector()">Select Image</button>
                     </label>
 
-                    <ng-container *ngIf="cosmetic.featuredImageUrl !== ''"></ng-container>
+                    <ng-container *ngIf="product.featuredImageUrl !== ''"></ng-container>
                     <div>
-                        <img [src]="cosmetic.featuredImageUrl" height="100" class="my-2">
+                        <img [src]="product.featuredImageUrl" height="100" class="my-2">
                     </div>
 
-                    <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control" [(ngModel)]="cosmetic.featuredImageUrl">
+                    <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control" [(ngModel)]="product.featuredImageUrl">
                 </div>
 
                 <div class="mt-3">
                     <label for="publishedDate" class="form-label">Published Date</label>
-                    <input type="date" id="publishedDate" name="publishedDate" class="form-control" value="{{cosmetic.publishedDate}}" [ngModel]="cosmetic.publishedDate | date: 'yyy-MM-dd'" (ngModelChange)="cosmetic.publishedDate = $event">
+                    <input type="date" id="publishedDate" name="publishedDate" class="form-control" value="{{product.publishedDate}}" [ngModel]="product.publishedDate | date: 'yyy-MM-dd'" (ngModelChange)="product.publishedDate = $event">
                 </div>
 
                 <div class="mt-3">
-                    <label for="brand" class="form-label">Brand</label>
-                    <input type="text" id="brand" name="brand" class="form-control" [(ngModel)]="cosmetic.brand">
+                    <label for="stock" class="form-label">stock</label>
+                    <input type="text" id="stock" name="stock" class="form-control" [(ngModel)]="product.stock">
                 </div>
 
                 <div class="mt-3">

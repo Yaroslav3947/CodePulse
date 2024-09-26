@@ -1,9 +1,9 @@
 import { Category } from "../../category/models/category.model";
 
-export interface Cosmetic {
+export interface Product {
     id: string;
     name: string;
-    brand: string;
+    stock: number
     price: number;
     description: string;
     featuredImageUrl: string;

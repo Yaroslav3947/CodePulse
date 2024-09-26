@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { UsersService } from 'src/app/features/users/services/users.service';
-import { Cosmetic } from '../../models/cosmetic.model';
+import { Product } from '../../models/product.model';
 import { AuthService } from 'src/app/features/auth/services/auth.service';
 import { UserModel } from 'src/app/features/auth/models/user.model';
 import { BasketService } from 'src/app/features/public/services/basket.service';
@@ -15,12 +15,12 @@ import { BasketLike } from 'src/app/features/public/models/add-like.model';
 })
 export class BasketComponent implements OnInit, OnDestroy {
 
-  cosmetics$?: Observable<Cosmetic[]>;
+  products$?: Observable<Product[]>;
 
-  cosmetics?: Cosmetic[];
+  products?: Product[];
 
   paramsSubscription?: Subscription;
-  cosmeticsSubscription?: Subscription
+  productsSubscription?: Subscription
   user?: UserModel;
 
     constructor(private route: ActivatedRoute,
@@ -35,31 +35,31 @@ export class BasketComponent implements OnInit, OnDestroy {
     
     this.user = this.authService.getUser();
 
-    this.cosmetics$ = this.usersService.getCosmeticsInBasket(this.user!.userId);
+    this.products$ = this.usersService.getProductsInBasket(this.user!.userId);
 
-    this.cosmeticsSubscription = this.usersService.getCosmeticsInBasket(this.user!.userId)
+    this.productsSubscription = this.usersService.getProductsInBasket(this.user!.userId)
       .subscribe({
         next: (response) => {
-          this.cosmetics = response;
+          this.products = response;
         }
       });
   }
 
   calculateTotalPrice(): number {
-    if(this.cosmetics) {
-      return this.cosmetics.reduce((total, current) => total + current.price, 0);
+    if(this.products) {
+      return this.products.reduce((total, current) => total + current.price, 0);
     }
 
     return 0;
   }
 
-  removeCosmetic(cosmetic: Cosmetic): void {
-    if(this.user && this.cosmetics) {
+  removeProduct(product: Product): void {
+    if(this.user && this.products) {
 
     
     const basketLike: BasketLike = {
       userId: this.user.userId ?? ' ',
-      cosmeticId: cosmetic.id ?? ' '
+      productId: product.id ?? ' '
     }
     this.basketService.removeFromBasket(basketLike)
       .subscribe({

@@ -8,13 +8,13 @@ import { AddCategoryComponent } from './features/category/add-category/add-categ
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { EditCategoryComponent } from './features/category/edit-category/edit-category.component';
-import { CosmeticListComponent } from './features/blog-post/cosmetic-list/cosmetic-list.component';
-import { AddCosmeticComponent } from './features/blog-post/add-cosmetic/add-cosmetic.component';
+import { ProductListComponent } from './features/blog-post/product-list/product-list.component';
+import { AddProductComponent } from './features/blog-post/add-product/add-product.component';
 import { MarkdownModule } from 'ngx-markdown';
-import { EditCosmeticComponent } from './features/blog-post/edit-cosmetic/edit-cosmetic.component';
+import { EditProductComponent } from './features/blog-post/edit-product/edit-product.component';
 import { ImageSelectorComponent } from './shared/components/image-selector/image-selector.component';
 import { HomeComponent } from './features/public/home/home.component';
-import { CosmeticDetailsComponent } from './features/public/cosmetic-details/cosmetic-details.component';
+import { ProductDetailsComponent } from './features/public/product-details/product-details.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RegisterComponent } from './features/auth/register/register/register.component';
@@ -29,12 +29,12 @@ import { ReceiptComponent } from './features/blog-post/receipt/receipt/receipt.c
     CategoryListComponent,
     AddCategoryComponent,
     EditCategoryComponent,
-    CosmeticListComponent,
-    AddCosmeticComponent,
-    EditCosmeticComponent,
+    ProductListComponent,
+    AddProductComponent,
+    EditProductComponent,
     ImageSelectorComponent,
     HomeComponent,
-    CosmeticDetailsComponent,
+    ProductDetailsComponent,
     LoginComponent,
     RegisterComponent,
     UsersListComponent,

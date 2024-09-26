@@ -1,27 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CosmeticService } from '../../blog-post/services/cosmetic.service';
+import { ProductService } from '../../blog-post/services/product.service';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserModel } from '../../auth/models/user.model';
 import { BasketLike as BasketLike } from '../models/add-like.model';
 import { BasketService } from '../services/basket.service';
-import { Cosmetic } from '../../blog-post/models/cosmetic.model';
+import { Product } from '../../blog-post/models/product.model';
 import { UsersService } from '../../users/services/users.service';
 
 @Component({
-  selector: 'app-cosmetic-details',
+  selector: 'app-product-details',
   // standalone: true,
   // imports: [],
-  templateUrl: './cosmetic-details.component.html',
-  styleUrls: ['./cosmetic-details.component.css'],
+  templateUrl: './product-details.component.html',
+  styleUrls: ['./product-details.component.css'],
 })
-export class CosmeticDetailsComponent implements OnInit, OnDestroy {
+export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   url: string | null = null;
-  cosmetic$?: Observable<Cosmetic>;
+  product$?: Observable<Product>;
 
-  cosmetic?: Cosmetic;
+  product?: Product;
   user?: UserModel;
   isLikedByUser: boolean = false;
   commentDescription?: string;
@@ -29,13 +29,13 @@ export class CosmeticDetailsComponent implements OnInit, OnDestroy {
   isHovering = false;
 
   addLikeSubscription?: Subscription;
-  getCosmeticSubscription?: Subscription;
+  getProductSubscription?: Subscription;
   addCommentSubscription?: Subscription;
   removeLikeSubscription?: Subscription;
-  getCosmeticsInBaskerSubscription?: Subscription;
+  getProductsInBasketSubscription?: Subscription;
 
     constructor(private route: ActivatedRoute,
-      private cosmeticService: CosmeticService,
+      private productService: ProductService,
       private authService: AuthService,
       private router: Router,
       private basketService: BasketService,
@@ -44,10 +44,10 @@ export class CosmeticDetailsComponent implements OnInit, OnDestroy {
     }
   ngOnDestroy(): void {
     this.addLikeSubscription?.unsubscribe();
-    this.getCosmeticSubscription?.unsubscribe();
+    this.getProductSubscription?.unsubscribe();
     this.addCommentSubscription?.unsubscribe();
     this.removeLikeSubscription?.unsubscribe();
-    this.getCosmeticsInBaskerSubscription?.unsubscribe();
+    this.getProductsInBasketSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -58,18 +58,18 @@ export class CosmeticDetailsComponent implements OnInit, OnDestroy {
         
 
         if (this.url) {
-          this.cosmetic$ = this.cosmeticService.getCosmeticByUrlHandle(this.url);
+          this.product$ = this.productService.getProductByUrlHandle(this.url);
   
           // Get Cosmetic ID
-          this.getCosmeticSubscription = this.cosmeticService.getCosmeticByUrlHandle(this.url).subscribe({
+          this.getProductSubscription = this.productService.getProductByUrlHandle(this.url).subscribe({
             next: (response) => {
-              this.cosmetic = response;
+              this.product = response;
               
 
-              if (this.user && this.cosmetic) {
-                this.getCosmeticsInBaskerSubscription = this.usersService.getCosmeticsIDInBasket(this.user.userId).subscribe({
+              if (this.user && this.product) {
+                this.getProductsInBasketSubscription = this.usersService.getProductsIDInBasket(this.user.userId).subscribe({
                   next: (response) => {
-                    this.isLikedByUser = response.includes(this.cosmetic!.id);
+                    this.isLikedByUser = response.includes(this.product!.id);
                   }
                 });
               }
@@ -104,10 +104,10 @@ export class CosmeticDetailsComponent implements OnInit, OnDestroy {
   }
 
   likeButtonClick(): void {
-    if (this.user && this.cosmetic) {
+    if (this.user && this.product) {
       const likeCosmeticRequest: BasketLike = {
         userId: this.user.userId,
-        cosmeticId: this.cosmetic.id
+        productId: this.product.id
       };
 
     if(!this.isLikedByUser) {

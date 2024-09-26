@@ -1,10 +1,11 @@
-<ng-container *ngIf="cosmetic$ | async as cosmetic;else loader">
+<ng-container *ngIf="product$ | async as product;else loader">
     <div class="container">
         <div class="py-5">
             <div class="col-12 col-md-8 col-lg-6 mx-auto">
-                <img [src]="cosmetic.featuredImageUrl" [alt]="cosmetic.name" [name]="cosmetic.name" class="img-fluid">
+                <img [src]="product.featuredImageUrl" [alt]="product.name" [name]="product.name" class="img-fluid">
 
-                <h1 class="mt-4">{{cosmetic.name}}</h1>
+                <h1 class="mt-4">{{product.name}}</h1>
+                <h1 class="mt-4">{{product.stock}}</h1>
 
                 <div class="mt-3">
                     <ng-container *ngIf="IsUserLoggedIn()">
@@ -15,22 +16,22 @@
                 </div>
 
                 <td (mouseenter)="makePriceBigger()" (mouseleave)="resetPriceSize()">
-                    <span [class.bigger-on-hover]="isHovering">{{cosmetic.price}}</span>
+                    <span [class.bigger-on-hover]="isHovering">{{product.price}}</span>
                 </td>
 
                 <div class="d-flex justify-content-between mt-4">
-                    <span>{{cosmetic.brand}}</span>
-                    <span>{{cosmetic.publishedDate | date:'dd-MM-yyyy'}}</span>
+                    <span>{{product.stock}}</span>
+                    <span>{{product.publishedDate | date:'dd-MM-yyyy'}}</span>
                 </div>
 
-                <div *ngIf="cosmetic.categories" class="mt-4">
-                    <span class="badge bg-secondary me-2" *ngFor="let category of cosmetic.categories">
+                <div *ngIf="product.categories" class="mt-4">
+                    <span class="badge bg-secondary me-2" *ngFor="let category of product.categories">
                         {{category.name}}
                     </span>
                 </div>
 
                 <div class="mt-4 blog-content">
-                    <markdown [data]="cosmetic.description"></markdown>
+                    <markdown [data]="product.description"></markdown>
                 </div>
             </div>
         </div>

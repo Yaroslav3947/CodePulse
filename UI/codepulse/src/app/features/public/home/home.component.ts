@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CosmeticService } from '../../blog-post/services/cosmetic.service';
+import { ProductService } from '../../blog-post/services/product.service';
 import { Observable } from 'rxjs';
-import { Cosmetic } from '../../blog-post/models/cosmetic.model';
+import { Product } from '../../blog-post/models/product.model';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
 
@@ -14,54 +14,54 @@ import { Category } from '../../category/models/category.model';
 
 export class HomeComponent implements OnInit {
 
-  cosmetics$?: Observable<Cosmetic[]>;
-  filteredCosmetics: Cosmetic[] = [];
+  products$?: Observable<Product[]>;
+  filteredProducts: Product[] = [];
 
-  cosmetics: Cosmetic[] = [];
-  searchBrand: string = '';
+  products: Product[] = [];
+  searchStock: string = '';
 
   categories: Category[] = [];
   selectedCategories: Category[] = [];
   
-  constructor(private cosmeticService: CosmeticService,
+  constructor(private productService: ProductService,
     private categoryService: CategoryService) {
   }
 
   ngOnInit():void {
-     this.cosmetics$ = this.cosmeticService.getAllCosmetics();
-     this.cosmeticService.getAllCosmetics().subscribe(
-      cosmetics => {
-      this.cosmetics = cosmetics;
-      this.filteredCosmetics = cosmetics;
+     this.products$ = this.productService.getAllProducts();
+     this.productService.getAllProducts().subscribe(
+      products => {
+      this.products = products;
+      this.filteredProducts = products;
     });
 
     this.categoryService.getAllCategories().subscribe({
       next: (response) => {
         this.categories = response.map(category => ({ ...category, checked: true })); 
         this.selectedCategories = [...this.categories];
-        this.filterCosmetics(); 
+        this.filterproducts(); 
       }
     });
   }
 
-  filterByBrand() {
-    console.log(this.filteredCosmetics.length)
-    if (this.searchBrand.trim() === '') {
-      this.filteredCosmetics = this.cosmetics;
+  filterByStock() {
+    console.log(this.filteredProducts.length)
+    if (this.searchStock.trim() === '') {
+      this.filteredProducts = this.products;
     } else {
-      this.filteredCosmetics = this.cosmetics.filter(cosmetic =>
-        cosmetic.brand.toLowerCase().includes(this.searchBrand.toLowerCase())
-      );
+      // this.filteredProducts = this.products.filter(product =>
+        // product.stock.includes(this.searchStock)
+      // );
     }
   }
 
 
-  filterCosmetics(): void {
+  filterproducts(): void {
     if (this.selectedCategories.length === 0) {
-      this.filteredCosmetics = this.cosmetics;
+      this.filteredProducts = this.products;
     } else {
-      this.filteredCosmetics = this.cosmetics.filter(cosmetic =>
-        this.selectedCategories.some(category => cosmetic.categories.some(c => c.id === category.id))
+      this.filteredProducts = this.products.filter(product =>
+        this.selectedCategories.some(category => product.categories.some(c => c.id === category.id))
       ); 
     }
   }
@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.selectedCategories.push(category); 
     }
-    this.filterCosmetics(); 
+    this.filterproducts(); 
   }
   
 

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { Cosmetic } from '../../models/cosmetic.model';
+import { Product } from '../../models/product.model';
 import { UserModel } from 'src/app/features/auth/models/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/features/auth/services/auth.service';
@@ -13,10 +13,10 @@ import { UsersService } from 'src/app/features/users/services/users.service';
 })
 export class ReceiptComponent implements OnInit, OnDestroy {
 
-  cosmetics?: Cosmetic[];
-  cosmetics$?: Observable<Cosmetic[]>;
+  products?: Product[];
+  products$?: Observable<Product[]>;
 
-  cosmeticsSubscription?: Subscription
+  productsSubscription?: Subscription
 
   user?: UserModel;
 
@@ -35,12 +35,12 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.user = this.authService.getUser();
   
-    this.cosmetics$ = this.usersService.getCosmeticsInBasket(this.user!.userId);
+    this.products$ = this.usersService.getProductsInBasket(this.user!.userId);
 
-    this.cosmeticsSubscription = this.usersService.getCosmeticsInBasket(this.user!.userId)
+    this.productsSubscription = this.usersService.getProductsInBasket(this.user!.userId)
       .subscribe({
         next: (response) => {
-          this.cosmetics = response;
+          this.products = response;
         }
       });
 
@@ -52,8 +52,8 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   }
 
   calculateTotalPrice(): number {
-    if(this.cosmetics) {
-      return this.cosmetics.reduce((total, current) => total + current.price, 0);
+    if(this.products) {
+      return this.products.reduce((total, current) => total + current.price, 0);
     }
 
     return 0;

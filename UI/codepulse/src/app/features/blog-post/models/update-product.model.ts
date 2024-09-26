@@ -1,6 +1,6 @@
-export interface AddCosmetic {
+export interface UpdateProduct {
     name: string;
-    brand: string;
+    stock: number;
     price: number;
     description: string;
     featuredImageUrl: string;

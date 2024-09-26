@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AddCosmetic } from '../models/add-cosmetic.model';
-import { CosmeticService } from '../services/cosmetic.service';
+import { AddProduct } from '../models/add-product.model';
+import { ProductService } from '../services/product.service';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../category/services/category.service';
 import { Observable, Subscription } from 'rxjs'
@@ -8,12 +8,12 @@ import { Category } from '../../category/models/category.model';
 import { ImageService } from 'src/app/shared/components/image-selector/image.service';
 
 @Component({
-  selector: 'app-add-cosmetic',
-  templateUrl: './add-cosmetic.component.html',
-  styleUrls: ['./add-cosmetic.component.css']
+  selector: 'app-add-product',
+  templateUrl: './add-product.component.html',
+  styleUrls: ['./add-product.component.css']
 })
-export class AddCosmeticComponent implements OnInit, OnDestroy {
-  model: AddCosmetic;
+export class AddProductComponent implements OnInit, OnDestroy {
+  model: AddProduct;
   categories$?: Observable<Category[]>;
 
   isImageSelectorVisible: boolean = false;
@@ -21,14 +21,14 @@ export class AddCosmeticComponent implements OnInit, OnDestroy {
   imageSelectorSubscription?: Subscription;
 
 
-  constructor(private cosmeticService: CosmeticService,
+  constructor(private productService: ProductService,
     private router: Router,
     private categoryService: CategoryService,
     private imageService: ImageService) {
     this.model = {
       name: '',
       description: '',
-      brand: '',
+      stock: 0,
       featuredImageUrl: '',
       urlHandle: '',
       price: 0,
@@ -39,10 +39,10 @@ export class AddCosmeticComponent implements OnInit, OnDestroy {
 
   onFormSubmit(): void {
     console.log(this.model);
-    this.cosmeticService.createCosmetic(this.model)
+    this.productService.createProduct(this.model)
       .subscribe({
         next: (response) => {
-          this.router.navigateByUrl('/admin/cosmetics');
+          this.router.navigateByUrl('/admin/products');
         }
       });
   }
