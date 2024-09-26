@@ -21,7 +21,7 @@ namespace CodePulse.API.Controllers {
 
         // POST: {apibaseurl}/api/product
         [HttpPost]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDto request) {
             
             // Convert DTO a Domain
@@ -127,7 +127,7 @@ namespace CodePulse.API.Controllers {
         // PUT: {apiBaseUrl}/api/products/{id}
         [HttpPut]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> EditProduct([FromRoute] Guid id, UpdateProductRequestDto request) {
 
             // Convert DTO to Domain Model
@@ -178,7 +178,7 @@ namespace CodePulse.API.Controllers {
         // Delete: {apiBaseUrl}/api/products/{id}
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> ProductCosmetic([FromRoute] Guid id) {
             var product = await _productRepository.DeleteAsync(id);
 

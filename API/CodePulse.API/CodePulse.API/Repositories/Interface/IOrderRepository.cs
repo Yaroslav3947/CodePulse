@@ -16,5 +16,9 @@ namespace CodePulse.API.Repositories.Interface
         Task<Order?> UpdateAsync(Order order);
 
         Task<Order?> DeleteAsync(Guid id);
+
+        Task<Order?> AddProductToOrderAsync(Guid orderId, Guid productId, int quantity);
+        Task<Order?> UpdateProductQuantityInOrderAsync(Guid orderId, Guid productId, int newQuantity);
+        Task<Order?> RemoveProductFromOrderAsync(Guid orderId, Guid productId);
     }
 }

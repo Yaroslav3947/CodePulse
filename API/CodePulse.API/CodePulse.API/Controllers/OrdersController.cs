@@ -16,8 +16,8 @@ namespace CodePulse.API.Controllers
 
         public OrdersController(IOrderRepository orderRepository, IProductRepository productRepository)
         {
-            this._orderRepository = orderRepository;
-            this._productRepository = productRepository;
+            _orderRepository = orderRepository;
+            _productRepository = productRepository;
         }
 
         // POST: {apibaseurl}/api/orders
@@ -25,14 +25,12 @@ namespace CodePulse.API.Controllers
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto request)
         {
-
             var order = new Order
             {
                 OrderDate = DateTime.UtcNow,
-                TotalAmount = request.TotalAmount,
                 Status = request.Status,
                 UserId = request.UserId,
-                Products = new List<Product>()
+                OrderItems = new List<OrderItem>() // Initialize order items
             };
 
             // Add products to the order
@@ -41,7 +39,12 @@ namespace CodePulse.API.Controllers
                 var product = await _productRepository.GetByIdAsync(productId);
                 if (product != null)
                 {
-                    order.Products.Add(product);
+                    order.OrderItems.Add(new OrderItem
+                    {
+                        ProductId = productId,
+                        Quantity = 1, // Assuming a default quantity of 1 for simplicity
+                        Price = product.Price // Store the price at order creation
+                    });
                 }
             }
 
@@ -53,41 +56,16 @@ namespace CodePulse.API.Controllers
             {
                 Id = order.Id,
                 OrderDate = order.OrderDate,
-                TotalAmount = order.TotalAmount,
                 Status = order.Status,
                 UserId = order.UserId,
-                Products = order.Products.Select(x => new ProductDto
+                OrderItems = order.OrderItems.Select(x => new OrderItemDto
                 {
-                    Id = x.Id,
-                    Name = x.Name,
+                    ProductId = x.ProductId,
+                    Product = x.Product, // Directly set the Product from OrderItem
+                    Quantity = x.Quantity,
                     Price = x.Price
                 }).ToList()
             };
-
-            return Ok(response);
-        }
-
-        // GET: {apibaseurl}/api/orders
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllOrders()
-        {
-            var orders = await _orderRepository.GetAllAsync();
-
-            var response = orders.Select(order => new OrderDto
-            {
-                Id = order.Id,
-                OrderDate = order.OrderDate,
-                TotalAmount = order.TotalAmount,
-                Status = order.Status,
-                UserId = order.UserId,
-                Products = order.Products.Select(x => new ProductDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Price = x.Price
-                }).ToList()
-            }).ToList();
 
             return Ok(response);
         }
@@ -109,16 +87,45 @@ namespace CodePulse.API.Controllers
             {
                 Id = order.Id,
                 OrderDate = order.OrderDate,
-                TotalAmount = order.TotalAmount,
                 Status = order.Status,
                 UserId = order.UserId,
-                Products = order.Products.Select(x => new ProductDto
+                OrderItems = order.OrderItems.Select(x => new OrderItemDto
                 {
-                    Id = x.Id,
-                    Name = x.Name,
+                    ProductId = x.ProductId,
+                    Product = x.Product, // Get full product details
+                    Quantity = x.Quantity,
                     Price = x.Price
                 }).ToList()
             };
+
+            return Ok(response);
+        }
+
+        // GET: {apibaseurl}/api/orders
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderRepository.GetAllAsync();
+
+            var response = await Task.WhenAll(orders.Select(async order =>
+            {
+                var orderWithItems = await _orderRepository.GetByIdAsync(order.Id);
+                return new OrderDto
+                {
+                    Id = orderWithItems.Id,
+                    OrderDate = orderWithItems.OrderDate,
+                    Status = orderWithItems.Status,
+                    UserId = orderWithItems.UserId,
+                    OrderItems = orderWithItems.OrderItems.Select(x => new OrderItemDto
+                    {
+                        ProductId = x.ProductId,
+                        Product = x.Product, // Get product details
+                        Quantity = x.Quantity,
+                        Price = x.Price
+                    }).ToList()
+                };
+            }));
 
             return Ok(response);
         }
@@ -137,7 +144,6 @@ namespace CodePulse.API.Controllers
 
             // Update order details
             order.Status = request.Status;
-            order.TotalAmount = request.TotalAmount;
 
             // Update order in the repository
             order = await _orderRepository.UpdateAsync(order);
@@ -147,13 +153,13 @@ namespace CodePulse.API.Controllers
             {
                 Id = order.Id,
                 OrderDate = order.OrderDate,
-                TotalAmount = order.TotalAmount,
                 Status = order.Status,
                 UserId = order.UserId,
-                Products = order.Products.Select(x => new ProductDto
+                OrderItems = order.OrderItems.Select(x => new OrderItemDto
                 {
-                    Id = x.Id,
-                    Name = x.Name,
+                    ProductId = x.ProductId,
+                    Product = x.Product, // Get product details
+                    Quantity = x.Quantity,
                     Price = x.Price
                 }).ToList()
             };

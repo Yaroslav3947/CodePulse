@@ -13,8 +13,9 @@
             public string Status { get; set; } 
 
             public Guid UserId { get; set; }  
+            public double TotalCost {  get; set; }
 
-            public ICollection<Product> Products { get; set; } 
+            public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         }
     }

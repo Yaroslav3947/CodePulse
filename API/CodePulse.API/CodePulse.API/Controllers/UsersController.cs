@@ -22,7 +22,7 @@ namespace CodePulse.API.Controllers {
 
         // GET: {apibaseurl}/api/users
         [HttpGet]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetUsers() {
             var users = await _usersRepository.GetUsersAsync();
 
@@ -83,7 +83,7 @@ namespace CodePulse.API.Controllers {
 
         [HttpGet]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetUserById([FromRoute] Guid id) {
             var existringUser = await _usersRepository.GetUserByIdAsync(id);
 
@@ -148,7 +148,7 @@ namespace CodePulse.API.Controllers {
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid id) {
             var user = await _usersRepository.DeleteAsync(id);
 
