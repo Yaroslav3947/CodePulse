@@ -1,5 +1,4 @@
 export interface UpdateOrderRequest {
-    productId: string;
-    quantity: string;
-  }
+    status: string;
+}
   

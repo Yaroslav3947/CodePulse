@@ -27,6 +27,10 @@ builder.Services.AddDbContext<AuthDbContext>(options => {
     options.UseSqlServer(connectionString);
 });
 
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options => {
+//        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+//    });
 
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); // Injection of service 
@@ -36,6 +40,7 @@ builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddRoles<IdentityRole>()

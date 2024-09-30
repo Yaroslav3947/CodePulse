@@ -11,7 +11,7 @@ namespace CodePulse.API.Repositories.Interface
 
         Task<Order?> GetByIdAsync(Guid id);
 
-        Task<Order?> UpdateAsync(Order order);
+        Task<Order?> UpdateAsync(Guid Id, string status);
 
         Task<Order?> DeleteAsync(Guid id);
 

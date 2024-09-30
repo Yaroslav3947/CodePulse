@@ -23,10 +23,56 @@ namespace CodePulse.API.Controllers
         // POST: {apibaseurl}/api/orders
         [HttpPost]
         //[Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto request)
-        {
-            var order = new Order
-            {
+        //public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto request)
+        //{
+        //    var order = new Order
+        //    {
+        //        OrderDate = DateTime.UtcNow,
+        //        Status = request.Status,
+        //        UserId = request.UserId,
+        //        OrderItems = new List<OrderItem>() // Initialize order items
+        //    };
+
+        //    // Add products to the order
+        //    foreach (var productId in request.Products)
+        //    {
+        //        var product = await _productRepository.GetByIdAsync(productId);
+        //        if (product != null)
+        //        {
+        //            order.OrderItems.Add(new OrderItemDto
+        //            {
+        //                ProductId = productId,
+        //                Product = product,
+        //                Quantity = 1, 
+        //                Price = product.Price
+        //            });
+        //        }
+        //    }
+
+        //    // Save order to the repository
+        //    order = await _orderRepository.CreateAsync(order);
+
+        //    // Convert Domain model to Dto
+        //    var response = new OrderDto
+        //    {
+        //        Id = order.Id,
+        //        OrderDate = order.OrderDate,
+        //        Status = order.Status,
+        //        UserId = order.UserId,
+        //        OrderItems = order.OrderItems.Select(x => new OrderItemDto
+        //        {
+        //            ProductId = x.ProductId,
+        //            Product = x.Product, // Directly set the Product from OrderItem
+        //            Quantity = x.Quantity,
+        //            Price = x.Price
+        //        }).ToList()
+        //    };
+
+        //    return Ok(response);
+        //}
+
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto request) {
+            var order = new Order {
                 OrderDate = DateTime.UtcNow,
                 Status = request.Status,
                 UserId = request.UserId,
@@ -34,41 +80,37 @@ namespace CodePulse.API.Controllers
             };
 
             // Add products to the order
-            foreach (var productId in request.Products)
-            {
+            foreach(var productId in request.Products) {
                 var product = await _productRepository.GetByIdAsync(productId);
-                if (product != null)
-                {
-                    order.OrderItems.Add(new OrderItem
-                    {
+                if(product != null) {
+                    order.OrderItems.Add(new OrderItem {
                         ProductId = productId,
-                        Quantity = 1, // Assuming a default quantity of 1 for simplicity
-                        Price = product.Price // Store the price at order creation
+                        Quantity = 1, // Assuming a default quantity of 1, modify as needed
+                        Price = product.Price
                     });
                 }
             }
 
-            // Save order to the repository
+            // Save the order to the repository
             order = await _orderRepository.CreateAsync(order);
 
-            // Convert Domain model to Dto
-            var response = new OrderDto
-            {
+            // Map to OrderDto
+            var response = new OrderDto {
                 Id = order.Id,
                 OrderDate = order.OrderDate,
                 Status = order.Status,
                 UserId = order.UserId,
-                OrderItems = order.OrderItems.Select(x => new OrderItemDto
-                {
+                OrderItems = order.OrderItems.Select(x => new OrderItemDto {
                     ProductId = x.ProductId,
-                    Product = x.Product, // Directly set the Product from OrderItem
                     Quantity = x.Quantity,
                     Price = x.Price
-                }).ToList()
+                }).ToList(),
+                TotalAmount = order.OrderItems.Sum(x => x.Price * x.Quantity) // Calculate the total amount
             };
 
             return Ok(response);
         }
+
 
         // GET: {apiBaseUrl}/api/orders/{id}
         [HttpGet("{id:Guid}")]
@@ -92,7 +134,6 @@ namespace CodePulse.API.Controllers
                 OrderItems = order.OrderItems.Select(x => new OrderItemDto
                 {
                     ProductId = x.ProductId,
-                    Product = x.Product, // Get full product details
                     Quantity = x.Quantity,
                     Price = x.Price
                 }).ToList()
@@ -104,61 +145,46 @@ namespace CodePulse.API.Controllers
         // GET: {apibaseurl}/api/orders
         [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllOrders()
-        {
+        public async Task<IActionResult> GetAllOrders() {
+            // Fetch all orders with OrderItems included
             var orders = await _orderRepository.GetAllAsync();
 
-            var response = await Task.WhenAll(orders.Select(async order =>
-            {
-                var orderWithItems = await _orderRepository.GetByIdAsync(order.Id);
-                return new OrderDto
-                {
-                    Id = orderWithItems.Id,
-                    OrderDate = orderWithItems.OrderDate,
-                    Status = orderWithItems.Status,
-                    UserId = orderWithItems.UserId,
-                    OrderItems = orderWithItems.OrderItems.Select(x => new OrderItemDto
-                    {
-                        ProductId = x.ProductId,
-                        Product = x.Product, // Get product details
-                        Quantity = x.Quantity,
-                        Price = x.Price
-                    }).ToList()
-                };
-            }));
-
-            return Ok(response);
-        }
-
-        // PUT: {apiBaseUrl}/api/orders/{id}
-        [HttpPut("{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateOrder([FromRoute] Guid id, [FromBody] UpdateOrderRequestDto request)
-        {
-            var order = await _orderRepository.GetByIdAsync(id);
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            // Update order details
-            order.Status = request.Status;
-
-            // Update order in the repository
-            order = await _orderRepository.UpdateAsync(order);
-
-            // Convert Domain model to Dto
-            var response = new OrderDto
-            {
+            // Map the orders to OrderDto directly
+            var response = orders.Select(order => new OrderDto {
                 Id = order.Id,
                 OrderDate = order.OrderDate,
                 Status = order.Status,
                 UserId = order.UserId,
-                OrderItems = order.OrderItems.Select(x => new OrderItemDto
-                {
+                OrderItems = order.OrderItems.Select(x => new OrderItemDto {
                     ProductId = x.ProductId,
-                    Product = x.Product, // Get product details
+                    Quantity = x.Quantity,
+                    Price = x.Price
+                }).ToList()
+            }).ToList();
+
+            return Ok(response);
+        }
+
+
+        // PUT: {apiBaseUrl}/api/orders/{id}
+        [HttpPut("{id:Guid}")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateOrder([FromRoute] Guid id, [FromBody] UpdateOrderRequestDto request) {
+            // Update order in the repository
+            var updatedOrder = await _orderRepository.UpdateAsync(id, request.Status);
+
+            if(updatedOrder == null) {
+                return NotFound();
+            }
+
+            // Convert Domain model to Dto
+            var response = new OrderDto {
+                Id = updatedOrder.Id,
+                OrderDate = updatedOrder.OrderDate,
+                Status = updatedOrder.Status,
+                UserId = updatedOrder.UserId,
+                OrderItems = updatedOrder.OrderItems.Select(x => new OrderItemDto {
+                    ProductId = x.ProductId,
                     Quantity = x.Quantity,
                     Price = x.Price
                 }).ToList()
@@ -166,6 +192,7 @@ namespace CodePulse.API.Controllers
 
             return Ok(response);
         }
+
 
         // DELETE: {apiBaseUrl}/api/orders/{id}
         [HttpDelete("{id:Guid}")]
@@ -207,8 +234,6 @@ namespace CodePulse.API.Controllers
                 });
             }
 
-            await _orderRepository.UpdateAsync(order);
-
             var response = CreateOrderDto(order);
             return Ok(response);
         }
@@ -228,7 +253,6 @@ namespace CodePulse.API.Controllers
             }
 
             orderItem.Quantity = newQuantity;
-            await _orderRepository.UpdateAsync(order);
 
             var response = CreateOrderDto(order);
             return Ok(response);
@@ -249,7 +273,6 @@ namespace CodePulse.API.Controllers
             }
 
             order.OrderItems.Remove(orderItem);
-            await _orderRepository.UpdateAsync(order);
 
             var response = CreateOrderDto(order);
             return Ok(response);
@@ -263,7 +286,6 @@ namespace CodePulse.API.Controllers
                 UserId = order.UserId,
                 OrderItems = order.OrderItems.Select(x => new OrderItemDto {
                     ProductId = x.ProductId,
-                    Product = x.Product, // Get product details
                     Quantity = x.Quantity,
                     Price = x.Price
                 }).ToList()
@@ -288,7 +310,6 @@ namespace CodePulse.API.Controllers
                 UserId = order.UserId,
                 OrderItems = order.OrderItems.Select(x => new OrderItemDto {
                     ProductId = x.ProductId,
-                    Product = x.Product,
                     Quantity = x.Quantity,
                     Price = x.Price
                 }).ToList()

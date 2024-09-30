@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodePulse.API.Repositories.Implementation
 {
-    public class OrderRepository : IOrderRepository
-    {
+    public class OrderRepository : IOrderRepository {
         private readonly ApplicationDbContext _dbContext;
 
         public OrderRepository(ApplicationDbContext dbContext)
@@ -43,36 +42,32 @@ namespace CodePulse.API.Repositories.Implementation
         public async Task<IEnumerable<Order>> GetAllAsync()
         {
             return await _dbContext.Orders
+                .AsNoTracking()
                 .Include(x => x.OrderItems) // Include OrderItems
-                .ThenInclude(oi => oi.Product) // Include Product details for each OrderItem
                 .ToListAsync();
         }
 
         public async Task<Order?> GetByIdAsync(Guid id)
         {
             return await _dbContext.Orders
+                .AsNoTracking()
                 .Include(x => x.OrderItems) // Include OrderItems
-                .ThenInclude(oi => oi.Product) // Include Product details for each OrderItem
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Order?> UpdateAsync(Order order)
-        {
+        public async Task<Order?> UpdateAsync(Guid id, string status) {
             var existingOrder = await _dbContext.Orders
-                .Include(x => x.OrderItems) // Include OrderItems
-                .FirstOrDefaultAsync(x => x.Id == order.Id);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (existingOrder != null)
-            {
-                // Update existing order values
-                _dbContext.Entry(existingOrder).CurrentValues.SetValues(order);
-                existingOrder.OrderItems = order.OrderItems; // Replace existing OrderItems with new ones
+            if(existingOrder != null) {
+                existingOrder.Status = status; // Update only the status
                 await _dbContext.SaveChangesAsync();
                 return existingOrder; // Return the updated order
             }
 
             return null;
         }
+
 
         // Example of adding product to an order
         public async Task<Order?> AddProductToOrderAsync(Guid orderId, Guid productId, int quantity)
@@ -145,7 +140,6 @@ namespace CodePulse.API.Repositories.Implementation
         public async Task<Order?> GetByUserIdAsync(Guid userId) {
             return await _dbContext.Orders
                 .Include(x => x.OrderItems)
-                .ThenInclude(oi => oi.Product) 
                 .FirstOrDefaultAsync(x => x.UserId == userId);
         }
 

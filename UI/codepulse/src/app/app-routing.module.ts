@@ -16,6 +16,8 @@ import { EditUserComponent } from './features/users/edit-user/edit-user.componen
 import { BasketComponent } from './features/blog-post/basket/basket/basket.component';
 import { ReceiptComponent } from './features/blog-post/receipt/receipt/receipt.component';
 import { OrderDetailComponent } from './features/blog-post/order/order.component';
+import { OrderListComponent } from './features/order/order-list/order-list.component';
+import { EditOrderComponent } from './features/order/edit-order/edit-order.component';
 
 const routes: Routes = [
   {
@@ -70,6 +72,16 @@ const routes: Routes = [
   {
     path: 'admin/products/:id',
     component: EditProductComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'admin/orders',
+    component: OrderListComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'admin/orders/:id',
+    component: EditOrderComponent,
     canActivate: [authGuard]
   },
   {

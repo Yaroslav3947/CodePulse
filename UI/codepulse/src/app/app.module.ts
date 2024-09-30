@@ -23,6 +23,8 @@ import { EditUserComponent } from './features/users/edit-user/edit-user.componen
 import { BasketComponent } from './features/blog-post/basket/basket/basket.component';
 import { ReceiptComponent } from './features/blog-post/receipt/receipt/receipt.component';
 import { OrderDetailComponent } from './features/blog-post/order/order.component';
+import { EditOrderComponent } from './features/order/edit-order/edit-order.component';
+import { OrderListComponent } from './features/order/order-list/order-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +44,8 @@ import { OrderDetailComponent } from './features/blog-post/order/order.component
     EditUserComponent,
     BasketComponent,
     ReceiptComponent,
-    OrderDetailComponent
+    OrderListComponent,
+    EditOrderComponent
   ],
   imports: [
     BrowserModule,

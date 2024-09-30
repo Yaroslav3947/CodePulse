@@ -4,6 +4,6 @@
         public string Name { get; set; }
         public string UrlHandle { get; set; }
 
-        public ICollection<Product> Cosmetics { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
