@@ -16,14 +16,14 @@ namespace CodePulse.API.Controllers {
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddToBasket([FromBody] AddToBasketDto cosmeticDto) {
+        public async Task<IActionResult> AddToBasket([FromBody] AddToBasketDto productDto) {
 
-            var response = new CosmeticLike {
-                CosmeticId = cosmeticDto.CosmeticId,
-                UserId = cosmeticDto.UserId
+            var response = new ProductLike {
+                ProductId = productDto.ProductId,
+                UserId = productDto.UserId
             };
 
-            await _basketRepository.AddCosmeticToBasket(response);
+            await _basketRepository.AddProductToBasket(response);
 
             return Ok(response);
         }
@@ -31,12 +31,12 @@ namespace CodePulse.API.Controllers {
         [Route("Remove")]
         public async Task<IActionResult> RemoveFromBasket([FromBody] RemoveFromBasketDto removeFromBasketDto) {
 
-            var response = new CosmeticLike {
-                CosmeticId = removeFromBasketDto.CosmeticId,
+            var response = new ProductLike {
+                ProductId = removeFromBasketDto.CosmeticId,
                 UserId = removeFromBasketDto.UserId
             };
 
-            await _basketRepository.RemoveCosmeticFromBasket(response);
+            await _basketRepository.RemoveProductFromBasket(response);
 
             return Ok(response);
         }

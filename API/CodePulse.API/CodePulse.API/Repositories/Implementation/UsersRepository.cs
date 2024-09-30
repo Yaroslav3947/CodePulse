@@ -59,9 +59,9 @@ namespace CodePulse.API.Repositories.Implementation {
         }
 
         public async Task<IEnumerable<Guid>> ProductsIDInBasket(Guid id) {
-            return await _dbContext.CosmeticLikes
+            return await _dbContext.ProductLikes
                 .Where(x => x.UserId == id)
-                .Select(x => x.CosmeticId)
+                .Select(x => x.ProductId)
                 .ToListAsync();
         }
     }

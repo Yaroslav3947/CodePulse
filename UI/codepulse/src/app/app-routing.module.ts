@@ -15,6 +15,7 @@ import { UsersListComponent } from './features/users/users-list/users-list.compo
 import { EditUserComponent } from './features/users/edit-user/edit-user.component';
 import { BasketComponent } from './features/blog-post/basket/basket/basket.component';
 import { ReceiptComponent } from './features/blog-post/receipt/receipt/receipt.component';
+import { OrderDetailComponent } from './features/blog-post/order/order.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,16 @@ const routes: Routes = [
     path: 'admin/users/:id',
     component: EditUserComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'orders/:id',
+    component: OrderDetailComponent
+    // canActivate: [authGuard]
+  },
+  {
+    path: 'orders',
+    component: OrderDetailComponent
+    // canActivate: [authGuard]
   }
 ];
 

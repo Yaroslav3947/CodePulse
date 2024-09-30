@@ -60,7 +60,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         if (this.url) {
           this.product$ = this.productService.getProductByUrlHandle(this.url);
   
-          // Get Cosmetic ID
           this.getProductSubscription = this.productService.getProductByUrlHandle(this.url).subscribe({
             next: (response) => {
               this.product = response;
@@ -109,6 +108,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         userId: this.user.userId,
         productId: this.product.id
       };
+
+      console.log(likeCosmeticRequest.productId);
 
     if(!this.isLikedByUser) {
       this.addLikeSubscription = this.basketService.addToBasket(likeCosmeticRequest)

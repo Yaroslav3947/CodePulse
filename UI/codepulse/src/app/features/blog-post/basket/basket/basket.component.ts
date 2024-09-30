@@ -69,7 +69,7 @@ export class BasketComponent implements OnInit, OnDestroy {
       });
 
     }
-  }
+  } 
 
   buy(): void {
 

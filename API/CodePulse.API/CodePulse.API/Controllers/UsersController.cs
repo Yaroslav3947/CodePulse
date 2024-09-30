@@ -12,12 +12,12 @@ namespace CodePulse.API.Controllers {
     [ApiController]
     public class UsersController : ControllerBase {
         private readonly IUsersRepository _usersRepository;
-        private readonly IProductRepository _cosmeticRepository;
+        private readonly IProductRepository _productRepository;
 
         public UsersController(IUsersRepository usersRepository,
-            IProductRepository cosmeticRepository) {
+            IProductRepository productRepository) {
             this._usersRepository = usersRepository;
-            this._cosmeticRepository = cosmeticRepository;
+            this._productRepository = productRepository;
         }
 
         // GET: {apibaseurl}/api/users
@@ -53,23 +53,23 @@ namespace CodePulse.API.Controllers {
         [HttpGet("products/full/{id}")]
         //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetProductsInBasket([FromRoute] Guid id) {
-            var cosmeticsID = await _usersRepository.ProductsIDInBasket(id);
+            var productsID = await _usersRepository.ProductsIDInBasket(id);
 
             var response = new List<ProductDto>();
 
-            foreach(var cosmeticID in cosmeticsID) {
+            foreach(var productID in productsID) {
 
-                var cosmetic = await _cosmeticRepository.GetByIdAsync(cosmeticID);
+                var product = await _productRepository.GetByIdAsync(productID);
 
                 response.Add(new ProductDto {
-                    Id = cosmetic.Id,
-                    Name = cosmetic.Name,
-                    Price = cosmetic.Price,
-                    Stock = cosmetic.Stock,
-                    Description = cosmetic.Description,
-                    UrlHandle = cosmetic.UrlHandle,
-                    FeaturedImageUrl = cosmetic.FeaturedImageUrl,
-                    Categories = cosmetic.Categories.Select(x => new CategoryDto {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Stock = product.Stock,
+                    Description = product.Description,
+                    UrlHandle = product.UrlHandle,
+                    FeaturedImageUrl = product.FeaturedImageUrl,
+                    Categories = product.Categories.Select(x => new CategoryDto {
                         Id = x.Id,
                         Name = x.Name,
                         UrlHandle = x.UrlHandle

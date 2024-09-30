@@ -13,29 +13,29 @@ namespace CodePulse.API.Repositories.Implementation {
             this._dbContext = dbContext;
         }
 
-        public async Task<CosmeticLike> AddCosmeticToBasket(CosmeticLike cosmeticLike) {
-            await _dbContext.CosmeticLikes.AddAsync(cosmeticLike);
+        public async Task<ProductLike> AddProductToBasket(ProductLike productLike) {
+            await _dbContext.ProductLikes.AddAsync(productLike);
             await _dbContext.SaveChangesAsync();
-            return cosmeticLike;
+            return productLike;
         }
 
-        public async Task DeleteAsync(Guid cosmeticId) {
-            var cosmeticLikes = await _dbContext.CosmeticLikes
-            .Where(x => x.CosmeticId == cosmeticId).ToListAsync();
+        public async Task DeleteAsync(Guid productId) {
+            var productLikes = await _dbContext.ProductLikes
+            .Where(x => x.ProductId == productId).ToListAsync();
 
-            _dbContext.CosmeticLikes.RemoveRange(cosmeticLikes);
+            _dbContext.ProductLikes.RemoveRange(productLikes);
 
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<CosmeticLike> RemoveCosmeticFromBasket(CosmeticLike cosmeticLike) {
-            var existingLike = await _dbContext.CosmeticLikes.FirstOrDefaultAsync(x => x.UserId == cosmeticLike.UserId);
+        public async Task<ProductLike> RemoveProductFromBasket(ProductLike productLike) {
+            var existingLike = await _dbContext.ProductLikes.FirstOrDefaultAsync(x => x.UserId == productLike.UserId);
 
             if(existingLike != null) {
-                _dbContext.CosmeticLikes.Remove(existingLike);
+                _dbContext.ProductLikes.Remove(existingLike);
                 await _dbContext.SaveChangesAsync();
             }
-            return cosmeticLike;
+            return productLike;
         }
     }
 }

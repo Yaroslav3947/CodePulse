@@ -22,7 +22,7 @@ namespace CodePulse.API.Controllers
 
         // POST: {apibaseurl}/api/orders
         [HttpPost]
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestDto request)
         {
             var order = new Order
@@ -72,7 +72,7 @@ namespace CodePulse.API.Controllers
 
         // GET: {apiBaseUrl}/api/orders/{id}
         [HttpGet("{id:Guid}")]
-        [Authorize(Roles = "User,Admin")]
+        //[Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetOrderById([FromRoute] Guid id)
         {
             var order = await _orderRepository.GetByIdAsync(id);
@@ -103,7 +103,7 @@ namespace CodePulse.API.Controllers
 
         // GET: {apibaseurl}/api/orders
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllOrders()
         {
             var orders = await _orderRepository.GetAllAsync();
@@ -132,7 +132,7 @@ namespace CodePulse.API.Controllers
 
         // PUT: {apiBaseUrl}/api/orders/{id}
         [HttpPut("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateOrder([FromRoute] Guid id, [FromBody] UpdateOrderRequestDto request)
         {
             var order = await _orderRepository.GetByIdAsync(id);
@@ -169,7 +169,7 @@ namespace CodePulse.API.Controllers
 
         // DELETE: {apiBaseUrl}/api/orders/{id}
         [HttpDelete("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteOrder([FromRoute] Guid id)
         {
             var order = await _orderRepository.DeleteAsync(id);
@@ -180,6 +180,121 @@ namespace CodePulse.API.Controllers
             }
 
             return NoContent();
+        }
+
+        // Add Product to Order: {apiBaseUrl}/api/orders/{orderId}/add-product/{productId}
+        [HttpPost("{orderId:Guid}/add-product/{productId:Guid}")]
+        //[Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> AddProductToOrderAsync([FromRoute] Guid orderId, [FromRoute] Guid productId, [FromQuery] int quantity) {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if(order == null) {
+                return NotFound();
+            }
+
+            var product = await _productRepository.GetByIdAsync(productId);
+            if(product == null) {
+                return BadRequest("Product not found.");
+            }
+
+            var existingOrderItem = order.OrderItems.FirstOrDefault(item => item.ProductId == productId);
+            if(existingOrderItem != null) {
+                existingOrderItem.Quantity += quantity;
+            } else {
+                order.OrderItems.Add(new OrderItem {
+                    ProductId = productId,
+                    Quantity = quantity,
+                    Price = product.Price
+                });
+            }
+
+            await _orderRepository.UpdateAsync(order);
+
+            var response = CreateOrderDto(order);
+            return Ok(response);
+        }
+
+        // Update Product Quantity in Order: {apiBaseUrl}/api/orders/{orderId}/update-product-quantity/{productId}
+        [HttpPut("{orderId:Guid}/update-product-quantity/{productId:Guid}")]
+        //[Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> UpdateProductQuantityInOrderAsync([FromRoute] Guid orderId, [FromRoute] Guid productId, [FromQuery] int newQuantity) {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if(order == null) {
+                return NotFound();
+            }
+
+            var orderItem = order.OrderItems.FirstOrDefault(item => item.ProductId == productId);
+            if(orderItem == null) {
+                return BadRequest("Product not found in order.");
+            }
+
+            orderItem.Quantity = newQuantity;
+            await _orderRepository.UpdateAsync(order);
+
+            var response = CreateOrderDto(order);
+            return Ok(response);
+        }
+
+        // Remove Product from Order: {apiBaseUrl}/api/orders/{orderId}/remove-product/{productId}
+        [HttpDelete("{orderId:Guid}/remove-product/{productId:Guid}")]
+        //[Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> RemoveProductFromOrderAsync([FromRoute] Guid orderId, [FromRoute] Guid productId) {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if(order == null) {
+                return NotFound();
+            }
+
+            var orderItem = order.OrderItems.FirstOrDefault(item => item.ProductId == productId);
+            if(orderItem == null) {
+                return BadRequest("Product not found in order.");
+            }
+
+            order.OrderItems.Remove(orderItem);
+            await _orderRepository.UpdateAsync(order);
+
+            var response = CreateOrderDto(order);
+            return Ok(response);
+        }
+
+        private OrderDto CreateOrderDto(Order order) {
+            return new OrderDto {
+                Id = order.Id,
+                OrderDate = order.OrderDate,
+                Status = order.Status,
+                UserId = order.UserId,
+                OrderItems = order.OrderItems.Select(x => new OrderItemDto {
+                    ProductId = x.ProductId,
+                    Product = x.Product, // Get product details
+                    Quantity = x.Quantity,
+                    Price = x.Price
+                }).ToList()
+            };
+        }
+
+        // GET: {apiBaseUrl}/api/orders/user/{userId}
+        [HttpGet("user/{userId:Guid}")]
+        //[Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> GetOrderByUserId([FromRoute] Guid userId) {
+            var order = await _orderRepository.GetByUserIdAsync(userId);
+
+            if(order == null) {
+                return NotFound();
+            }
+
+            // Convert to DTO
+            var response = new OrderDto {
+                Id = order.Id,
+                OrderDate = order.OrderDate,
+                Status = order.Status,
+                UserId = order.UserId,
+                OrderItems = order.OrderItems.Select(x => new OrderItemDto {
+                    ProductId = x.ProductId,
+                    Product = x.Product,
+                    Quantity = x.Quantity,
+                    Price = x.Price
+                }).ToList()
+            };
+
+            return Ok(response); 
         }
     }
 }

@@ -1,0 +1,24 @@
+<div *ngIf="order">
+    <h3>Order Details</h3>
+    <!-- <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>Order Date:</strong> {{ order.orderDate }}</p>
+    <p><strong>Status:</strong> {{ order.status }}</p> -->
+
+    <h4>Order Items</h4>
+    <ul>
+        <li *ngFor="let item of order.orderItems">
+            <p>Product: {{ item.product.name }}</p>
+            <p>Price: {{ item.price }}</p>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Total: {{ item.price * item.quantity}}</p>
+        </li>
+    </ul>
+
+    <p><strong>Total Order Price:</strong> {{ calculateOrderTotal()}}</p>
+
+    <button (click)="backToOrders()">Back to Orders</button>
+</div>
+
+<div *ngIf="!order">
+    <p>No order found.</p>
+</div>

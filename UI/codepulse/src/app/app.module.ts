@@ -22,6 +22,7 @@ import { UsersListComponent } from './features/users/users-list/users-list.compo
 import { EditUserComponent } from './features/users/edit-user/edit-user.component';
 import { BasketComponent } from './features/blog-post/basket/basket/basket.component';
 import { ReceiptComponent } from './features/blog-post/receipt/receipt/receipt.component';
+import { OrderDetailComponent } from './features/blog-post/order/order.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +41,8 @@ import { ReceiptComponent } from './features/blog-post/receipt/receipt/receipt.c
     UsersListComponent,
     EditUserComponent,
     BasketComponent,
-    ReceiptComponent
+    ReceiptComponent,
+    OrderDetailComponent
   ],
   imports: [
     BrowserModule,

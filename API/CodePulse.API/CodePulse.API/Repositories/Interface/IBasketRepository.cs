@@ -3,8 +3,8 @@ using CodePulse.API.Models.DTO;
 
 namespace CodePulse.API.Repositories.Interface {
     public interface IBasketRepository {
-        Task<CosmeticLike> AddCosmeticToBasket(CosmeticLike cosmeticLike);
-        Task<CosmeticLike> RemoveCosmeticFromBasket(CosmeticLike cosmeticLike);
-        Task DeleteAsync(Guid cosmeticId);
+        Task<ProductLike> AddProductToBasket(ProductLike productLike);
+        Task<ProductLike> RemoveProductFromBasket(ProductLike productLike);
+        Task DeleteAsync(Guid productId);
     }
 }

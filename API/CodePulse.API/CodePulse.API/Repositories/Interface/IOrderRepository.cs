@@ -11,11 +11,11 @@ namespace CodePulse.API.Repositories.Interface
 
         Task<Order?> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<Order>> GetByUserIdAsync(Guid userId);
-
         Task<Order?> UpdateAsync(Order order);
 
         Task<Order?> DeleteAsync(Guid id);
+
+        Task<Order?> GetByUserIdAsync(Guid userId);
 
         Task<Order?> AddProductToOrderAsync(Guid orderId, Guid productId, int quantity);
         Task<Order?> UpdateProductQuantityInOrderAsync(Guid orderId, Guid productId, int newQuantity);

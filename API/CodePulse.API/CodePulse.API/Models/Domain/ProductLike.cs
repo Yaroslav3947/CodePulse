@@ -1,7 +1,7 @@
 ﻿namespace CodePulse.API.Models.Domain {
-    public class CosmeticLike {
+    public class ProductLike {
         public Guid Id { get; set; }
-        public Guid CosmeticId { get; set; }
+        public Guid ProductId { get; set; }
         public Guid UserId { get; set; }
     }
 }

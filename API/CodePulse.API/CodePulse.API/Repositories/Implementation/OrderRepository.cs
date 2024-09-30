@@ -56,15 +56,6 @@ namespace CodePulse.API.Repositories.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Order>> GetByUserIdAsync(Guid userId)
-        {
-            return await _dbContext.Orders
-                .Where(x => x.UserId == userId)
-                .Include(x => x.OrderItems) // Include OrderItems
-                .ThenInclude(oi => oi.Product) // Include Product details for each OrderItem
-                .ToListAsync();
-        }
-
         public async Task<Order?> UpdateAsync(Order order)
         {
             var existingOrder = await _dbContext.Orders
@@ -145,10 +136,18 @@ namespace CodePulse.API.Repositories.Implementation
             var existingOrderItem = order.OrderItems.FirstOrDefault(oi => oi.ProductId == productId);
             if (existingOrderItem == null) return null;
 
-            order.OrderItems.Remove(existingOrderItem); // Remove the OrderItem from the Order
+            order.OrderItems.Remove(existingOrderItem);
 
             await _dbContext.SaveChangesAsync();
-            return order; // Return updated order
+            return order; 
         }
+
+        public async Task<Order?> GetByUserIdAsync(Guid userId) {
+            return await _dbContext.Orders
+                .Include(x => x.OrderItems)
+                .ThenInclude(oi => oi.Product) 
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+        }
+
     }
 }
