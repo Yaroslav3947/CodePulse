@@ -4,7 +4,7 @@ using System.Net;
 
 namespace CodePulse.API.Repositories.Interface {
     public interface IImageRepository {
-        Task<BlogImage> Upload(IFormFile file, BlogImage image);
-        Task<IEnumerable<BlogImage>> GetAll();
+        Task<ProductImage> Upload(IFormFile file, ProductImage image);
+        Task<IEnumerable<ProductImage>> GetAll();
     }
 }

@@ -90,24 +90,21 @@ export class HomeComponent implements OnInit {
   }
 
   increaseOrderItemQuantity(product: Product): void {
-    // Check if the product already exists in the order (if you have a way to find the existing OrderItem)
     const existingOrderItem: OrderItem | undefined = this.findOrderItemByProductId(product.id);
   
-    // If the product is already in the order
     if (existingOrderItem) {
       if (existingOrderItem.quantity < product.stock) {
         existingOrderItem.quantity += 1; // Increase quantity
-        existingOrderItem.totalCost = existingOrderItem.price * existingOrderItem.quantity; // Recalculate total cost
+        existingOrderItem.totalCost = existingOrderItem.price * existingOrderItem.quantity; 
         this.updateProductQuantityInOrder(existingOrderItem); // Call update API
       }
     } else {
-      // If the product is not yet in the order, create a new OrderItem
       const newOrderItem: OrderItem = {
         productId: product.id,
         product: product,
-        quantity: 1, // Start with quantity 1
+        quantity: 1,
         price: product.price,
-        totalCost: product.price // Initial total cost is price * 1
+        totalCost: product.price 
       };
       
       // Add to order and call API
@@ -126,7 +123,6 @@ export class HomeComponent implements OnInit {
     }
   }
   
-  // Helper method to find if the product is already in the order by product ID
   findOrderItemByProductId(productId: string): OrderItem | undefined {
     return this.orderItems.find(item => item.productId === productId); // Assuming orderItems is an array of OrderItem
   }
@@ -200,3 +196,5 @@ export class HomeComponent implements OnInit {
   
 
 }
+
+

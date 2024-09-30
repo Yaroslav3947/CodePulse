@@ -19,10 +19,8 @@ namespace CodePulse.API.Controllers {
 
 
         [HttpPost]
-        //[Authorize(Roles = "Writer")]
-        public async Task<IActionResult> CreateCategory([FromBody]CreateCategoryRequestDto request) 
-            {
-            // Map DTO to Domain Model
+        [Authorize(Roles = "Writer")]
+        public async Task<IActionResult> CreateCategory([FromBody]CreateCategoryRequestDto request) {
             var category = new Category {
                 Name = request.Name,
                 UrlHandle = request.UrlHandle
@@ -30,7 +28,6 @@ namespace CodePulse.API.Controllers {
 
             await _categoryRepository.CreateAsync(category); // dependency injection
 
-            // Domain to DTO
 
             var response = new CategoryDto {
                 Id = category.Id,
@@ -42,11 +39,10 @@ namespace CodePulse.API.Controllers {
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetAllCategories() {
             var categories = await _categoryRepository.GetAllAsync();
 
-            // Map Domain model to DTO
 
             var response = new List<CategoryDto>();
             foreach(var category in categories) {
@@ -65,7 +61,7 @@ namespace CodePulse.API.Controllers {
         // GET: https://localhost:7105/api/Categories/{id}
         [HttpGet]
         [Route("{id:Guid}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetCategoryById([FromRoute] Guid id) {
             var existringCategory = await _categoryRepository.GetById(id);
 
@@ -84,7 +80,7 @@ namespace CodePulse.API.Controllers {
         // PUT: https://localhost:7105/api/Categories{id}
         [HttpPut]
         [Route("{id:Guid}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> EditCategory([FromRoute] Guid id, UpdateCategoryRequestDto request) {
             
             // Convert DTO to Domain Model
@@ -100,7 +96,6 @@ namespace CodePulse.API.Controllers {
                 return NotFound();
             }
 
-            // Convert Domain model to DTO
 
             var response = new CategoryDto {
                 Id = category.Id,
@@ -114,7 +109,7 @@ namespace CodePulse.API.Controllers {
         // Delete: https://localhost:7105/api/Categories{id}
         [HttpDelete]
         [Route("{id:Guid}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteCategory([FromRoute] Guid id) {
             var category = await _categoryRepository.DeleteAsync(id);
 

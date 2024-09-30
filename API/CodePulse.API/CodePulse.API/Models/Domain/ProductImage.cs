@@ -1,5 +1,5 @@
 ﻿namespace CodePulse.API.Models.Domain {
-    public class BlogImage {
+    public class ProductImage {
         public Guid Id { get; set; }
         public string FileName { get; set; }
         public string FileExtension { get; set; }

@@ -24,10 +24,10 @@ namespace CodePulse.API.Controllers
         {
             var images = await _imageRepository.GetAll();
 
-            var response = new List<BlogImageDto>();
+            var response = new List<ProdcutImageDto>();
             foreach (var image in images)
             {
-                response.Add(new BlogImageDto
+                response.Add(new ProdcutImageDto
                 {
                     Id = image.Id,
                     FileName = image.FileName,
@@ -51,7 +51,7 @@ namespace CodePulse.API.Controllers
 
             if (ModelState.IsValid)
             {
-                var blogImage = new BlogImage
+                var blogImage = new ProductImage
                 {
                     FileExtension = Path.GetExtension(file.FileName).ToLower(),
                     FileName = fileName,
@@ -62,7 +62,7 @@ namespace CodePulse.API.Controllers
                 blogImage = await _imageRepository.Upload(file, blogImage);
 
                 // Convrt Domain Model to Dto
-                var response = new BlogImageDto
+                var response = new ProdcutImageDto
                 {
                     Id = blogImage.Id,
                     FileName = blogImage.FileName,

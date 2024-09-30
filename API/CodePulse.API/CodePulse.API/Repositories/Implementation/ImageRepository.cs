@@ -18,11 +18,11 @@ namespace CodePulse.API.Repositories.Implementation {
             this._dbContext = applicationDbContext;
         }
 
-        public async Task<IEnumerable<BlogImage>> GetAll() {
+        public async Task<IEnumerable<ProductImage>> GetAll() {
             return await _dbContext.BlogImages.ToListAsync();
         }
 
-        public async Task<BlogImage> Upload(IFormFile file, BlogImage image) {
+        public async Task<ProductImage> Upload(IFormFile file, ProductImage image) {
             var localPath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", $"{image.FileName}{image.FileExtension}");
 
             using var stream = new FileStream(localPath, FileMode.Create);

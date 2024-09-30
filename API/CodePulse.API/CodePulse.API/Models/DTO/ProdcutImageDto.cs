@@ -1,5 +1,5 @@
 ﻿namespace CodePulse.API.Models.DTO {
-    public class BlogImageDto {
+    public class ProdcutImageDto {
         public Guid Id { get; set; }
         public string FileName { get; set; }
         public string FileExtension { get; set; }

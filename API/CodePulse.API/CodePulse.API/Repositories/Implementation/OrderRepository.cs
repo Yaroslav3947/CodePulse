@@ -10,26 +10,22 @@ namespace CodePulse.API.Repositories.Implementation
     public class OrderRepository : IOrderRepository {
         private readonly ApplicationDbContext _dbContext;
 
-        public OrderRepository(ApplicationDbContext dbContext)
-        {
+        public OrderRepository(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
         }
 
-        public async Task<Order> CreateAsync(Order order)
-        {
+        public async Task<Order> CreateAsync(Order order) {
             await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
             return order;
         }
 
-        public async Task<Order?> DeleteAsync(Guid id)
-        {
+        public async Task<Order?> DeleteAsync(Guid id) {
             var existingOrder = await _dbContext.Orders
-                .Include(x => x.OrderItems) // Include OrderItems instead of Products
+                .Include(x => x.OrderItems)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (existingOrder is null)
-            {
+            if (existingOrder is null) {
                 return null;
             }
 
@@ -39,19 +35,17 @@ namespace CodePulse.API.Repositories.Implementation
             return existingOrder;
         }
 
-        public async Task<IEnumerable<Order>> GetAllAsync()
-        {
+        public async Task<IEnumerable<Order>> GetAllAsync() {
             return await _dbContext.Orders
                 .AsNoTracking()
-                .Include(x => x.OrderItems) // Include OrderItems
+                .Include(x => x.OrderItems)
                 .ToListAsync();
         }
 
-        public async Task<Order?> GetByIdAsync(Guid id)
-        {
+        public async Task<Order?> GetByIdAsync(Guid id) {
             return await _dbContext.Orders
                 .AsNoTracking()
-                .Include(x => x.OrderItems) // Include OrderItems
+                .Include(x => x.OrderItems) 
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -60,20 +54,18 @@ namespace CodePulse.API.Repositories.Implementation
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if(existingOrder != null) {
-                existingOrder.Status = status; // Update only the status
+                existingOrder.Status = status; 
                 await _dbContext.SaveChangesAsync();
-                return existingOrder; // Return the updated order
+                return existingOrder; 
             }
 
             return null;
         }
 
 
-        // Example of adding product to an order
-        public async Task<Order?> AddProductToOrderAsync(Guid orderId, Guid productId, int quantity)
-        {
+        public async Task<Order?> AddProductToOrderAsync(Guid orderId, Guid productId, int quantity) {
             var order = await _dbContext.Orders
-                .Include(o => o.OrderItems) // Include existing OrderItems
+                .Include(o => o.OrderItems) 
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null) return null;
@@ -83,30 +75,24 @@ namespace CodePulse.API.Repositories.Implementation
 
             var existingOrderItem = order.OrderItems.FirstOrDefault(oi => oi.ProductId == productId);
 
-            if (existingOrderItem != null)
-            {
-                existingOrderItem.Quantity += quantity; // Update quantity if product already exists in order
-            }
-            else
-            {
-                // Create a new order item
-                var newOrderItem = new OrderItem
-                {
+            if (existingOrderItem != null) {
+                existingOrderItem.Quantity += quantity;
+            } else {
+                var newOrderItem = new OrderItem {
                     ProductId = productId,
                     Quantity = quantity,
-                    Price = product.Price // Store the price at order creation
+                    Price = product.Price
                 };
-                order.OrderItems.Add(newOrderItem); // Add new OrderItem to Order
+                order.OrderItems.Add(newOrderItem);
             }
 
             await _dbContext.SaveChangesAsync();
-            return order; // Return updated order
+            return order;
         }
 
-        public async Task<Order?> UpdateProductQuantityInOrderAsync(Guid orderId, Guid productId, int newQuantity)
-        {
+        public async Task<Order?> UpdateProductQuantityInOrderAsync(Guid orderId, Guid productId, int newQuantity) {
             var order = await _dbContext.Orders
-                .Include(o => o.OrderItems) // Include existing OrderItems
+                .Include(o => o.OrderItems) 
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null) return null;
@@ -114,16 +100,15 @@ namespace CodePulse.API.Repositories.Implementation
             var existingOrderItem = order.OrderItems.FirstOrDefault(oi => oi.ProductId == productId);
             if (existingOrderItem == null) return null;
 
-            existingOrderItem.Quantity = newQuantity; // Update the quantity
+            existingOrderItem.Quantity = newQuantity;
 
             await _dbContext.SaveChangesAsync();
-            return order; // Return updated order
+            return order;
         }
 
-        public async Task<Order?> RemoveProductFromOrderAsync(Guid orderId, Guid productId)
-        {
+        public async Task<Order?> RemoveProductFromOrderAsync(Guid orderId, Guid productId) {
             var order = await _dbContext.Orders
-                .Include(o => o.OrderItems) // Include existing OrderItems
+                .Include(o => o.OrderItems)
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null) return null;

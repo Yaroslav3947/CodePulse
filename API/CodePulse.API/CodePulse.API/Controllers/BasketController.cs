@@ -32,7 +32,7 @@ namespace CodePulse.API.Controllers {
         public async Task<IActionResult> RemoveFromBasket([FromBody] RemoveFromBasketDto removeFromBasketDto) {
 
             var response = new ProductLike {
-                ProductId = removeFromBasketDto.CosmeticId,
+                ProductId = removeFromBasketDto.ProductId,
                 UserId = removeFromBasketDto.UserId
             };
 

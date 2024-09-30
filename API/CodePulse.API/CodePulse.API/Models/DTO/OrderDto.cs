@@ -12,6 +12,5 @@ namespace CodePulse.API.Models.DTO
         public string Status { get; set; }
         public Guid UserId { get; set; }
         public List<OrderItemDto> OrderItems { get; set; } = new List<OrderItemDto>();
-        public double TotalCost => OrderItems.Sum(item => item.TotalCost);
     }
 }

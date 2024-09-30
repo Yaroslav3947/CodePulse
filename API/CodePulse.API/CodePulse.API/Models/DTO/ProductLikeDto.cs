@@ -1,6 +1,6 @@
 ﻿namespace CodePulse.API.Models.DTO {
-    public class BlogLikeDto {
-        public Guid BlogPostId { get; set; }
+    public class ProductLikeDto {
+        public Guid ProductId { get; set; }
         public Guid UserId { get; set; }
     }
 }

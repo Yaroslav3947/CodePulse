@@ -18,7 +18,9 @@ namespace CodePulse.API.Repositories.Implementation {
         }
 
         public async Task<Product?> DeleteAsync(Guid id) {
-            var existingProduct = await _dbContext.Products.Include(x => x.Categories).FirstOrDefaultAsync(x => x.Id == id);
+            var existingProduct = await _dbContext.Products.
+                Include(x => x.Categories).
+                FirstOrDefaultAsync(x => x.Id == id);
 
             if(existingProduct is null) {
                 return null;

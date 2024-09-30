@@ -43,7 +43,7 @@ namespace CodePulse.API.Controllers {
 
         // GET: {apibaseurl}/api/
         [HttpGet("products/{id}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetProductsIDInBasket([FromRoute] Guid id) {
             var response = await _usersRepository.ProductsIDInBasket(id);
 
@@ -51,7 +51,7 @@ namespace CodePulse.API.Controllers {
         }
 
         [HttpGet("products/full/{id}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetProductsInBasket([FromRoute] Guid id) {
             var productsID = await _usersRepository.ProductsIDInBasket(id);
 
@@ -83,7 +83,7 @@ namespace CodePulse.API.Controllers {
 
         [HttpGet]
         [Route("{id:Guid}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetUserById([FromRoute] Guid id) {
             var existringUser = await _usersRepository.GetUserByIdAsync(id);
 
@@ -103,12 +103,11 @@ namespace CodePulse.API.Controllers {
         // PUT: {apibaseurl}/api/users{id}
         [HttpPut]
         [Route("{id:Guid}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> EditUser([FromRoute] Guid id, UpdateUserRequestDto request) {
 
             var existingUser = await _usersRepository.GetUserByIdAsync(id);
 
-            // Convert DTO to Domain Model
             var user = new IdentityUser {
                 Id = id.ToString(),
                 Email = request.Email,
@@ -134,7 +133,6 @@ namespace CodePulse.API.Controllers {
                 return NotFound();
             }
 
-            // Convert Domain model to DTO
             var response = new UserDto {
                 Id = user.Id,
                 Email = user.Email,
@@ -148,7 +146,7 @@ namespace CodePulse.API.Controllers {
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteUser([FromRoute] Guid id) {
             var user = await _usersRepository.DeleteAsync(id);
 
@@ -156,7 +154,6 @@ namespace CodePulse.API.Controllers {
                 return NotFound();
             }
 
-            // Convert Domain model to Dto
             var response = new UserDto {
                 Id = user.Id,
                 Email = user.Email,
