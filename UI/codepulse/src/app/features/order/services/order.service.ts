@@ -12,8 +12,12 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
 
+  getOrderByUserId(userId: string): Observable<Order> {
+    return this.http.get<Order>(`/api/orders/user/${userId}`);
+  }
+
   getAllOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`/api/orders`);
+    return this.http.get<Order[]>(`/api/orders?addAuth=true`);
   }
 
   getOrderById(id: string): Observable<Order> {
@@ -25,6 +29,14 @@ export class OrderService {
   }
 
   deleteOrder(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/orders/${id}`);
+    return this.http.delete<void>(`/api/orders/${id}?addAuth=true`);
+  }
+
+  addProductToOrder(orderId: string, productId: string, quantity: number): Observable<Order> {
+    return this.http.post<Order>(`/api/orders/${orderId}/add-product/${productId}`, null, { params: { quantity } });
+  }
+
+  updateProductQuantityInOrder(orderId: string, productId: string, newQuantity: number): Observable<Order> {
+    return this.http.put<Order>(`/api/orders/${orderId}/update-product-quantity/${productId}`, null, { params: { newQuantity } });
   }
 }

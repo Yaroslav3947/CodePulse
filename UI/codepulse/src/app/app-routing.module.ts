@@ -34,7 +34,8 @@ const routes: Routes = [
   },
   {
     path: 'product/:url',
-    component: ProductDetailsComponent
+    component: ProductDetailsComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'basket',
@@ -96,13 +97,13 @@ const routes: Routes = [
   },
   {
     path: 'orders/:id',
-    component: OrderDetailComponent
-    // canActivate: [authGuard]
+    component: OrderDetailComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'orders',
-    component: OrderDetailComponent
-    // canActivate: [authGuard]
+    component: OrderDetailComponent,
+    canActivate: [authGuard]
   }
 ];
 

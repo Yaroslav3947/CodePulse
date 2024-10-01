@@ -8,6 +8,7 @@ import { BasketLike as BasketLike } from '../models/add-like.model';
 import { BasketService } from '../services/basket.service';
 import { Product } from '../../blog-post/models/product.model';
 import { UsersService } from '../../users/services/users.service';
+import { OrderService } from '../../order/services/order.service';
 
 @Component({
   selector: 'app-product-details',
@@ -25,6 +26,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   user?: UserModel;
   isLikedByUser: boolean = false;
   commentDescription?: string;
+  orderId?: string;
 
   isHovering = false;
 
@@ -39,7 +41,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       private authService: AuthService,
       private router: Router,
       private basketService: BasketService,
-      private usersService: UsersService) {
+      private usersService: UsersService,
+      private orderService: OrderService) {
 
     }
   ngOnDestroy(): void {
@@ -72,6 +75,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                   }
                 });
               }
+
+            this.orderService.getOrderByUserId(this.user!.userId).subscribe({
+              next:(response) => {
+                this.orderId = response.id;
+              }
+            })
             }
           });
         }
@@ -117,6 +126,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           next: (response) => {
               this.isLikedByUser = true;
               // TODO: fix so no reload is needed to change like button and totalLikes and forbid click again
+              this.orderService.addProductToOrder(this.orderId!, this.product!.id, 1);
             }
           }
         )

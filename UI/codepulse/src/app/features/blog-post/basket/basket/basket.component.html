@@ -6,7 +6,6 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Stock</th>
                     <th>Price</th>
                     <th> </th>
                 </tr>
@@ -14,14 +13,13 @@
             <tbody>
                 <tr *ngFor="let product of products">
                     <td>{{product.name}}</td>
-                    <td>{{product.stock}}</td>
                     <td>${{product.price}}</td>
                     <td>
                         <a class="btn btn-light" (click)="removeProduct(product)">Remove</a>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"></td>
+                    <td colspan="1"></td>
                     <td>Total:</td>
                     <td>${{ calculateTotalPrice() }}</td>
                 </tr>

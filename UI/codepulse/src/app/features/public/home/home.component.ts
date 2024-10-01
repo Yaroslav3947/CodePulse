@@ -70,15 +70,11 @@ export class HomeComponent implements OnInit {
   }
 
   createOrder(): void {
-    const newOrder: CreateOrderRequest = {
-      orderDate: new Date(),
-      totalAmount: 0,
-      status: 'Pending',
-      userId: this.user!.userId,
-      orderItems: []
+    const createOrderRequest: CreateOrderRequest = {
+      userId: this.user!.userId
     };
 
-    this.orderService.createOrder(newOrder).subscribe({
+    this.orderService.createOrder(createOrderRequest).subscribe({
       next: (response: Order) => {
         this.orderId = response.id;
         console.log('New order created:', response);
@@ -89,87 +85,89 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  increaseOrderItemQuantity(product: Product): void {
-    const existingOrderItem: OrderItem | undefined = this.findOrderItemByProductId(product.id);
+  // increaseOrderItemQuantity(product: Product): void {
+  //   const existingOrderItem: OrderItem | undefined = this.findOrderItemByProductId(product.id);
   
-    if (existingOrderItem) {
-      if (existingOrderItem.quantity < product.stock) {
-        existingOrderItem.quantity += 1; // Increase quantity
-        existingOrderItem.totalCost = existingOrderItem.price * existingOrderItem.quantity; 
-        this.updateProductQuantityInOrder(existingOrderItem); // Call update API
-      }
-    } else {
-      const newOrderItem: OrderItem = {
-        productId: product.id,
-        product: product,
-        quantity: 1,
-        price: product.price,
-        totalCost: product.price 
-      };
+  //   if (existingOrderItem) {
+  //     if (existingOrderItem.quantity < product.stock) {
+  //       existingOrderItem.quantity += 1; // Increase quantity
+  //       existingOrderItem.totalCost = existingOrderItem.price * existingOrderItem.quantity; 
+  //       this.updateProductQuantityInOrder(existingOrderItem); // Call update API
+  //     }
+  //   } else {
+  //     const newOrderItem: OrderItem = {
+  //       productId: product.id,
+  //       product: product,
+  //       quantity: 1,
+  //       price: product.price,
+  //       totalCost: product.price 
+  //     };
       
-      // Add to order and call API
-      this.addToOrder(newOrderItem.product);
-    }
-  }
+  //     // Add to order and call API
+  //     this.addToOrder(newOrderItem.product);
+  //   }
+  // }
   
-  decreaseOrderItemQuantity(product: Product): void {
-    const orderItem = this.orderItems.find(item => item.productId === product.id);
+  // decreaseOrderItemQuantity(product: Product): void {
+  //   const orderItem = this.orderItems.find(item => item.productId === product.id);
   
-    if (orderItem && orderItem.quantity > 1) {
-      orderItem.quantity -= 1; 
-      orderItem.totalCost = orderItem.price * orderItem.quantity; 
+  //   if (orderItem && orderItem.quantity > 1) {
+  //     orderItem.quantity -= 1; 
+  //     orderItem.totalCost = orderItem.price * orderItem.quantity; 
   
-      this.updateProductQuantityInOrder(orderItem);
-    }
-  }
+  //     this.updateProductQuantityInOrder(orderItem);
+  //   }
+  // }
   
-  findOrderItemByProductId(productId: string): OrderItem | undefined {
-    return this.orderItems.find(item => item.productId === productId); // Assuming orderItems is an array of OrderItem
-  }
+  // findOrderItemByProductId(productId: string): OrderItem | undefined {
+  //   return this.orderItems.find(item => item.productId === productId); // Assuming orderItems is an array of OrderItem
+  // }
 
-  addToOrder(product: Product): void {
-      if (this.user && this.orderId) {
-          const orderItem: OrderItem = {
-              productId: product.id,
-              product: product, 
-              quantity: 1, 
-              price: product.price,
-              totalCost: product.price
-          };
-              this.orderService.addProductToOrder(this.orderId!, product.id, orderItem.quantity).subscribe({
-                  next: (response: Order) => {
-                      console.log('Product added to order:', response);
-                  },
-                  error: (err) => {
-                      console.error('Error adding product to order:', err);
-                  }
-              });
-          }
-  }
+  // addToOrder(product: Product): void {
+  //     if (this.user && this.orderId) {
+  //         const orderItem: OrderItem = {
+  //             productId: product.id,
+  //             product: product, 
+  //             quantity: 1, 
+  //             price: product.price,
+  //             totalCost: product.price
+  //         };
+  //             this.orderService.addProductToOrder(this.orderId!, product.id, orderItem.quantity).subscribe({
+  //                 next: (response: Order) => {
+  //                     console.log('Product added to order:', response);
+  //                 },
+  //                 error: (err) => {
+  //                     console.error('Error adding product to order:', err);
+  //                 }
+  //             });
+  //         }
+  // }
 
 
-  // Update the quantity of a specific product in the order
-  updateProductQuantityInOrder(orderItem: OrderItem): void {
-      if (this.user && this.orderId) {
-          this.orderService.updateProductQuantityInOrder(this.orderId, orderItem.productId, orderItem.quantity).subscribe({
-              next: (response: Order) => {
-                  console.log('Product quantity updated in order:', response);
-              },
-              error: (err) => {
-                  console.error('Error updating product quantity in order:', err);
-              }
-          });
-      }
-  }
+  // // Update the quantity of a specific product in the order
+  // updateProductQuantityInOrder(orderItem: OrderItem): void {
+  //     if (this.user && this.orderId) {
+  //         this.orderService.updateProductQuantityInOrder(this.orderId, orderItem.productId, orderItem.quantity).subscribe({
+  //             next: (response: Order) => {
+  //                 console.log('Product quantity updated in order:', response);
+  //             },
+  //             error: (err) => {
+  //                 console.error('Error updating product quantity in order:', err);
+  //             }
+  //         });
+  //     }
+  // }
 
   filterByStock() {
-    console.log(this.filteredProducts.length)
-    if (this.searchStock.trim() === '') {
+    console.log(this.filteredProducts.length);
+    const searchStockNumber = parseInt(this.searchStock.trim(), 10); 
+    
+    if (isNaN(searchStockNumber)) {
       this.filteredProducts = this.products;
     } else {
-      // this.filteredProducts = this.products.filter(product =>
-        // product.stock.includes(this.searchStock)
-      // );
+      this.filteredProducts = this.products.filter(product =>
+        product.stock >= searchStockNumber 
+      );
     }
   }
 

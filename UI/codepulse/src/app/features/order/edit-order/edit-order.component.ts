@@ -7,8 +7,6 @@ import { UpdateOrderRequest } from '../../blog-post/models/update-order-request.
 
 @Component({
   selector: 'app-edit-order',
-  // standalone: true,
-  // imports: [],
   templateUrl: './edit-order.component.html',
   styleUrl: './edit-order.component.css'
 })

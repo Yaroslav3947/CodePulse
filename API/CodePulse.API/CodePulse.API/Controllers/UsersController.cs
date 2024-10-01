@@ -43,7 +43,7 @@ namespace CodePulse.API.Controllers {
 
         // GET: {apibaseurl}/api/
         [HttpGet("products/{id}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetProductsIDInBasket([FromRoute] Guid id) {
             var response = await _usersRepository.ProductsIDInBasket(id);
 
@@ -51,7 +51,7 @@ namespace CodePulse.API.Controllers {
         }
 
         [HttpGet("products/full/{id}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetProductsInBasket([FromRoute] Guid id) {
             var productsID = await _usersRepository.ProductsIDInBasket(id);
 
@@ -83,7 +83,7 @@ namespace CodePulse.API.Controllers {
 
         [HttpGet]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetUserById([FromRoute] Guid id) {
             var existringUser = await _usersRepository.GetUserByIdAsync(id);
 

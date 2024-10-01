@@ -45,7 +45,7 @@ namespace CodePulse.API.Controllers
 
         // GET: {apiBaseUrl}/api/orders/{id}
         [HttpGet("{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetOrderById([FromRoute] Guid id) {
             var order = await _orderRepository.GetByIdAsync(id);
 
@@ -63,7 +63,8 @@ namespace CodePulse.API.Controllers
                     ProductId = x.ProductId,
                     Quantity = x.Quantity,
                     Price = x.Price
-                }).ToList()
+                }).ToList(),
+                TotalAmount = order.OrderItems.Sum(x => x.Price * x.Quantity)
             };
 
             return Ok(response);
@@ -84,7 +85,8 @@ namespace CodePulse.API.Controllers
                     ProductId = x.ProductId,
                     Quantity = x.Quantity,
                     Price = x.Price
-                }).ToList()
+                }).ToList(),
+                TotalAmount = order.OrderItems.Sum(x => x.Price * x.Quantity)
             }).ToList();
 
             return Ok(response);

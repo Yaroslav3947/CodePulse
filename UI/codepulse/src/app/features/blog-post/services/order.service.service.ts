@@ -13,15 +13,15 @@ export class OrderServiceService {
   constructor(private http: HttpClient) { }
 
   getAllOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`/api/orders`);
+    return this.http.get<Order[]>(`/api/orders?addAuth=true`);
   }
 
   getOrderById(id: string): Observable<Order> {
-    return this.http.get<Order>(`/api/orders/${id}`);
+    return this.http.get<Order>(`/api/orders/${id}?addAuth=true`);
   }
   
   updateOrder(id: string, updateOrderRequest: UpdateOrderRequest): Observable<Order> {
-    return this.http.put<Order>(`/api/orders/${id}`, updateOrderRequest);
+    return this.http.put<Order>(`/api/orders/${id}?addAuth=true`, updateOrderRequest);
   }
   createOrder(orderRequest: CreateOrderRequest): Observable<Order> {
     return this.http.post<Order>(`/api/orders`, orderRequest);
@@ -29,7 +29,7 @@ export class OrderServiceService {
 
 
   deleteOrder(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/orders/${id}`);
+    return this.http.delete<void>(`/api/orders/${id}?addAuth=true`);
   }
 
   addProductToOrder(orderId: string, productId: string, quantity: number): Observable<Order> {
