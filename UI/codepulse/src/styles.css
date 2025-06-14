@@ -1,5 +1,110 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Light theme (default) */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-color: #ffffff;
+  --surface-color: #f8f9fa;
+  --text-color: #212529;
+  --text-muted: #6c757d;
+  --border-color: #dee2e6;
+  --hover-color: rgba(0, 0, 0, 0.05);
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --table-header-bg: #f1f3f5;
+  --table-row-bg: #ffffff;
+  --table-row-hover: #e9ecef;
+  --table-border: #dee2e6;
+}
+
+/* Dark theme */
+.dark-theme {
+  --primary-color: #0d6efd;
+  --secondary-color: #adb5bd;
+  --background-color: #212529;
+  --surface-color: #343a40;
+  --text-color: #f8f9fa;
+  --text-muted: #adb5bd;
+  --border-color: #495057;
+  --hover-color: rgba(255, 255, 255, 0.05);
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --table-header-bg: #2c3034;
+  --table-row-bg: #343a40;
+  --table-row-hover: #3e444a;
+  --table-border: #495057;
+}
+
+/* Global styles */
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Common styles */
+.card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 16px;
+  margin: 8px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.card-title {
+  color: var(--text-color);
+}
+
+.card-text {
+  color: var(--text-muted);
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .nav-link {
+  color: var(--text-color);
+}
+
+.navbar-light .navbar-brand,
+.navbar-light .nav-link {
+  color: var(--text-color);
+}
+
+/* Dropdown styles */
+.dropdown-menu {
+  background-color: var(--surface-color);
+  border-color: var(--border-color);
+}
+
+.dropdown-item {
+  color: var(--text-color);
+}
+
+.dropdown-item:hover {
+  background-color: var(--hover-color);
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Add smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
 .images-container-model {
     width: 100%;
     height: 100vh;
@@ -15,4 +120,41 @@
     max-width: 100%;
     margin: 2em 0 2em 0;
     
+}
+
+/* Table styles */
+.table {
+  color: var(--text-color);
+  border-color: var(--table-border);
+  background-color: var(--surface-color);
+}
+
+.table thead th {
+  background-color: var(--table-header-bg);
+  border-bottom: 2px solid var(--table-border);
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.table tbody tr {
+  background-color: var(--table-row-bg);
+  border-bottom: 1px solid var(--table-border);
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: var(--table-row-hover);
+}
+
+.table td {
+  border-color: var(--table-border);
+  padding: 0.75rem;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--table-row-hover);
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover {
+  background-color: var(--hover-color);
 }

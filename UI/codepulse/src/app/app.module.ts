@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { CategoryListComponent } from './features/category/category-list/category-list.component';
 import { AddCategoryComponent } from './features/category/add-category/add-category.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { EditCategoryComponent } from './features/category/edit-category/edit-category.component';
 import { BlogpostListComponent } from './features/blog-post/blogpost-list/blogpost-list.component';
@@ -20,6 +20,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RegisterComponent } from './features/auth/register/register/register.component';
 import { UsersListComponent } from './features/users/users-list/users-list.component';
 import { EditUserComponent } from './features/users/edit-user/edit-user.component';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,14 +37,16 @@ import { EditUserComponent } from './features/users/edit-user/edit-user.componen
     LoginComponent,
     RegisterComponent,
     UsersListComponent,
-    EditUserComponent
+    EditUserComponent,
+    ThemeToggleComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [
     {
